@@ -8,6 +8,7 @@
 #include "InputActionValue.h"
 #include "EnhancedInputComponent.h"
 #include "NakatomiCharacter.h"
+#include "Weapon.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;
@@ -21,37 +22,6 @@ UCLASS()
 class NAKATOMI_API APlayerCharacter : public ANakatomiCharacter
 {
 	GENERATED_BODY()
-
-public:
-	// Sets default values for this character's properties
-	APlayerCharacter();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-
-private:
-
-	UPROPERTY()
-		USpringArmComponent* CameraBoom = nullptr;
-
-	UPROPERTY()
-		UCameraComponent* CameraComponent = nullptr;
-
-	float DefaultMovementSpeed;
-
-protected:
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		float SprintSpeedMultiplier = 2.0f;
 
 public:
 
@@ -79,6 +49,49 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		int MappingPriority = 0;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TArray<TSubclassOf<class AWeapon>> DefaultWeaponInventory;
+
+	UPROPERTY()
+		TArray<AWeapon*> WeaponInventory;
+
+	// TODO: Add weapon switching actions
+
+protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		float SprintSpeedMultiplier = 2.0f;
+
+private:
+
+	UPROPERTY()
+		USpringArmComponent* CameraBoom = nullptr;
+
+	UPROPERTY()
+		UCameraComponent* CameraComponent = nullptr;
+
+	float DefaultMovementSpeed;
+
+	int CurrentInventorySlot = 0;
+
+	UPROPERTY()
+	AWeapon* CurrentWeapon = nullptr;
+
+public:
+	// Sets default values for this character's properties
+	APlayerCharacter();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	void MovementCallback(const FInputActionInstance& Instance);
 
 	void LookCallback(const FInputActionInstance& Instance);
@@ -94,4 +107,18 @@ public:
 	void SetWalkingCallback(const FInputActionInstance& Instance);
 
 	void CalculateHits(TArray<FHitResult>* hits);
+
+	void SetInventoryToDefault();
+
+	void SelectInventorySlot(int slot);
+
+	void InventoryIncrementCallback(const FInputActionInstance& Instance);
+
+	void InventoryDecrementCallback(const FInputActionInstance& Instance);
+
+	AWeapon* InitializeWeapon(TSubclassOf<class AWeapon> weapon);
+
+	AWeapon* GetCurrentWeapon();
+
+	void SetCurrentWeapon(AWeapon* weapon);
 };

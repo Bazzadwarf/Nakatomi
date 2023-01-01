@@ -199,3 +199,73 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 		// TODO: Handle hits in a meaningful way
 	}
 }
+
+void APlayerCharacter::SetInventoryToDefault()
+{
+	if (WeaponInventory.Num() > 0)
+	{
+		for (size_t i = 0; i < WeaponInventory.Num(); i++)
+		{
+			WeaponInventory[i]->Destroy();
+		}
+
+		WeaponInventory.Empty();
+	}
+
+	for (size_t i = 0; i < DefaultWeaponInventory.Num(); i++)
+	{
+		if (DefaultWeaponInventory[i])
+		{
+			AWeapon* weapon = InitializeWeapon(DefaultWeaponInventory[i]);
+			WeaponInventory.AddUnique(weapon);
+		}
+	}
+
+	if (WeaponInventory.Num() > 0)
+	{
+		CurrentInventorySlot = 0;
+		SetCurrentWeapon(WeaponInventory[CurrentInventorySlot]);
+	}
+}
+
+void APlayerCharacter::SelectInventorySlot(int slot)
+{
+	if (slot < WeaponInventory.Num())
+	{
+		CurrentInventorySlot = slot;
+		SetCurrentWeapon(WeaponInventory[CurrentInventorySlot]);
+	}
+}
+
+void APlayerCharacter::InventoryIncrementCallback(const FInputActionInstance& Instance)
+{
+	SelectInventorySlot((CurrentInventorySlot + 1) % WeaponInventory.Num());
+}
+
+void APlayerCharacter::InventoryDecrementCallback(const FInputActionInstance& Instance)
+{
+	if (CurrentInventorySlot - 1 < 0)
+	{
+		SelectInventorySlot(WeaponInventory.Num() - 1);
+	}
+	else
+	{
+		SelectInventorySlot((CurrentInventorySlot - 1) % WeaponInventory.Num());
+	}
+}
+
+AWeapon* APlayerCharacter::InitializeWeapon(TSubclassOf<class AWeapon> weapon)
+{
+	// TODO: All logic to spawn weapon into level then deactivate it until needed
+	return nullptr;
+}
+
+AWeapon* APlayerCharacter::GetCurrentWeapon()
+{
+	return CurrentWeapon;
+}
+
+void APlayerCharacter::SetCurrentWeapon(AWeapon* weapon)
+{
+	// TODO: Add setting weapon logic here
+}

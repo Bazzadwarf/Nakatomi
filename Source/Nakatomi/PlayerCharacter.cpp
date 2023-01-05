@@ -107,6 +107,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 			Input->BindAction(SprintAction, ETriggerEvent::Started, this, &APlayerCharacter::SetSprintingCallback);
 			Input->BindAction(SprintAction, ETriggerEvent::Completed, this, &APlayerCharacter::SetWalkingCallback);
 		}
+
+		if (WeaponSwitchingAction)
+		{
+			Input->BindAction(WeaponSwitchingAction, ETriggerEvent::Triggered, this, &APlayerCharacter::WeaponSwitchingCallback);
+		}
 	}
 }
 
@@ -229,7 +234,7 @@ void APlayerCharacter::SetInventoryToDefault()
 }
 
 void APlayerCharacter::SelectInventorySlot(int slot)
-{
+{	
 	if (slot < WeaponInventory.Num())
 	{
 		CurrentInventorySlot = slot;
@@ -237,20 +242,40 @@ void APlayerCharacter::SelectInventorySlot(int slot)
 	}
 }
 
-void APlayerCharacter::InventoryIncrementCallback(const FInputActionInstance& Instance)
+void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)
 {
-	SelectInventorySlot((CurrentInventorySlot + 1) % WeaponInventory.Num());
-}
+	float value = Instance.GetValue().Get<float>();
 
-void APlayerCharacter::InventoryDecrementCallback(const FInputActionInstance& Instance)
-{
-	if (CurrentInventorySlot - 1 < 0)
+	if (value > 0)
 	{
-		SelectInventorySlot(WeaponInventory.Num() - 1);
+		InventoryIncrement();
 	}
 	else
 	{
-		SelectInventorySlot((CurrentInventorySlot - 1) % WeaponInventory.Num());
+		InventoryDecrement();
+	}
+}
+
+void APlayerCharacter::InventoryIncrement()
+{
+	if (WeaponInventory.Num() > 0)
+	{
+		SelectInventorySlot((CurrentInventorySlot + 1) % WeaponInventory.Num());
+	}
+}
+
+void APlayerCharacter::InventoryDecrement()
+{
+	if (WeaponInventory.Num() > 0)
+	{
+		if (CurrentInventorySlot - 1 < 0)
+		{
+			SelectInventorySlot(WeaponInventory.Num() - 1);
+		}
+		else
+		{
+			SelectInventorySlot((CurrentInventorySlot - 1) % WeaponInventory.Num());
+		}
 	}
 }
 

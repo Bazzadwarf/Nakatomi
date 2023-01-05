@@ -55,7 +55,8 @@ public:
 	UPROPERTY()
 		TArray<AWeapon*> WeaponInventory;
 
-	// TODO: Add weapon switching actions
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		UInputAction* WeaponSwitchingAction;
 
 protected:
 
@@ -112,9 +113,11 @@ public:
 
 	void SelectInventorySlot(int slot);
 
-	void InventoryIncrementCallback(const FInputActionInstance& Instance);
+	void WeaponSwitchingCallback(const FInputActionInstance& Instance);
 
-	void InventoryDecrementCallback(const FInputActionInstance& Instance);
+	void InventoryIncrement();
+
+	void InventoryDecrement();
 
 	AWeapon* InitializeWeapon(TSubclassOf<class AWeapon> weapon);
 

@@ -12,6 +12,9 @@ AWeaponPickup::AWeaponPickup()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	SphereComponent->SetSphereRadius(25.0f, true);
+	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndProbe);
+
 	SphereComponent->SetupAttachment(RootComponent);
 }
 
@@ -22,15 +25,14 @@ void AWeaponPickup::BeginPlay()
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
 	WeaponComponent = GetWorld()->SpawnActor<AWeapon>(Weapon, SpawnParameters);
-
 	FAttachmentTransformRules TransformRules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
 	WeaponComponent->AttachToComponent(RootComponent, TransformRules);
 	WeaponComponent->SetActorRelativeLocation(FVector(0.0f, 0.0f, 5.0f));
 	WeaponComponent->SetActorEnableCollision(false);
-
 	WeaponStartingLocation = WeaponComponent->GetActorLocation();
+
+	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AWeaponPickup::OnOverlapBegin);
 }
 
 // Called every frame
@@ -45,5 +47,13 @@ void AWeaponPickup::Tick(float DeltaTime)
 	float Time = GetWorld()->GetRealTimeSeconds();
 	float Sine = FMath::Sin(Time * MovementSpeed);
 	WeaponComponent->SetActorLocation(WeaponStartingLocation + (MovementDirection * Sine));
+}
+
+void AWeaponPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	// TODO: Add weapon to player inventory
+	this->Destroy();
+	WeaponComponent->Destroy();
 }
 

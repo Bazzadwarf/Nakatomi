@@ -133,7 +133,7 @@ void APlayerCharacter::LookCallback(const FInputActionInstance& Instance)
 	if (vec2.Size() != 0.0f)
 	{
 		AddControllerYawInput(vec2.X * 45.0f * GetWorld()->GetDeltaSeconds());
-		AddControllerPitchInput(vec2.Y * 45.0f * GetWorld()->GetDeltaSeconds());
+		AddControllerPitchInput((vec2.Y * (-1.0f)) * 45.0f * GetWorld()->GetDeltaSeconds());
 	}
 }
 

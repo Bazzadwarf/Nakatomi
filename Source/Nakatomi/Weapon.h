@@ -17,23 +17,30 @@ enum WeaponState
 	Swapping
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FWeaponProperties
 {
 	GENERATED_USTRUCT_BODY()
-
+		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	float WeaponCooldown = 1.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	int WeaponDamage = 10;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	float WeaponChangeTime = 2.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	int ProjectilesPerShot = 1;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	float ProjectileRange = 10000.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	float WeaponSpread = 2.5f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	bool IsAutomatic = true;
 };
 

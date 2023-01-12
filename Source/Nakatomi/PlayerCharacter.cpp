@@ -315,3 +315,30 @@ void APlayerCharacter::SetCurrentWeapon(AWeapon* weapon)
 		CurrentWeapon->SetActorHiddenInGame(false);
 	}	
 }
+
+void APlayerCharacter::AddWeaponToInventory(TSubclassOf<class AWeapon> weapon)
+{
+	if (weapon)
+	{
+		AWeapon* newWeapon = InitializeWeapon(weapon);
+		WeaponInventory.Add(newWeapon);
+
+		if (WeaponInventory.Num() == 1)
+		{
+			SetCurrentWeapon(WeaponInventory[0]);
+		}
+	}
+}
+
+void APlayerCharacter::RemoveWeaponFromInventory(int i)
+{
+	// TODO: Add more checking here
+	WeaponInventory[i]->Destroy();
+	WeaponInventory.RemoveAt(i);
+}
+
+void APlayerCharacter::RemoveCurrentWeaponFromInventory()
+{
+	// TODO: Add more checking here
+
+}

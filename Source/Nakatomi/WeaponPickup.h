@@ -5,6 +5,7 @@
 #include "Components/SphereComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PlayerCharacter.h"
 #include "Weapon.h"
 #include "WeaponPickup.generated.h"
 

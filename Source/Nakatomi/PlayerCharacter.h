@@ -124,4 +124,10 @@ public:
 	AWeapon* GetCurrentWeapon();
 
 	void SetCurrentWeapon(AWeapon* weapon);
+
+	void AddWeaponToInventory(TSubclassOf<class AWeapon> weapon);
+
+	void RemoveWeaponFromInventory(int i);
+
+	void RemoveCurrentWeaponFromInventory();
 };

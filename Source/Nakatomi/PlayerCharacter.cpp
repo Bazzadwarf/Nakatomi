@@ -51,6 +51,7 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	DefaultMovementSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	SetInventoryToDefault();
 }
 
 // Called every frame
@@ -281,8 +282,14 @@ void APlayerCharacter::InventoryDecrement()
 
 AWeapon* APlayerCharacter::InitializeWeapon(TSubclassOf<class AWeapon> weapon)
 {
-	// TODO: All logic to spawn weapon into level then deactivate it until needed
-	return nullptr;
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	AWeapon* Weapon = GetWorld()->SpawnActor<AWeapon>(weapon, SpawnParameters);
+	Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponHand");
+	Weapon->SetActorEnableCollision(false);
+	Weapon->SetActorHiddenInGame(true);
+	
+	return Weapon;
 }
 
 AWeapon* APlayerCharacter::GetCurrentWeapon()
@@ -292,5 +299,19 @@ AWeapon* APlayerCharacter::GetCurrentWeapon()
 
 void APlayerCharacter::SetCurrentWeapon(AWeapon* weapon)
 {
-	// TODO: Add setting weapon logic here
+	if (CurrentWeapon == weapon)
+	{
+		return;
+	}
+
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->SetActorHiddenInGame(true);
+	}
+
+	if (weapon)
+	{
+		CurrentWeapon = weapon;
+		CurrentWeapon->SetActorHiddenInGame(false);
+	}	
 }

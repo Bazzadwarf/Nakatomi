@@ -26,50 +26,50 @@ class NAKATOMI_API APlayerCharacter : public ANakatomiCharacter
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		UInputAction* MovementAction;
+	UInputAction* MovementAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		UInputAction* LookAction;
+	UInputAction* LookAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		UInputAction* JumpAction;
+	UInputAction* JumpAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		UInputAction* FireAction;
+	UInputAction* FireAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		UInputAction* QuitAction;
+	UInputAction* QuitAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		UInputAction* SprintAction;
+	UInputAction* SprintAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TSoftObjectPtr<UInputMappingContext> InputMappingContext;
+	TSoftObjectPtr<UInputMappingContext> InputMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		int MappingPriority = 0;
+	int MappingPriority = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TArray<TSubclassOf<class AWeapon>> DefaultWeaponInventory;
+	TArray<TSubclassOf<class AWeapon>> DefaultWeaponInventory;
 
 	UPROPERTY()
-		TArray<AWeapon*> WeaponInventory;
+	TArray<AWeapon*> WeaponInventory;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		UInputAction* WeaponSwitchingAction;
+	UInputAction* WeaponSwitchingAction;
 
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		float SprintSpeedMultiplier = 2.0f;
+	float SprintSpeedMultiplier = 2.0f;
 
 private:
 
 	UPROPERTY()
-		USpringArmComponent* CameraBoom = nullptr;
+	USpringArmComponent* CameraBoom = nullptr;
 
 	UPROPERTY()
-		UCameraComponent* CameraComponent = nullptr;
+	UCameraComponent* CameraComponent = nullptr;
 
 	float DefaultMovementSpeed;
 

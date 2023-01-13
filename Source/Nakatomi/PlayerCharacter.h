@@ -78,6 +78,12 @@ private:
 	UPROPERTY()
 	AWeapon* CurrentWeapon = nullptr;
 
+	FTimerHandle FireTimerHandle;
+
+	FTimerHandle CooldownTimerHandle;
+
+	bool IsFiring = false;
+
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
@@ -99,7 +105,9 @@ public:
 
 	void JumpCallback(const FInputActionInstance& Instance);
 
-	void FireCallback(const FInputActionInstance& Instance);
+	void BeginFireCallback(const FInputActionInstance& Instance);
+
+	void EndFireCallback(const FInputActionInstance& Instance);
 
 	void QuitCallback(const FInputActionInstance& Instance);
 
@@ -130,4 +138,10 @@ public:
 	void RemoveWeaponFromInventory(int i);
 
 	void RemoveCurrentWeaponFromInventory();
+	
+	void OnFire();
+
+	void WeaponCooldownHandler();
+
+	void ClearAllTimers();
 };

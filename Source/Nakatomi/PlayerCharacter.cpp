@@ -95,7 +95,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 		if (FireAction)
 		{
-			Input->BindAction(FireAction, ETriggerEvent::Started, this, &APlayerCharacter::FireCallback);
+			Input->BindAction(FireAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginFireCallback);
+			Input->BindAction(FireAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndFireCallback);
 		}
 
 		if (QuitAction)
@@ -143,13 +144,32 @@ void APlayerCharacter::JumpCallback(const FInputActionInstance& Instance)
 	Jump();
 }
 
-void APlayerCharacter::FireCallback(const FInputActionInstance& Instance)
+void APlayerCharacter::BeginFireCallback(const FInputActionInstance& Instance)
 {
-	// TODO: Add extra gun fire logic
+	if (CurrentWeapon == nullptr || CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != WeaponState::Idle)
+	{
+		return;
+	}
 
-	// Calculate hits from hitscan
-	TArray<FHitResult> Hits = TArray<FHitResult>();
-	CalculateHits(&Hits);
+	IsFiring = true;
+
+	OnFire();
+
+
+	if (CurrentWeapon->GetWeaponProperties()->IsAutomatic)
+	{
+		GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &APlayerCharacter::WeaponCooldownHandler, CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
+		GetWorldTimerManager().SetTimer(FireTimerHandle, this, &APlayerCharacter::OnFire, CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
+	}
+	else
+	{
+		GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &APlayerCharacter::WeaponCooldownHandler, CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
+	}
+}
+
+void APlayerCharacter::EndFireCallback(const FInputActionInstance& Instance)
+{
+	IsFiring = false;
 }
 
 void APlayerCharacter::QuitCallback(const FInputActionInstance& Instance)
@@ -341,4 +361,43 @@ void APlayerCharacter::RemoveCurrentWeaponFromInventory()
 {
 	// TODO: Add more checking here
 
+}
+
+void APlayerCharacter::OnFire()
+{
+	if (!IsFiring)
+	{
+		return;
+	}
+
+	CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Firing);
+
+	TArray<FHitResult> Hits = TArray<FHitResult>();
+	CalculateHits(&Hits);
+
+	// TODO: Decrement ammo count
+
+	// TODO: Play sound effect
+
+	CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Cooldown);
+}
+
+void APlayerCharacter::WeaponCooldownHandler()
+{
+	if (CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != WeaponState::Idle)
+	{
+		CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Idle);
+	}
+
+	if (!IsFiring)
+	{
+		GetWorldTimerManager().ClearTimer(FireTimerHandle);
+		GetWorldTimerManager().ClearTimer(CooldownTimerHandle);
+	}
+}
+
+void APlayerCharacter::ClearAllTimers()
+{
+	GetWorldTimerManager().ClearTimer(FireTimerHandle);
+	GetWorldTimerManager().ClearTimer(CooldownTimerHandle);
 }

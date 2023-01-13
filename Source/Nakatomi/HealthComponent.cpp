@@ -57,8 +57,12 @@ float UHealthComponent::GetCurrentHealth()
 
 void UHealthComponent::SetCurrentHealth(float value)
 {
-	// TODO: We might want to add some extra checking here
 	CurrentHealth = value;
+
+	if (CurrentHealth > MaxHealth)
+	{
+		CurrentHealth = MaxHealth;
+	}
 }
 
 void UHealthComponent::ResetHealth()

@@ -192,8 +192,8 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	// Set up randomness
 	const int32 RandomSeed = FMath::Rand();
 	FRandomStream WeaponRandomStream(RandomSeed);
-	const float Spread = 1.0f; // TODO: Replace with a more sensible value later
-	const float Range = 50000.f; // TODO: Replace with a more sensible value later
+	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread;
+	const float Range = CurrentWeapon->GetWeaponProperties()->ProjectileRange;
 
 	// Calculate starting position and direction
 	FVector TraceStart;
@@ -207,22 +207,26 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	// Calculate the hit results from the trace
 	TArray<FHitResult> HitResults;
 
-	/// Set up the collision query params, use the Weapon trace settings, Ignore the actor firing this trace
+	// Set up the collision query params, use the Weapon trace settings, Ignore the actor firing this trace
 	FCollisionQueryParams TraceParams(SCENE_QUERY_STAT(WeaponTrace), true, GetInstigator());
 	TraceParams.bReturnPhysicalMaterial = true;
 
-	/// Calculate the maximum distance the weapon can fire
-	FVector ShootDir = WeaponRandomStream.VRandCone(AimDir, FMath::DegreesToRadians(Spread), FMath::DegreesToRadians(Spread));
-	FVector MaxHitLoc = TraceStart + (ShootDir * Range);
 
-	GetWorld()->LineTraceMultiByChannel(HitResults, TraceStart, MaxHitLoc, COLLISION_WEAPON, TraceParams);
-
-	for (FHitResult Result : HitResults)
+	for (size_t i = 0; i < CurrentWeapon->GetWeaponProperties()->ProjectilesPerShot; i++)
 	{
-		hits->Add(Result);
-		DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Blue, true, 500, 0U, 0);
+		// Calculate the maximum distance the weapon can fire
+		FVector ShootDir = WeaponRandomStream.VRandCone(AimDir, FMath::DegreesToRadians(Spread), FMath::DegreesToRadians(Spread));
+		FVector MaxHitLoc = TraceStart + (ShootDir * Range);
 
-		// TODO: Handle hits in a meaningful way
+		GetWorld()->LineTraceMultiByChannel(HitResults, TraceStart, MaxHitLoc, COLLISION_WEAPON, TraceParams);
+
+		for (FHitResult Result : HitResults)
+		{
+			hits->Add(Result);
+			DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Blue, true, 500, 0U, 0);
+
+			// TODO: Handle hits in a meaningful way
+		}
 	}
 }
 

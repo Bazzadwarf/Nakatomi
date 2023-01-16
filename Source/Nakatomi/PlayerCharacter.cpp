@@ -43,6 +43,8 @@ APlayerCharacter::APlayerCharacter()
 	UCharacterMovementComponent* CharacterMovementComponent = GetCharacterMovement();
 	CharacterMovementComponent->AirControl = 1.0f;
 	CharacterMovementComponent->bOrientRotationToMovement = true;
+
+	this->Tags.Add(FName("Player"));
 }
 
 // Called when the game starts or when spawned
@@ -52,6 +54,12 @@ void APlayerCharacter::BeginPlay()
 
 	DefaultMovementSpeed = GetCharacterMovement()->MaxWalkSpeed;
 	SetInventoryToDefault();
+
+	if (!this->ActorHasTag(FName("Player")))
+	{
+		this->Tags.Add(FName("Player"));
+	}
+
 }
 
 // Called every frame

@@ -8,6 +8,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "InputMappingContext.h"
+#include "Destructable.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
@@ -234,6 +235,17 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 			DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Blue, true, 500, 0U, 0);
 
 			// TODO: Handle hits in a meaningful way
+
+			if (Result.GetActor()->ActorHasTag(FName("Destructable")))
+			{
+				// TODO: Do thing
+				auto destructable = Cast<ADestructable>(Result.GetActor());
+				destructable->Destruct();
+			}
+			else if (Result.GetActor()->ActorHasTag(FName("Enemy")))
+			{
+				// TODO: Do thing
+			}
 		}
 	}
 }

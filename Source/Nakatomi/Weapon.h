@@ -32,6 +32,12 @@ struct FWeaponProperties
 	float WeaponChangeTime = 2.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
+	int MaxAmmo = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
+	int DefaultAmmo = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	int ProjectilesPerShot = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
@@ -66,6 +72,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	USoundBase* FireSound;
 
+	UPROPERTY(VisibleAnywhere)
+	int AmmoCount;
+
 public:	
 	// Sets default values for this actor's properties
 	AWeapon();
@@ -94,4 +103,14 @@ public:
 	USoundBase* GetFireSound();
 
 	void SetFireSound(USoundBase* USoundBase);
+
+	int GetAmmoCount();
+
+	void SetAmmoCount(int ammoCount);
+
+	void SetAmmoCountToDefault();
+
+	void IncrementAmmoCount(int ammoCount);
+
+	void DecrementAmmoCount(int ammoCount);
 };

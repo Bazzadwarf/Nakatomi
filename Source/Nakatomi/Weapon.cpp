@@ -13,6 +13,8 @@ AWeapon::AWeapon()
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+
+	SetAmmoCountToDefault();
 	
 }
 
@@ -64,4 +66,44 @@ USoundBase* AWeapon::GetFireSound()
 void AWeapon::SetFireSound(USoundBase* USoundBase)
 {
 	FireSound = USoundBase;
+}
+
+int AWeapon::GetAmmoCount()
+{
+	return AmmoCount;
+}
+
+void AWeapon::SetAmmoCount(int ammoCount)
+{
+	AmmoCount = ammoCount;
+
+	if (AmmoCount > WeaponProperties.MaxAmmo)
+	{
+		AmmoCount = WeaponProperties.MaxAmmo;
+	}
+}
+
+void AWeapon::SetAmmoCountToDefault()
+{
+	AmmoCount = WeaponProperties.DefaultAmmo;
+}
+
+void AWeapon::IncrementAmmoCount(int ammoCount)
+{
+	AmmoCount += ammoCount;
+
+	if (AmmoCount > WeaponProperties.MaxAmmo)
+	{
+		AmmoCount = WeaponProperties.MaxAmmo;
+	}
+}
+
+void AWeapon::DecrementAmmoCount(int ammoCount)
+{
+	AmmoCount -= ammoCount;
+
+	if (AmmoCount < 0)
+	{
+		AmmoCount = 0;
+	}
 }

@@ -104,6 +104,8 @@ public:
 
 	void SetFireSound(USoundBase* USoundBase);
 
+	void PlayFireSoundAtLocation(FVector location);
+
 	int GetAmmoCount();
 
 	void SetAmmoCount(int ammoCount);

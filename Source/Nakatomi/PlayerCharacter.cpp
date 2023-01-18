@@ -384,7 +384,6 @@ void APlayerCharacter::RemoveWeaponFromInventory(int i)
 void APlayerCharacter::RemoveCurrentWeaponFromInventory()
 {
 	// TODO: Add more checking here
-
 }
 
 void APlayerCharacter::OnFire()
@@ -406,7 +405,9 @@ void APlayerCharacter::OnFire()
 		RemoveCurrentWeaponFromInventory();
 	}
 
-	// TODO: Play sound effect
+	CurrentWeapon->PlayFireSoundAtLocation(GetActorLocation());
+
+	// TODO: Play some animation here
 
 	CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Cooldown);
 }

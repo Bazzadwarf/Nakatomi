@@ -2,6 +2,7 @@
 
 
 #include "Weapon.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 AWeapon::AWeapon()
@@ -66,6 +67,14 @@ USoundBase* AWeapon::GetFireSound()
 void AWeapon::SetFireSound(USoundBase* USoundBase)
 {
 	FireSound = USoundBase;
+}
+
+void AWeapon::PlayFireSoundAtLocation(FVector location)
+{
+	if (!FireSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, location);
+	}
 }
 
 int AWeapon::GetAmmoCount()

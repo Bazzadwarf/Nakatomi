@@ -376,14 +376,34 @@ void APlayerCharacter::AddWeaponToInventory(TSubclassOf<class AWeapon> weapon)
 
 void APlayerCharacter::RemoveWeaponFromInventory(int i)
 {
-	// TODO: Add more checking here
 	WeaponInventory[i]->Destroy();
 	WeaponInventory.RemoveAt(i);
+
+	if (WeaponInventory.Num() == 0)
+	{
+		CurrentInventorySlot = -1;
+	}
+	else if (int index = WeaponInventory.Find(CurrentWeapon) == INDEX_NONE)
+	{		
+		SetCurrentWeapon(WeaponInventory[CurrentInventorySlot % WeaponInventory.Num()]);
+	}
+	else
+	{
+		CurrentInventorySlot = index;
+	}
+}
+
+void APlayerCharacter::RemoveWeaponFromInventory(AWeapon* weapon)
+{
+	if (int index = WeaponInventory.Find(weapon) != INDEX_NONE)
+	{
+		RemoveWeaponFromInventory(index);
+	}
 }
 
 void APlayerCharacter::RemoveCurrentWeaponFromInventory()
 {
-	// TODO: Add more checking here
+	RemoveWeaponFromInventory(CurrentWeapon);
 }
 
 void APlayerCharacter::OnFire()

@@ -137,6 +137,8 @@ public:
 
 	void RemoveWeaponFromInventory(int i);
 
+	void RemoveWeaponFromInventory(AWeapon* weapon);
+
 	void RemoveCurrentWeaponFromInventory();
 	
 	void OnFire();

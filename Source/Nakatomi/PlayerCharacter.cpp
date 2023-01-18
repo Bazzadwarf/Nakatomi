@@ -399,7 +399,12 @@ void APlayerCharacter::OnFire()
 	TArray<FHitResult> Hits = TArray<FHitResult>();
 	CalculateHits(&Hits);
 
-	// TODO: Decrement ammo count
+	CurrentWeapon->DecrementAmmoCount(1);
+
+	if (CurrentWeapon->GetAmmoCount() == 0)
+	{
+		RemoveCurrentWeaponFromInventory();
+	}
 
 	// TODO: Play sound effect
 

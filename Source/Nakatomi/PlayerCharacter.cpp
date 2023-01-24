@@ -164,6 +164,10 @@ void APlayerCharacter::BeginFireCallback(const FInputActionInstance& Instance)
 
 	OnFire();
 
+	if (CurrentWeapon == nullptr)
+	{
+		return;
+	}
 
 	if (CurrentWeapon->GetWeaponProperties()->IsAutomatic)
 	{
@@ -375,7 +379,12 @@ void APlayerCharacter::AddWeaponToInventory(TSubclassOf<class AWeapon> weapon)
 }
 
 void APlayerCharacter::RemoveWeaponFromInventory(int i)
-{
+{	
+	if (WeaponInventory[i] == CurrentWeapon)
+	{
+		CurrentWeapon = nullptr;
+	}
+
 	WeaponInventory[i]->Destroy();
 	WeaponInventory.RemoveAt(i);
 
@@ -397,7 +406,7 @@ void APlayerCharacter::RemoveWeaponFromInventory(AWeapon* weapon)
 {
 	if (int index = WeaponInventory.Find(weapon) != INDEX_NONE)
 	{
-		RemoveWeaponFromInventory(index);
+		RemoveWeaponFromInventory(index - 1);
 	}
 }
 
@@ -420,16 +429,16 @@ void APlayerCharacter::OnFire()
 
 	CurrentWeapon->DecrementAmmoCount(1);
 
-	if (CurrentWeapon->GetAmmoCount() == 0)
-	{
-		RemoveCurrentWeaponFromInventory();
-	}
-
 	CurrentWeapon->PlayFireSoundAtLocation(GetActorLocation());
 
 	// TODO: Play some animation here
 
 	CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Cooldown);
+
+	if (CurrentWeapon->GetAmmoCount() == 0)
+	{
+		RemoveCurrentWeaponFromInventory();
+	}
 }
 
 void APlayerCharacter::WeaponCooldownHandler()

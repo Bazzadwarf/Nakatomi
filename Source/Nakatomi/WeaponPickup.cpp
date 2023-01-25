@@ -32,7 +32,9 @@ void AWeaponPickup::BeginPlay()
 		WeaponComponent->AttachToComponent(RootComponent, TransformRules);
 		WeaponComponent->SetActorRelativeLocation(FVector(0.0f, 0.0f, 5.0f));
 		WeaponComponent->SetActorEnableCollision(false);
+		
 		WeaponStartingLocation = WeaponComponent->GetActorLocation();
+		WeaponStartingLocation += ((MovementDirection * MovementDistance) / 2);
 
 		SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AWeaponPickup::OnOverlapBegin);
 	}
@@ -51,7 +53,7 @@ void AWeaponPickup::Tick(float DeltaTime)
 		// Bob weapon up and down
 		float Time = GetWorld()->GetRealTimeSeconds();
 		float Sine = FMath::Sin(Time * MovementSpeed);
-		WeaponComponent->SetActorLocation(WeaponStartingLocation + (MovementDirection * Sine));
+		WeaponComponent->SetActorLocation(WeaponStartingLocation + ((MovementDirection * Sine) * MovementDistance));
 	}
 }
 

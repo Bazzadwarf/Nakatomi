@@ -20,16 +20,19 @@ public:
 	TSubclassOf<class AWeapon> Weapon;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FVector MovementDirection = FVector(0.0f, 1.0f, 0.0f);
+	FVector MovementDirection = FVector(0.0f, 0.0f, 1.0f);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float MovementDistance = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float MovementSpeed = 1.0f;
 		
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FRotator SpinRotation = FRotator(0, 1, 0);
+	FRotator SpinRotation = FRotator(0.0, 1.0f, 0.0f);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float RotationSpeed = 1.0f;
+	float RotationSpeed = 25.0f;
 
 private:
 

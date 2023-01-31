@@ -116,3 +116,8 @@ void AWeapon::DecrementAmmoCount(int ammoCount)
 		AmmoCount = 0;
 	}
 }
+
+TSubclassOf<class ANakatomiFieldSystemActor> AWeapon::GetFieldSystemActor()
+{
+	return FieldSystemActor;
+}

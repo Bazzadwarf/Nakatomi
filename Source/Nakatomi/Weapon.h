@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "NakatomiFieldSystemActor.h"
 #include "Weapon.generated.h"
 
 class ANakatomiCharacter;
+class ANakatomiFieldSystemActor;
 
 UENUM()
 enum WeaponState
@@ -75,6 +77,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	int AmmoCount;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ANakatomiFieldSystemActor> FieldSystemActor;
+
 public:	
 	// Sets default values for this actor's properties
 	AWeapon();
@@ -115,4 +120,6 @@ public:
 	void IncrementAmmoCount(int ammoCount);
 
 	void DecrementAmmoCount(int ammoCount);
+
+	TSubclassOf<class ANakatomiFieldSystemActor> GetFieldSystemActor();
 };

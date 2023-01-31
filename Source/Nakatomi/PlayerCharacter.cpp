@@ -239,6 +239,13 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 			DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Blue, true, 500, 0U, 0);
 
 			// TODO: Handle hits in a meaningful way
+			FActorSpawnParameters SpawnParameters;
+			SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+			// Spawn field actor
+			FTransform transform;
+			transform.SetLocation(Result.ImpactPoint);
+			GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
 
 			if (Result.GetActor()->ActorHasTag(FName("Destructable")))
 			{

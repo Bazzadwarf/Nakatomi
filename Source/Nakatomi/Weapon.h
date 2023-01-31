@@ -28,7 +28,7 @@ struct FWeaponProperties
 	float WeaponCooldown = 1.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
-	int WeaponDamage = 10;
+	float WeaponDamage = 10;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	float WeaponChangeTime = 2.0f;

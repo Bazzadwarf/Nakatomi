@@ -9,6 +9,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "InputMappingContext.h"
 #include "Destructable.h"
+#include "EnemyCharacter.h"
+
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
@@ -245,17 +247,17 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 			// Spawn field actor
 			FTransform transform;
 			transform.SetLocation(Result.ImpactPoint);
-			GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
-
-			if (Result.GetActor()->ActorHasTag(FName("Destructable")))
+			auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
+			fields.Add(field);
+			
+			if (Result.GetActor())
 			{
-				// TODO: Do thing
-				auto destructable = Cast<ADestructable>(Result.GetActor());
-				destructable->Destruct();
-			}
-			else if (Result.GetActor()->ActorHasTag(FName("Enemy")))
-			{
-				// TODO: Do thing
+				if (Result.GetActor()->ActorHasTag("Enemy"))
+				{
+					// TODO: Do thing
+					auto enemy = Cast<AEnemyCharacter>(Result.GetActor());
+					enemy->GetHealthComponent()->TakeDamage(Result.GetActor(),CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr, GetController(), this);
+				}
 			}
 		}
 	}

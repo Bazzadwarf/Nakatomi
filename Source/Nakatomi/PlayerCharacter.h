@@ -9,11 +9,12 @@
 #include "EnhancedInputComponent.h"
 #include "NakatomiCharacter.h"
 #include "Weapon.h"
+#include "Engine/EngineTypes.h"
+#include "Engine/DamageEvents.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;
 class UInputMappingContext;
-//class UEnhancedInputComponent;
 
 /**
  * 

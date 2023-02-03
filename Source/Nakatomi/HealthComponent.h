@@ -6,7 +6,29 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
-DECLARE_DELEGATE(FOnDeathDelegate)
+USTRUCT()
+struct FDamageInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	AActor* DamagedActor;
+
+	UPROPERTY()
+	float Damage;
+	
+	UPROPERTY()
+	const class UDamageType* DamageType;
+
+	UPROPERTY()
+	class AController* InstigatedBy;
+
+	UPROPERTY()
+	AActor* DamageCauser;
+};
+
+DECLARE_DELEGATE_OneParam(FOnDamageDelegate, FDamageInfo)
+DECLARE_DELEGATE_OneParam(FOnDeathDelegate, FDamageInfo)
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class NAKATOMI_API UHealthComponent : public UActorComponent
@@ -15,6 +37,7 @@ class NAKATOMI_API UHealthComponent : public UActorComponent
 
 public:	
 	
+	FOnDamageDelegate OnDamaged;
 	FOnDeathDelegate OnDeath;
 
 private:
@@ -27,7 +50,7 @@ private:
 
 	bool IsDead = false;
 
-	bool CanDamage;
+	bool CanDamage = true;
 
 public:
 
@@ -35,10 +58,7 @@ public:
 	UHealthComponent();
 
 	UFUNCTION()
-	void TakeDamage();
-	
-	UFUNCTION()
-	void DecrementHealth(float value);
+	void TakeDamage(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy, AActor* damageCauser);
 
 	UFUNCTION()
 	void IncrementHealth(float value);

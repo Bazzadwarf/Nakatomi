@@ -13,20 +13,21 @@ UHealthComponent::UHealthComponent()
 	// ...
 }
 
-void UHealthComponent::TakeDamage()
+void UHealthComponent::TakeDamage(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy, AActor* damageCauser)
 {
-}
+	if (damagedActor == nullptr || IsDead || !CanDamage)
+	{
+		return;
+	}
 
-void UHealthComponent::DecrementHealth(float value)
-{
-	value *= !CanDamage;
+	CurrentHealth -= damage;
 
-	CurrentHealth -= value;
+	OnDamaged.ExecuteIfBound({ damagedActor, damage, damageType, instigatedBy, damageCauser });
 
 	if (CurrentHealth <= 0.0f)
 	{
-		// TODO: Call some death logic here
-		OnDeath.ExecuteIfBound();
+		IsDead = true;
+		OnDeath.ExecuteIfBound({ damagedActor, damage, damageType, instigatedBy, damageCauser });
 	}
 }
 
@@ -102,7 +103,7 @@ void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	ResetHealth();
 	
 }
 

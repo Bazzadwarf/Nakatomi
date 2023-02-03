@@ -30,6 +30,6 @@ void ADestructable::Destruct()
 {
 	// TODO: Add some more logic here
 	
-	UGameplayStatics::SpawnEmitterAtLocation(this, ParticleEffect, this->ActorToWorld().GetLocation(), FRotator::ZeroRotator, true);
+	//UGameplayStatics::SpawnEmitterAtLocation(this, ParticleEffect, this->ActorToWorld().GetLocation(), FRotator::ZeroRotator, true);
 	Destroy();
 }

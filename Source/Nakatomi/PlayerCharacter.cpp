@@ -121,7 +121,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 		if (QuitAction)
 		{
-			Input->BindAction(QuitAction, ETriggerEvent::Started, this, &APlayerCharacter::QuitCallback);
+			Input->BindAction(QuitAction, ETriggerEvent::Completed, this, &APlayerCharacter::QuitCallback);
 		}
 
 		if (SprintAction)
@@ -198,7 +198,10 @@ void APlayerCharacter::EndFireCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::QuitCallback(const FInputActionInstance& Instance)
 {
-	FGenericPlatformMisc::RequestExit(true);
+	// TODO: Add platform specific Exit requests
+	// This is not a bit deal for the moment as we are only building for windows
+	// For some reason the generic version does not work the same as FWindowsPlatformMisc
+	FWindowsPlatformMisc::RequestExit(false);
 }
 
 void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance)

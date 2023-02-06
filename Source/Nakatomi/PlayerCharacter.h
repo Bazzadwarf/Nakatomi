@@ -11,6 +11,7 @@
 #include "Weapon.h"
 #include "Engine/EngineTypes.h"
 #include "Engine/DamageEvents.h"
+#include "Blueprint/UserWidget.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;
@@ -59,6 +60,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UInputAction* WeaponSwitchingAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSubclassOf<class UUserWidget> PlayerHUD;
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -84,6 +88,8 @@ private:
 	FTimerHandle CooldownTimerHandle;
 
 	bool IsFiring = false;
+
+	class UUserWidget* currentPlayerHUD;
 
 public:
 	// Sets default values for this character's properties
@@ -147,4 +153,10 @@ public:
 	void WeaponCooldownHandler();
 
 	void ClearAllTimers();
+
+	UFUNCTION(BlueprintCallable)
+	int GetCurrentAmmoCount();
+
+	UFUNCTION(BlueprintCallable)
+	float GetCurrentHealthCount();
 };

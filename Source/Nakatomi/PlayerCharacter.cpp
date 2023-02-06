@@ -63,6 +63,15 @@ void APlayerCharacter::BeginPlay()
 		this->Tags.Add(FName("Player"));
 	}
 
+	if (PlayerHUD)
+	{
+		currentPlayerHUD = UUserWidget::CreateWidgetInstance(*GetWorld(), PlayerHUD, FName("PLayer HUD"));
+
+		if (currentPlayerHUD)
+		{
+			currentPlayerHUD->AddToViewport();
+		}
+	}
 }
 
 // Called every frame
@@ -468,4 +477,24 @@ void APlayerCharacter::ClearAllTimers()
 {
 	GetWorldTimerManager().ClearTimer(FireTimerHandle);
 	GetWorldTimerManager().ClearTimer(CooldownTimerHandle);
+}
+
+int APlayerCharacter::GetCurrentAmmoCount()
+{
+	if (CurrentWeapon == nullptr)
+	{
+		return -1;
+	}
+
+	return CurrentWeapon->GetAmmoCount();
+}
+
+float APlayerCharacter::GetCurrentHealthCount()
+{
+	if (!GetHealthComponent())
+	{
+		return -1;
+	}
+
+	return GetHealthComponent()->GetCurrentHealth();
 }

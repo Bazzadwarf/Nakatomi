@@ -8,7 +8,7 @@ public class Nakatomi : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "FieldSystemEngine", "GeometryCollectionEngine" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "FieldSystemEngine", "GeometryCollectionEngine", "UMG" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

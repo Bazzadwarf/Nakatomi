@@ -19,6 +19,8 @@ AEnemyCharacter::AEnemyCharacter()
 	PerceptionComponent->SetDominantSense(SightConfig->GetSenseImplementation());
 	PerceptionComponent->ConfigureSense(*SightConfig);
 
+	RandomWeaponParameters = CreateDefaultSubobject<URandomWeaponParameters>(TEXT("Random Weapon Parameters"));
+	
 	GetHealthComponent()->SetMaxHealth(100.0f);
 
 	this->Tags.Add(FName("Enemy"));

@@ -7,6 +7,7 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include <Perception/AISenseConfig_Sight.h>
+#include "RandomWeaponParameters.h"
 #include "EnemyCharacter.generated.h"
 
 
@@ -17,7 +18,7 @@ UCLASS()
 class NAKATOMI_API AEnemyCharacter : public ANakatomiCharacter
 {
 	GENERATED_BODY()
-	
+
 private:
 	UAIPerceptionComponent* PerceptionComponent;
 
@@ -25,6 +26,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
 	UBehaviorTree* BehaviourTree;
+	
+	UPROPERTY(VisibleAnywhere)
+	URandomWeaponParameters* RandomWeaponParameters;
 
 public:
 	AEnemyCharacter();

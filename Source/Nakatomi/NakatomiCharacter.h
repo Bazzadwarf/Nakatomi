@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "HealthComponent.h"
+#include "Weapon.h"
 #include "NakatomiCharacter.generated.h"
 
 /**
@@ -15,10 +16,23 @@ class NAKATOMI_API ANakatomiCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+public:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TArray<TSubclassOf<class AWeapon>> DefaultWeaponInventory;
+
+	UPROPERTY()
+	TArray<AWeapon*> WeaponInventory;
+
+	UPROPERTY()
+	AWeapon* CurrentWeapon = nullptr;
+
 private:
 
 	UPROPERTY(VisibleDefaultsOnly)
 	UHealthComponent* HealthComponent = nullptr;
+
+	int CurrentInventorySlot = 0;
 
 public:
 	// Sets default values for this character's properties
@@ -38,4 +52,26 @@ public:
 	UHealthComponent* GetHealthComponent();
 
 	void SetHealthComponent(UHealthComponent* healthComponent);
+
+	void SetInventoryToDefault();
+
+	void SelectInventorySlot(int slot);
+
+	void InventoryIncrement();
+
+	void InventoryDecrement();
+
+	void AddWeaponToInventory(TSubclassOf<class AWeapon> weapon);
+
+	void RemoveWeaponFromInventory(int i);
+
+	void RemoveWeaponFromInventory(AWeapon* weapon);
+
+	void RemoveCurrentWeaponFromInventory();
+
+	AWeapon* InitializeWeapon(TSubclassOf<class AWeapon> weapon);
+
+	AWeapon* GetCurrentWeapon();
+
+	void SetCurrentWeapon(AWeapon* weapon);
 };

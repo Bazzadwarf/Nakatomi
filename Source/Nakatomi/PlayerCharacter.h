@@ -52,12 +52,6 @@ public:
 	int MappingPriority = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TArray<TSubclassOf<class AWeapon>> DefaultWeaponInventory;
-
-	UPROPERTY()
-	TArray<AWeapon*> WeaponInventory;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UInputAction* WeaponSwitchingAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -77,11 +71,6 @@ private:
 	UCameraComponent* CameraComponent = nullptr;
 
 	float DefaultMovementSpeed;
-
-	int CurrentInventorySlot = 0;
-
-	UPROPERTY()
-	AWeapon* CurrentWeapon = nullptr;
 
 	FTimerHandle FireTimerHandle;
 
@@ -124,29 +113,7 @@ public:
 
 	void CalculateHits(TArray<FHitResult>* hits);
 
-	void SetInventoryToDefault();
-
-	void SelectInventorySlot(int slot);
-
 	void WeaponSwitchingCallback(const FInputActionInstance& Instance);
-
-	void InventoryIncrement();
-
-	void InventoryDecrement();
-
-	AWeapon* InitializeWeapon(TSubclassOf<class AWeapon> weapon);
-
-	AWeapon* GetCurrentWeapon();
-
-	void SetCurrentWeapon(AWeapon* weapon);
-
-	void AddWeaponToInventory(TSubclassOf<class AWeapon> weapon);
-
-	void RemoveWeaponFromInventory(int i);
-
-	void RemoveWeaponFromInventory(AWeapon* weapon);
-
-	void RemoveCurrentWeaponFromInventory();
 	
 	void OnFire();
 

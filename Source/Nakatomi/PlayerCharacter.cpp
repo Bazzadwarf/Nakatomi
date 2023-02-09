@@ -11,7 +11,6 @@
 #include "Destructable.h"
 #include "EnemyCharacter.h"
 
-
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
 // Sets default values
@@ -273,43 +272,8 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 			}
 		}
 	}
-}
 
 void APlayerCharacter::SetInventoryToDefault()
-{
-	if (WeaponInventory.Num() > 0)
-	{
-		for (size_t i = 0; i < WeaponInventory.Num(); i++)
-		{
-			WeaponInventory[i]->Destroy();
-		}
-
-		WeaponInventory.Empty();
-	}
-
-	for (size_t i = 0; i < DefaultWeaponInventory.Num(); i++)
-	{
-		if (DefaultWeaponInventory[i])
-		{
-			AWeapon* weapon = InitializeWeapon(DefaultWeaponInventory[i]);
-			WeaponInventory.AddUnique(weapon);
-		}
-	}
-
-	if (WeaponInventory.Num() > 0)
-	{
-		CurrentInventorySlot = 0;
-		SetCurrentWeapon(WeaponInventory[CurrentInventorySlot]);
-	}
-}
-
-void APlayerCharacter::SelectInventorySlot(int slot)
-{	
-	if (slot < WeaponInventory.Num())
-	{
-		CurrentInventorySlot = slot;
-		SetCurrentWeapon(WeaponInventory[CurrentInventorySlot]);
-	}
 }
 
 void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)
@@ -324,116 +288,6 @@ void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Insta
 	{
 		InventoryDecrement();
 	}
-}
-
-void APlayerCharacter::InventoryIncrement()
-{
-	if (WeaponInventory.Num() > 0)
-	{
-		SelectInventorySlot((CurrentInventorySlot + 1) % WeaponInventory.Num());
-	}
-}
-
-void APlayerCharacter::InventoryDecrement()
-{
-	if (WeaponInventory.Num() > 0)
-	{
-		if (CurrentInventorySlot - 1 < 0)
-		{
-			SelectInventorySlot(WeaponInventory.Num() - 1);
-		}
-		else
-		{
-			SelectInventorySlot((CurrentInventorySlot - 1) % WeaponInventory.Num());
-		}
-	}
-}
-
-AWeapon* APlayerCharacter::InitializeWeapon(TSubclassOf<class AWeapon> weapon)
-{
-	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	AWeapon* Weapon = GetWorld()->SpawnActor<AWeapon>(weapon, SpawnParameters);
-	Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponHand");
-	Weapon->SetActorEnableCollision(false);
-	Weapon->SetActorHiddenInGame(true);
-	
-	return Weapon;
-}
-
-AWeapon* APlayerCharacter::GetCurrentWeapon()
-{
-	return CurrentWeapon;
-}
-
-void APlayerCharacter::SetCurrentWeapon(AWeapon* weapon)
-{
-	if (CurrentWeapon == weapon)
-	{
-		return;
-	}
-
-	if (CurrentWeapon)
-	{
-		CurrentWeapon->SetActorHiddenInGame(true);
-	}
-
-	if (weapon)
-	{
-		CurrentWeapon = weapon;
-		CurrentWeapon->SetActorHiddenInGame(false);
-	}	
-}
-
-void APlayerCharacter::AddWeaponToInventory(TSubclassOf<class AWeapon> weapon)
-{
-	if (weapon)
-	{
-		AWeapon* newWeapon = InitializeWeapon(weapon);
-		WeaponInventory.Add(newWeapon);
-
-		if (WeaponInventory.Num() == 1)
-		{
-			SetCurrentWeapon(WeaponInventory[0]);
-		}
-	}
-}
-
-void APlayerCharacter::RemoveWeaponFromInventory(int i)
-{	
-	if (WeaponInventory[i] == CurrentWeapon)
-	{
-		CurrentWeapon = nullptr;
-	}
-
-	WeaponInventory[i]->Destroy();
-	WeaponInventory.RemoveAt(i);
-
-	if (WeaponInventory.Num() == 0)
-	{
-		CurrentInventorySlot = -1;
-	}
-	else if (int index = WeaponInventory.Find(CurrentWeapon) == INDEX_NONE)
-	{		
-		SetCurrentWeapon(WeaponInventory[CurrentInventorySlot % WeaponInventory.Num()]);
-	}
-	else
-	{
-		CurrentInventorySlot = index;
-	}
-}
-
-void APlayerCharacter::RemoveWeaponFromInventory(AWeapon* weapon)
-{
-	if (int index = WeaponInventory.Find(weapon) != INDEX_NONE)
-	{
-		RemoveWeaponFromInventory(index - 1);
-	}
-}
-
-void APlayerCharacter::RemoveCurrentWeaponFromInventory()
-{
-	RemoveWeaponFromInventory(CurrentWeapon);
 }
 
 void APlayerCharacter::OnFire()

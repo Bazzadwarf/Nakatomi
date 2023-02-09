@@ -69,8 +69,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Is Automatic")
 	bool IsAutomaticOverride = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Is Automatic")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Meshes")
 	TArray<USkeletalMesh*> WeaponMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fire Sounds")
+	TArray<USoundBase*> FireSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Field System Actor")
+	TArray<TSubclassOf<class ANakatomiFieldSystemActor>> FieldSystemActor;
 
 	FWeaponProperties GenerateRandomWeaponProperties();
 

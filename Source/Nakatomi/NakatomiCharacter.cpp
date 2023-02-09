@@ -17,6 +17,7 @@ void ANakatomiCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SetInventoryToDefault();
 }
 
 // Called every frame

@@ -55,7 +55,6 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	DefaultMovementSpeed = GetCharacterMovement()->MaxWalkSpeed;
-	SetInventoryToDefault();
 
 	if (!this->ActorHasTag(FName("Player")))
 	{
@@ -237,7 +236,6 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	FCollisionQueryParams TraceParams(SCENE_QUERY_STAT(WeaponTrace), true, GetInstigator());
 	TraceParams.bReturnPhysicalMaterial = true;
 
-
 	for (size_t i = 0; i < CurrentWeapon->GetWeaponProperties()->ProjectilesPerShot; i++)
 	{
 		// Calculate the maximum distance the weapon can fire
@@ -259,7 +257,6 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 			FTransform transform;
 			transform.SetLocation(Result.ImpactPoint);
 			auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
-			fields.Add(field);
 			
 			if (Result.GetActor())
 			{
@@ -272,8 +269,6 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 			}
 		}
 	}
-
-void APlayerCharacter::SetInventoryToDefault()
 }
 
 void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)

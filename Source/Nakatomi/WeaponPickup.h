@@ -32,7 +32,7 @@ public:
 	FRotator SpinRotation = FRotator(0.0, 1.0f, 0.0f);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float RotationSpeed = 25.0f;
+	float RotationSpeed = 50.0f;
 
 private:
 

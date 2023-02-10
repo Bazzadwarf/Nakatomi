@@ -25,19 +25,10 @@ void AWeaponPickup::BeginPlay()
 
 	if (Weapon)
 	{
-		FActorSpawnParameters SpawnParameters;
-		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		WeaponComponent = GetWorld()->SpawnActor<AWeapon>(Weapon, SpawnParameters);
-		FAttachmentTransformRules TransformRules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
-		WeaponComponent->AttachToComponent(RootComponent, TransformRules);
-		WeaponComponent->SetActorRelativeLocation(FVector(0.0f, 0.0f, 5.0f));
-		WeaponComponent->SetActorEnableCollision(false);
-		
-		WeaponStartingLocation = WeaponComponent->GetActorLocation();
-		WeaponStartingLocation += ((MovementDirection * MovementDistance) / 2);
-
-		SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AWeaponPickup::OnOverlapBegin);
+		SpawnWeapon();
 	}
+
+	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AWeaponPickup::OnOverlapBegin);
 }
 
 // Called every frame
@@ -70,5 +61,31 @@ void AWeaponPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AAc
 		this->Destroy();
 		WeaponComponent->Destroy();
 	}
+}
+
+void AWeaponPickup::SetWeapon(TSubclassOf<class AWeapon> weapon)
+{
+	Weapon = weapon;
+	
+	if (WeaponComponent)
+	{
+		WeaponComponent->Destroy();
+	}
+
+	SpawnWeapon();
+}
+
+void AWeaponPickup::SpawnWeapon()
+{
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	WeaponComponent = GetWorld()->SpawnActor<AWeapon>(Weapon, SpawnParameters);
+	FAttachmentTransformRules TransformRules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
+	WeaponComponent->AttachToComponent(RootComponent, TransformRules);
+	WeaponComponent->SetActorRelativeLocation(FVector(0.0f, 0.0f, 5.0f));
+	WeaponComponent->SetActorEnableCollision(false);
+
+	WeaponStartingLocation = WeaponComponent->GetActorLocation();
+	WeaponStartingLocation += ((MovementDirection * MovementDistance) / 2);
 }
 

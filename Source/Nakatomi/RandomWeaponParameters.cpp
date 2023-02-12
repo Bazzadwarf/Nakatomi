@@ -30,11 +30,6 @@ FWeaponProperties URandomWeaponParameters::GenerateRandomWeaponProperties()
 	return weaponProperties;
 }
 
-AWeapon URandomWeaponParameters::GenerateWeapon()
-{
-	return AWeapon();
-}
-
 USkeletalMesh* URandomWeaponParameters::PickRandomMesh()
 {
 	// TODO: CHANGE THIS, THIS IS BAD, THIS IS TEMPORARY, GOOD GOD WHY

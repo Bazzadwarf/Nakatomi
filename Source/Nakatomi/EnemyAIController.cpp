@@ -76,6 +76,11 @@ void AEnemyAIController::OnDeath(FDamageInfo info)
 	}
 
 	enemy->SetLifeSpan(10.0f);
+
+	auto weaponPickup = GetWorld()->SpawnActor<AWeaponPickup>();
+	weaponPickup->SetActorLocation(enemy->GetActorLocation());
+	weaponPickup->SetWeapon(enemy->DefaultWeaponInventory[enemy->GetCurrentInventorySlot()]);
+	weaponPickup->SetWeaponProperties(*enemy->CurrentWeapon->GetWeaponProperties());
 }
 
 void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& actors)

@@ -80,10 +80,6 @@ public:
 
 	FWeaponProperties GenerateRandomWeaponProperties();
 
-	AWeapon GenerateWeapon();
-
-	AWeaponPickup GenerateWeaponPickup();
-
 	USkeletalMesh* PickRandomMesh();
 
 	USoundBase* PickRandomSoundBase();

@@ -19,14 +19,14 @@ void AWeapon::BeginPlay()
 	
 }
 
-USkeletalMeshComponent* AWeapon::GetSkeletalMesh()
+USkeletalMesh* AWeapon::GetSkeletalMesh()
 {
 	return WeaponSkeletalMesh;
 }
 
-void AWeapon::SetSkeletalMesh(USkeletalMeshComponent* USkeletalMeshComponent)
+void AWeapon::SetSkeletalMesh(USkeletalMesh* USkeletalMesh)
 {
-	WeaponSkeletalMesh = USkeletalMeshComponent;
+	WeaponSkeletalMesh = USkeletalMesh;
 }
 
 TEnumAsByte<WeaponState>* AWeapon::GetCurrentWeaponStatus()

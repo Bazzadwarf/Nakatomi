@@ -28,7 +28,7 @@ class NAKATOMI_API AWeapon : public AActor
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
-	USkeletalMeshComponent* WeaponSkeletalMesh;
+	USkeletalMesh* WeaponSkeletalMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	TEnumAsByte<WeaponState> CurrentWeaponStatus;
@@ -57,9 +57,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	USkeletalMeshComponent* GetSkeletalMesh();
+	USkeletalMesh* GetSkeletalMesh();
 
-	void SetSkeletalMesh(USkeletalMeshComponent* USkeletalMeshComponent);
+	void SetSkeletalMesh(USkeletalMesh* USkeletalMesh);
 
 	TEnumAsByte<WeaponState>* GetCurrentWeaponStatus();
 

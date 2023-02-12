@@ -63,6 +63,8 @@ public:
 
 	void AddWeaponToInventory(TSubclassOf<class AWeapon> weapon);
 
+	void AddWeaponToInventory(AWeapon* weapon);
+
 	void RemoveWeaponFromInventory(int i);
 
 	void RemoveWeaponFromInventory(AWeapon* weapon);
@@ -74,4 +76,6 @@ public:
 	AWeapon* GetCurrentWeapon();
 
 	void SetCurrentWeapon(AWeapon* weapon);
+
+	int GetCurrentInventorySlot();
 };

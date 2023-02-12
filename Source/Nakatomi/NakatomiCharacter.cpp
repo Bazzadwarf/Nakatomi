@@ -154,6 +154,19 @@ void ANakatomiCharacter::AddWeaponToInventory(TSubclassOf<class AWeapon> weapon)
 	}
 }
 
+void ANakatomiCharacter::AddWeaponToInventory(AWeapon* weapon)
+{
+	weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponHand");
+	weapon->SetActorEnableCollision(false);
+	weapon->SetActorHiddenInGame(true);
+	WeaponInventory.Add(weapon);
+
+	if (WeaponInventory.Num() == 1)
+	{
+		SetCurrentWeapon(WeaponInventory[0]);
+	}
+}
+
 AWeapon* ANakatomiCharacter::InitializeWeapon(TSubclassOf<class AWeapon> weapon)
 {
 	FActorSpawnParameters SpawnParameters;
@@ -188,4 +201,9 @@ void ANakatomiCharacter::SetCurrentWeapon(AWeapon* weapon)
 		CurrentWeapon = weapon;
 		CurrentWeapon->SetActorHiddenInGame(false);
 	}
+}
+
+int ANakatomiCharacter::GetCurrentInventorySlot()
+{
+	return CurrentInventorySlot;
 }

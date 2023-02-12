@@ -45,6 +45,8 @@ private:
 	UPROPERTY()
 	FVector WeaponStartingLocation;
 
+	FWeaponProperties WeaponProperties;
+
 public:	
 	// Sets default values for this actor's properties
 	AWeaponPickup();
@@ -61,6 +63,10 @@ public:
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	void SetWeapon(TSubclassOf<class AWeapon> weapon);
+
+	FWeaponProperties* GetWeaponProperties();
+
+	void SetWeaponProperties(FWeaponProperties FWeaponProperties);
 
 private:
 

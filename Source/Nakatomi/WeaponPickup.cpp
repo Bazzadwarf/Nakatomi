@@ -57,6 +57,7 @@ void AWeaponPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AAc
 	if (player && Weapon)
 	{
 		player->AddWeaponToInventory(Weapon);
+		player->WeaponInventory.Last()->SetWeaponProperties(*WeaponComponent->GetWeaponProperties());
 
 		this->Destroy();
 		WeaponComponent->Destroy();
@@ -73,6 +74,16 @@ void AWeaponPickup::SetWeapon(TSubclassOf<class AWeapon> weapon)
 	}
 
 	SpawnWeapon();
+}
+
+FWeaponProperties* AWeaponPickup::GetWeaponProperties()
+{
+	return &WeaponProperties;
+}
+
+void AWeaponPickup::SetWeaponProperties(FWeaponProperties FWeaponProperties)
+{
+	WeaponComponent->SetWeaponProperties(FWeaponProperties);
 }
 
 void AWeaponPickup::SpawnWeapon()

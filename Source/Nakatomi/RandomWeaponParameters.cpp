@@ -36,6 +36,35 @@ AWeapon URandomWeaponParameters::GenerateWeapon()
 }
 
 AWeaponPickup URandomWeaponParameters::GenerateWeaponPickup()
+USkeletalMesh* URandomWeaponParameters::PickRandomMesh()
 {
-	return AWeaponPickup();
+	// TODO: CHANGE THIS, THIS IS BAD, THIS IS TEMPORARY, GOOD GOD WHY
+	if (WeaponMesh.Num() == 0)
+	{
+		throw;
+	}
+
+	return WeaponMesh[FMath::RandRange(0, WeaponMesh.Num() - 1)];
+}
+
+USoundBase* URandomWeaponParameters::PickRandomSoundBase()
+{
+	// TODO: CHANGE THIS, THIS IS BAD, THIS IS TEMPORARY, GOOD GOD WHY
+	if (FireSound.Num() == 0)
+	{
+		return nullptr;
+	}
+
+	return FireSound[FMath::RandRange(0, FireSound.Num() - 1)];
+}
+
+TSubclassOf<class ANakatomiFieldSystemActor> URandomWeaponParameters::PickRandomFieldSystem()
+{
+	// TODO: CHANGE THIS, THIS IS BAD, THIS IS TEMPORARY, GOOD GOD WHY
+	if (FieldSystemActor.Num() == 0)
+	{
+		throw;
+	}
+
+	return FieldSystemActor[FMath::RandRange(0, FieldSystemActor.Num() - 1)];
 }

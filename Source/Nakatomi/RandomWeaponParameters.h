@@ -83,4 +83,10 @@ public:
 	AWeapon GenerateWeapon();
 
 	AWeaponPickup GenerateWeaponPickup();
+
+	USkeletalMesh* PickRandomMesh();
+
+	USoundBase* PickRandomSoundBase();
+
+	TSubclassOf<class ANakatomiFieldSystemActor> PickRandomFieldSystem();
 };

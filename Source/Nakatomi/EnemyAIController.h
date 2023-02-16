@@ -33,6 +33,8 @@ public:
 
 	virtual void OnPossess(APawn* InPawn) override;
 
+	virtual void BeginPlay() override;
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual AEnemyCharacter* GetEnemyCharacter();

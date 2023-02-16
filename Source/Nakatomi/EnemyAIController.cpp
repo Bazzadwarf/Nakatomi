@@ -32,6 +32,11 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 	//ensure(enemy->GetMovementComponent()->UseAccelerationForPathFollowing());
 }
 
+void AEnemyAIController::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 void AEnemyAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

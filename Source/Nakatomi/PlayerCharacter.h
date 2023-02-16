@@ -12,6 +12,7 @@
 #include "Engine/EngineTypes.h"
 #include "Engine/DamageEvents.h"
 #include "Blueprint/UserWidget.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;
@@ -79,6 +80,8 @@ private:
 	bool IsFiring = false;
 
 	class UUserWidget* currentPlayerHUD;
+
+	UAIPerceptionStimuliSourceComponent* PerceptionSource;
 
 public:
 	// Sets default values for this character's properties

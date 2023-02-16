@@ -46,6 +46,10 @@ APlayerCharacter::APlayerCharacter()
 	CharacterMovementComponent->AirControl = 1.0f;
 	CharacterMovementComponent->bOrientRotationToMovement = true;
 
+	// Setup the character perception component
+	PerceptionSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Perception Source Stimuli"));
+	PerceptionSource->bAutoRegister = true;
+
 	this->Tags.Add(FName("Player"));
 }
 

@@ -114,10 +114,6 @@ public:
 
 	void SetWalkingCallback(const FInputActionInstance& Instance);
 
-	virtual void CalculateHits(TArray<FHitResult>* hits) override;
-
-	virtual void ProcessHits(TArray<FHitResult> hits) override;
-
 	void WeaponSwitchingCallback(const FInputActionInstance& Instance);
 	
 	void OnFire();
@@ -131,4 +127,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	float GetCurrentHealthCount();
+
+protected:
+
+	virtual void CalculateHits(TArray<FHitResult>* hits) override;
+
+	virtual void ProcessHits(TArray<FHitResult> hits) override;
 };

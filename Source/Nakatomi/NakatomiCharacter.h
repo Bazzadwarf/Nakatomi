@@ -79,7 +79,9 @@ public:
 
 	int GetCurrentInventorySlot();
 
+protected:
+
 	virtual void CalculateHits(TArray<FHitResult>* hits);
 
-	virtual void ProcessHits(TArray<FHitResult>* hits);
+	virtual void ProcessHits(TArray<FHitResult> hits);
 };

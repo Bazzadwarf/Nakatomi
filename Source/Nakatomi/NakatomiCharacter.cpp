@@ -212,6 +212,6 @@ void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)
 {
 }
 
-void ANakatomiCharacter::ProcessHits(TArray<FHitResult>* hits)
+void ANakatomiCharacter::ProcessHits(TArray<FHitResult> hits)
 {
 }

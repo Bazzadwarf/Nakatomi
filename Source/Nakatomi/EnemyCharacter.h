@@ -20,6 +20,8 @@ class NAKATOMI_API AEnemyCharacter : public ANakatomiCharacter
 	GENERATED_BODY()
 
 private:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionComponent* PerceptionComponent;
 
 	UAISenseConfig_Sight* SightConfig;

@@ -28,6 +28,9 @@ private:
 
 	APlayerCharacter* PlayerCharacter;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
+	UAIPerceptionComponent* AIPerception;
+
 public:
 	AEnemyAIController(const FObjectInitializer& object_initializer);
 

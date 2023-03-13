@@ -81,6 +81,7 @@ private:
 
 	class UUserWidget* currentPlayerHUD;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionStimuliSourceComponent* PerceptionSource;
 
 public:

@@ -8,6 +8,15 @@ AEnemyAIController::AEnemyAIController(const FObjectInitializer& object_initiali
 {
 	Blackboard = CreateDefaultSubobject<UBlackboardComponent>(TEXT("Blackboard"));
 	BehaviorTree = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("Behavior Tree"));
+	PerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component"));
+	AIPerception = PerceptionComponent;
+
+	UAISenseConfig_Sight* ConfigSight = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Sense Config"));
+	ConfigSight->SightRadius = 1000.0f;
+	ConfigSight->LoseSightRadius = 1000.0f;
+	ConfigSight->PeripheralVisionAngleDegrees = 30.0f;
+
+	AIPerception->ConfigureSense(*ConfigSight);
 }
 
 void AEnemyAIController::OnPossess(APawn* InPawn)
@@ -98,7 +107,7 @@ void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& actors)
 		}
 
 		FActorPerceptionBlueprintInfo perceptionInfo;
-		GetPerceptionComponent()->GetActorsPerception(actor, perceptionInfo);
+		PerceptionComponent->GetActorsPerception(actor, perceptionInfo);
 
 		for (auto& stimulus : perceptionInfo.LastSensedStimuli)
 		{
@@ -106,6 +115,8 @@ void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& actors)
 			{
 				continue;
 			}
+
+			Blackboard->SetValueAsObject("TargetActor", actor);
 
 			if (stimulus.IsActive())
 			{

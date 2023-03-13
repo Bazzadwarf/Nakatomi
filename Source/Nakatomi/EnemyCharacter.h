@@ -37,6 +37,14 @@ public:
 
 	UAIPerceptionComponent* GetPerceptionComponent();
 
+	virtual void OnFire() override;
+
 protected:
 	virtual void BeginPlay() override;
+
+private:
+
+	virtual void CalculateHits(TArray<FHitResult>* hits) override;
+
+	virtual void ProcessHits(TArray<FHitResult> hits) override;
 };

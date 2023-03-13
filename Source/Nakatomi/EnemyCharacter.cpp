@@ -36,7 +36,24 @@ UAIPerceptionComponent* AEnemyCharacter::GetPerceptionComponent()
 	return PerceptionComponent;
 }
 
+void AEnemyCharacter::OnFire()
+{
+	TArray<FHitResult> Hits = TArray<FHitResult>();
+	CalculateHits(&Hits);
+	ProcessHits(Hits);
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("BANG"));
+}
+
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits)
+{
+}
+
+void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits)
+{
 }

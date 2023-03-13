@@ -30,16 +30,16 @@ APlayerCharacter::APlayerCharacter()
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bDoCollisionTest = true;
 	CameraBoom->bUsePawnControlRotation = true;
-	CameraBoom->TargetArmLength = 500.0f;
+	CameraBoom->TargetArmLength = 350.0f;
 	CameraBoom->bEnableCameraLag = true;
 	CameraBoom->CameraLagSpeed = 10.0f;
-	CameraBoom->SocketOffset = { 0.0f, 0.0f, 220.0f };
+	CameraBoom->SocketOffset = { 0.0f, 75.0f, 110.0f };
 
 	// Setup the camera component
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	CameraComponent->bUsePawnControlRotation = false;
-	CameraComponent->SetRelativeRotation({ -10.0f,0.0f,0.0f });
+	CameraComponent->SetRelativeRotation({ -5.0f,0.0f,0.0f });
 
 	// Setup the character movement
 	UCharacterMovementComponent* CharacterMovementComponent = GetCharacterMovement();

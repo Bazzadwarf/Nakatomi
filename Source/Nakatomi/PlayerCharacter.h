@@ -65,10 +65,10 @@ protected:
 
 private:
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* CameraComponent = nullptr;
 
 	float DefaultMovementSpeed;

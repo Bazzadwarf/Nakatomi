@@ -208,6 +208,10 @@ int ANakatomiCharacter::GetCurrentInventorySlot()
 	return CurrentInventorySlot;
 }
 
+void ANakatomiCharacter::OnFire()
+{
+}
+
 void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)
 {
 }

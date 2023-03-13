@@ -79,6 +79,8 @@ public:
 
 	int GetCurrentInventorySlot();
 
+	virtual void OnFire();
+
 protected:
 
 	virtual void CalculateHits(TArray<FHitResult>* hits);

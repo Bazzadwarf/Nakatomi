@@ -116,7 +116,7 @@ public:
 
 	void WeaponSwitchingCallback(const FInputActionInstance& Instance);
 	
-	void OnFire();
+	virtual void OnFire() override;
 
 	void WeaponCooldownHandler();
 

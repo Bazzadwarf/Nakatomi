@@ -252,24 +252,30 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 		{
 			hits->Add(Result);
 			DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Blue, true, 500, 0U, 0);
+		}
+	}
+}
 
-			// TODO: Handle hits in a meaningful way
-			FActorSpawnParameters SpawnParameters;
-			SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
+{
+	for (FHitResult Hit : hits)
+	{
+		// TODO: Handle hits in a meaningful way
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-			// Spawn field actor
-			FTransform transform;
-			transform.SetLocation(Result.ImpactPoint);
-			auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
-			
-			if (Result.GetActor())
+		// Spawn field actor
+		FTransform transform;
+		transform.SetLocation(Hit.ImpactPoint);
+		auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
+
+		if (Hit.GetActor())
+		{
+			if (Hit.GetActor()->ActorHasTag("Enemy"))
 			{
-				if (Result.GetActor()->ActorHasTag("Enemy"))
-				{
-					// TODO: Do thing
-					auto enemy = Cast<AEnemyCharacter>(Result.GetActor());
-					enemy->GetHealthComponent()->TakeDamage(Result.GetActor(),CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr, GetController(), this);
-				}
+				// TODO: Do thing
+				auto enemy = Cast<AEnemyCharacter>(Hit.GetActor());
+				enemy->GetHealthComponent()->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr, GetController(), this);
 			}
 		}
 	}
@@ -300,6 +306,7 @@ void APlayerCharacter::OnFire()
 
 	TArray<FHitResult> Hits = TArray<FHitResult>();
 	CalculateHits(&Hits);
+	ProcessHits(Hits);
 
 	CurrentWeapon->DecrementAmmoCount(1);
 

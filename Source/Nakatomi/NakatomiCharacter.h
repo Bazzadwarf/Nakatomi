@@ -78,4 +78,8 @@ public:
 	void SetCurrentWeapon(AWeapon* weapon);
 
 	int GetCurrentInventorySlot();
+
+	virtual void CalculateHits(TArray<FHitResult>* hits);
+
+	virtual void ProcessHits(TArray<FHitResult>* hits);
 };

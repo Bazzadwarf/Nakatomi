@@ -207,3 +207,11 @@ int ANakatomiCharacter::GetCurrentInventorySlot()
 {
 	return CurrentInventorySlot;
 }
+
+void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)
+{
+}
+
+void ANakatomiCharacter::ProcessHits(TArray<FHitResult>* hits)
+{
+}

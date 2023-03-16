@@ -71,7 +71,7 @@ void AWeapon::SetFireSound(USoundBase* USoundBase)
 
 void AWeapon::PlayFireSoundAtLocation(FVector location)
 {
-	if (!FireSound)
+	if (FireSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, location);
 	}

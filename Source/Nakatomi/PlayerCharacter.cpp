@@ -310,7 +310,7 @@ void APlayerCharacter::OnFire()
 
 	CurrentWeapon->DecrementAmmoCount(1);
 
-	CurrentWeapon->PlayFireSoundAtLocation(GetActorLocation());
+	CurrentWeapon->PlayFireSoundAtLocation(this->GetTransform().GetLocation());
 
 	// TODO: Play some animation here
 

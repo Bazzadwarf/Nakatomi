@@ -265,9 +265,17 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 		// Spawn field actor
-		FTransform transform;
-		transform.SetLocation(Hit.ImpactPoint);
-		auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
+		if (CurrentWeapon->GetFieldSystemActor())
+		{
+			FTransform transform;
+			transform.SetLocation(Hit.ImpactPoint);
+			auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
+			
+			if (field)
+			{
+				field->Destroy();
+			}		
+		}
 
 		if (Hit.GetActor())
 		{

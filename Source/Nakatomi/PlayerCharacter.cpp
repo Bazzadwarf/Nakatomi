@@ -279,6 +279,11 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 
 		if (Hit.GetActor())
 		{
+			if (auto interactableComponent = Hit.GetActor()->GetComponentByClass<UInteractableComponent>())
+			{
+				interactableComponent->Interact();
+			}
+
 			if (Hit.GetActor()->ActorHasTag("Enemy"))
 			{
 				// TODO: Do thing

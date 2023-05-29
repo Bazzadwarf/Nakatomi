@@ -13,6 +13,7 @@
 #include "Engine/DamageEvents.h"
 #include "Blueprint/UserWidget.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "InteractableComponent.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;

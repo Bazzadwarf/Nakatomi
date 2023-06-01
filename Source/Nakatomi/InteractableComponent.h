@@ -21,6 +21,9 @@ protected:
 	virtual void BeginPlay() override;
 	
 public:
-	UFUNCTION()
+	
 	void Interact();
+		
+	void Interact(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy, AActor* damageCauser);
+
 };

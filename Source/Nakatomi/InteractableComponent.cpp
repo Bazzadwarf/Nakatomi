@@ -23,3 +23,7 @@ void UInteractableComponent::BeginPlay()
 void UInteractableComponent::Interact()
 {
 }
+
+void UInteractableComponent::Interact(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy, AActor* damageCauser)
+{
+}

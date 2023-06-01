@@ -31,7 +31,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radial Falloff", Meta = (AllowPrivateAccess = "true"))
 	float StrainMagnitude = 500.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radial Vector", Meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radial Falloff", Meta = (AllowPrivateAccess = "true"))
 	float ForceMagnitude = 500.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radial Falloff", Meta = (AllowPrivateAccess = "true"))

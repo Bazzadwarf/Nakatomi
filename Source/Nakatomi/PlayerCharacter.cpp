@@ -284,11 +284,9 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 				interactableComponent->Interact();
 			}
 
-			if (Hit.GetActor()->ActorHasTag("Enemy"))
+			if (auto healthComponent = Hit.GetActor()->GetComponentByClass<UHealthComponent>())
 			{
-				// TODO: Do thing
-				auto enemy = Cast<AEnemyCharacter>(Hit.GetActor());
-				enemy->GetHealthComponent()->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr, GetController(), this);
+				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr, GetController(), this);
 			}
 		}
 	}

@@ -112,6 +112,15 @@ void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits)
 
 		if (Hit.GetActor())
 		{
+			if (auto interactableComponent = Hit.GetActor()->GetComponentByClass<UInteractableComponent>())
+			{
+				interactableComponent->Interact();
+			}
+
+			if (auto healthComponent = Hit.GetActor()->GetComponentByClass<UHealthComponent>())
+			{
+				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr, GetController(), this);
+			}
 		}
 	}
 }

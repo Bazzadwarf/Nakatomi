@@ -13,6 +13,8 @@ ANakatomiFieldSystemActor::ANakatomiFieldSystemActor()
 	RadialFalloff = CreateDefaultSubobject<URadialFalloff>(TEXT("Radial Falloff"));
 	RadialVector = CreateDefaultSubobject<URadialVector>(TEXT("Radial Vector"));
 	CullingField = CreateDefaultSubobject<UCullingField>(TEXT("Culling Field"));
+
+	SphereComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 }
 
 void ANakatomiFieldSystemActor::BeginPlay()

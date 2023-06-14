@@ -14,6 +14,22 @@ class NAKATOMI_API ADemolitionCharacter : public AEnemyCharacter
 {
 	GENERATED_BODY()
 	
+protected:
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* ExplosionSound;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ANakatomiFieldSystemActor> FieldSystemActor;
+
+	UPROPERTY(EditDefaultsOnly)
+	UParticleSystem* ExplosionParticleSystem;
+
+	UPROPERTY(EditDefaultsOnly)
+	float ExplosionRadius = 500.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float MaxDamage = 150.f;
+
 public:
 
 	UFUNCTION()

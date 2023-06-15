@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <Components/PointLightComponent.h>
 #include "Components/SphereComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -46,6 +47,9 @@ private:
 	FVector WeaponStartingLocation;
 
 	FWeaponProperties WeaponProperties;
+
+	UPROPERTY()
+	UPointLightComponent* PointLightComponent;
 
 public:	
 	// Sets default values for this actor's properties

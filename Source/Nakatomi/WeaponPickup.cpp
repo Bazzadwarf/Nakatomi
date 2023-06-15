@@ -16,6 +16,11 @@ AWeaponPickup::AWeaponPickup()
 	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndProbe);
 
 	SphereComponent->SetupAttachment(RootComponent);
+
+	PointLightComponent = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
+	PointLightComponent->SetLightColor(FLinearColor::White);
+	PointLightComponent->SetupAttachment(RootComponent);
+
 }
 
 // Called when the game starts or when spawned

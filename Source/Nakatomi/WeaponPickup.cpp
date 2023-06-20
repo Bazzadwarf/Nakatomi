@@ -18,9 +18,8 @@ AWeaponPickup::AWeaponPickup()
 	SphereComponent->SetupAttachment(RootComponent);
 
 	PointLightComponent = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
-	PointLightComponent->SetLightColor(FLinearColor::White);
+	PointLightComponent->SetLightColor(FLinearColor::FromSRGBColor(LightColor));
 	PointLightComponent->SetupAttachment(RootComponent);
-
 }
 
 // Called when the game starts or when spawned
@@ -34,6 +33,7 @@ void AWeaponPickup::BeginPlay()
 	}
 
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AWeaponPickup::OnOverlapBegin);
+	PointLightComponent->SetWorldLocation(this->GetActorLocation());
 }
 
 // Called every frame
@@ -51,6 +51,10 @@ void AWeaponPickup::Tick(float DeltaTime)
 		float Sine = FMath::Sin(Time * MovementSpeed);
 		WeaponComponent->SetActorLocation(WeaponStartingLocation + ((MovementDirection * Sine) * MovementDistance));
 	}
+
+	PointLightComponent->MarkRenderStateDirty(); // We have to do this because Unreal doesn't like it when you create lights in c++ apparently ::pain::
+	float sin = FMath::Abs(FMath::Sin(GetWorld()->GetRealTimeSeconds() * (MovementSpeed / 2)));
+	PointLightComponent->SetLightBrightness(sin * MaxLightBrightness);
 }
 
 void AWeaponPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

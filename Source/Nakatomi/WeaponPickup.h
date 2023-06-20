@@ -35,6 +35,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float RotationSpeed = 50.0f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float MaxLightBrightness = 5000.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	FColor LightColor = FColor::White;
+
 private:
 
 	UPROPERTY()

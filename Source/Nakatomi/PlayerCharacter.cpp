@@ -224,13 +224,13 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread;
 	const float Range = CurrentWeapon->GetWeaponProperties()->ProjectileRange;
 
+	// TODO: have this start from the end point of the weapon rather than character center
 	// Calculate starting position and direction
 	FVector TraceStart;
 	FRotator PlayerRot;
 	GetController<APlayerController>()->GetPlayerViewPoint(TraceStart, PlayerRot);
 	TraceStart = GetRootComponent()->GetComponentLocation();
 	FVector AimDir = PlayerRot.Vector();
-	AimDir.Z = 0.0;
 	TraceStart = TraceStart + AimDir * ((GetInstigator()->GetActorLocation() - TraceStart) | AimDir);
 
 	// Calculate the hit results from the trace

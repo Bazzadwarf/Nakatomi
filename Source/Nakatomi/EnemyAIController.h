@@ -21,7 +21,6 @@ class NAKATOMI_API AEnemyAIController : public AAIController
 	GENERATED_BODY()
 
 private:
-
 	UBlackboardComponent* Blackboard;
 
 	UBehaviorTreeComponent* BehaviorTree;

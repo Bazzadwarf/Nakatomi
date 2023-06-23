@@ -13,8 +13,8 @@ UCLASS()
 class NAKATOMI_API UGetDistanceToPlayerTask : public UBTTaskNode
 {
 	GENERATED_BODY()
-private:
 
+private:
 	UPROPERTY()
 	UBehaviorTreeComponent* behaviourTreeOwner = nullptr;
 
@@ -25,12 +25,9 @@ private:
 	float DistanceThreshold = 5.0f;
 
 public:
-
 	UGetDistanceToPlayerTask();
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner, uint8* memory) override;
 
 	virtual EBTNodeResult::Type AbortTask(UBehaviorTreeComponent& owner, uint8* memory) override;
-
-
 };

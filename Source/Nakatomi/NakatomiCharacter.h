@@ -17,7 +17,6 @@ class NAKATOMI_API ANakatomiCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TArray<TSubclassOf<class AWeapon>> DefaultWeaponInventory;
 
@@ -28,7 +27,6 @@ public:
 	AWeapon* CurrentWeapon = nullptr;
 
 private:
-
 	UPROPERTY(VisibleDefaultsOnly)
 	UHealthComponent* HealthComponent = nullptr;
 
@@ -42,7 +40,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -82,7 +80,6 @@ public:
 	virtual void OnFire();
 
 protected:
-
 	virtual void CalculateHits(TArray<FHitResult>* hits);
 
 	virtual void ProcessHits(TArray<FHitResult> hits);

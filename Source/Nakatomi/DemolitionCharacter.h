@@ -13,7 +13,7 @@ UCLASS()
 class NAKATOMI_API ADemolitionCharacter : public AEnemyCharacter
 {
 	GENERATED_BODY()
-	
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	USoundBase* ExplosionSound;
@@ -31,8 +31,6 @@ protected:
 	float MaxDamage = 150.f;
 
 public:
-
 	UFUNCTION()
 	void Explode();
-
 };

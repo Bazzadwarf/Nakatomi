@@ -16,7 +16,7 @@ struct FDamageInfo
 
 	UPROPERTY()
 	float Damage;
-	
+
 	UPROPERTY()
 	const class UDamageType* DamageType;
 
@@ -30,18 +30,16 @@ struct FDamageInfo
 DECLARE_DELEGATE_OneParam(FOnDamageDelegate, FDamageInfo)
 DECLARE_DELEGATE_OneParam(FOnDeathDelegate, FDamageInfo)
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class NAKATOMI_API UHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	
+public:
 	FOnDamageDelegate OnDamaged;
 	FOnDeathDelegate OnDeath;
 
 private:
-
 	UPROPERTY(EditDefaultsOnly)
 	float MaxHealth = 100.f;
 
@@ -53,12 +51,12 @@ private:
 	bool CanDamage = true;
 
 public:
-
 	// Sets default values for this component's properties
 	UHealthComponent();
 
 	UFUNCTION()
-	void TakeDamage(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy, AActor* damageCauser);
+	void TakeDamage(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy,
+	                AActor* damageCauser);
 
 	UFUNCTION()
 	void IncrementHealth(float value);
@@ -96,6 +94,4 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-		
 };

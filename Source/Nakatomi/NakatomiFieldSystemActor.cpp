@@ -14,14 +14,15 @@ ANakatomiFieldSystemActor::ANakatomiFieldSystemActor()
 	RadialVector = CreateDefaultSubobject<URadialVector>(TEXT("Radial Vector"));
 	CullingField = CreateDefaultSubobject<UCullingField>(TEXT("Culling Field"));
 
-	SphereComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+	SphereComponent->SetCollisionResponseToAllChannels(ECR_Overlap);
 }
 
 void ANakatomiFieldSystemActor::BeginPlay()
 {
 	Radius = SphereComponent->GetScaledSphereRadius();
 	Position = GetActorLocation();
-	RadialFalloff = RadialFalloff->SetRadialFalloff(StrainMagnitude, MinRange, MaxRange, Default, Radius, Position, EFieldFalloffType::Field_FallOff_None);
+	RadialFalloff = RadialFalloff->SetRadialFalloff(StrainMagnitude, MinRange, MaxRange, Default, Radius, Position,
+	                                                Field_FallOff_None);
 	GetFieldSystemComponent()->ApplyPhysicsField(true, Field_ExternalClusterStrain, nullptr, RadialFalloff);
 
 	RadialVector = RadialVector->SetRadialVector(ForceMagnitude, Position);

@@ -15,5 +15,4 @@ class NAKATOMI_API ANakatomiPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	
 };

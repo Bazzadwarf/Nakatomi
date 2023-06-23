@@ -7,7 +7,6 @@
 // Sets default values
 AWeapon::AWeapon()
 {
-
 }
 
 // Called when the game starts or when spawned
@@ -16,7 +15,6 @@ void AWeapon::BeginPlay()
 	Super::BeginPlay();
 
 	SetAmmoCountToDefault();
-	
 }
 
 USkeletalMesh* AWeapon::GetSkeletalMesh()

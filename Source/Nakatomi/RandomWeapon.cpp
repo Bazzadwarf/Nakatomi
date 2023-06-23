@@ -14,6 +14,6 @@ void ARandomWeapon::BeginPlay()
 	WeaponSkeletalMesh = RandomWeaponParameters->PickRandomMesh();
 	FireSound = RandomWeaponParameters->PickRandomSoundBase();
 	FieldSystemActor = RandomWeaponParameters->PickRandomFieldSystem();
-	
+
 	Super::BeginPlay();
 }

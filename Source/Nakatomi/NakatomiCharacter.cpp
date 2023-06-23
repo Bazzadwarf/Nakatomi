@@ -6,7 +6,7 @@
 // Sets default values
 ANakatomiCharacter::ANakatomiCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
@@ -16,7 +16,7 @@ ANakatomiCharacter::ANakatomiCharacter()
 void ANakatomiCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	SetInventoryToDefault();
 }
 
@@ -24,7 +24,6 @@ void ANakatomiCharacter::BeginPlay()
 void ANakatomiCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input

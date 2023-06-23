@@ -13,9 +13,8 @@ UCLASS()
 class NAKATOMI_API AExplosiveActor : public AActor
 {
 	GENERATED_BODY()
-	
-protected:
 
+protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* StaticMeshComponent;
 
@@ -35,12 +34,10 @@ protected:
 	float MaxDamage = 150.f;
 
 private:
-
 	UPROPERTY(VisibleDefaultsOnly)
 	UHealthComponent* HealthComponent = nullptr;
 
-
-public:	
+public:
 	// Sets default values for this actor's properties
 	AExplosiveActor();
 
@@ -48,8 +45,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-
+public:
 	UFUNCTION()
 	void Explode();
 };

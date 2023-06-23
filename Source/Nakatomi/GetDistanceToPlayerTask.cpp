@@ -22,11 +22,12 @@ EBTNodeResult::Type UGetDistanceToPlayerTask::ExecuteTask(UBehaviorTreeComponent
 	auto blackboardComponent = owner.GetBlackboardComponent();
 	auto playerCharacter = Cast<ANakatomiCharacter>(blackboardComponent->GetValueAsObject(TargetActor.SelectedKeyName));
 	auto distance = FVector::Distance(enemyPawn->GetActorLocation(), playerCharacter->GetActorLocation());
-	
+
 	if (distance < DistanceThreshold)
 	{
 		enemyPawn->Explode();
-		enemyPawn->GetHealthComponent()->TakeDamage(enemyPawn, enemyPawn->GetHealthComponent()->GetMaxHealth(), nullptr, nullptr, nullptr);
+		enemyPawn->GetHealthComponent()->TakeDamage(enemyPawn, enemyPawn->GetHealthComponent()->GetMaxHealth(), nullptr,
+		                                            nullptr, nullptr);
 		return EBTNodeResult::Succeeded;
 	}
 

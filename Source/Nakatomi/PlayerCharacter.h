@@ -28,7 +28,6 @@ class NAKATOMI_API APlayerCharacter : public ANakatomiCharacter
 	GENERATED_BODY()
 
 public:
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UInputAction* MovementAction;
 
@@ -60,12 +59,10 @@ public:
 	TSubclassOf<class UUserWidget> PlayerHUD;
 
 protected:
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float SprintSpeedMultiplier = 2.0f;
 
 private:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom = nullptr;
 
@@ -117,7 +114,7 @@ public:
 	void SetWalkingCallback(const FInputActionInstance& Instance);
 
 	void WeaponSwitchingCallback(const FInputActionInstance& Instance);
-	
+
 	virtual void OnFire() override;
 
 	void WeaponCooldownHandler();
@@ -131,7 +128,6 @@ public:
 	float GetCurrentHealthCount();
 
 protected:
-
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 
 	virtual void ProcessHits(TArray<FHitResult> hits) override;

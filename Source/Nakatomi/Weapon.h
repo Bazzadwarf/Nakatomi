@@ -24,9 +24,8 @@ UCLASS(Abstract, Blueprintable)
 class NAKATOMI_API AWeapon : public AActor
 {
 	GENERATED_BODY()
-	
-protected:
 
+protected:
 	UPROPERTY(EditDefaultsOnly)
 	USkeletalMesh* WeaponSkeletalMesh = nullptr;
 
@@ -48,7 +47,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ANakatomiFieldSystemActor> FieldSystemActor;
 
-public:	
+public:
 	// Sets default values for this actor's properties
 	AWeapon();
 

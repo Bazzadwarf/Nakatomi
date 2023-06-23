@@ -7,23 +7,22 @@
 #include "InteractableComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class NAKATOMI_API UInteractableComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UInteractableComponent();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	
-public:
-	
-	void Interact();
-		
-	void Interact(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy, AActor* damageCauser);
 
+public:
+	void Interact();
+
+	void Interact(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy,
+	              AActor* damageCauser);
 };

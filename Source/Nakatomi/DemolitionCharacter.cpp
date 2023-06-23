@@ -7,31 +7,32 @@
 void ADemolitionCharacter::Explode()
 {
 	GetHealthComponent()->TakeDamage(this, this->GetHealthComponent()->GetMaxHealth(), nullptr, nullptr, nullptr);
-	
+
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	if (ExplosionParticleSystem)
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this,
-												ExplosionParticleSystem,
-												this->ActorToWorld().GetLocation(),
-												FRotator::ZeroRotator,
-												true);
+		                                         ExplosionParticleSystem,
+		                                         this->ActorToWorld().GetLocation(),
+		                                         FRotator::ZeroRotator,
+		                                         true);
 	}
 
 	TArray<FOverlapResult> outOverlaps;
 	GetWorld()->OverlapMultiByObjectType(outOverlaps,
-										ActorToWorld().GetLocation(),
-										FQuat::Identity,
-										FCollisionObjectQueryParams::AllObjects,
-										FCollisionShape::MakeSphere(ExplosionRadius));
+	                                     ActorToWorld().GetLocation(),
+	                                     FQuat::Identity,
+	                                     FCollisionObjectQueryParams::AllObjects,
+	                                     FCollisionShape::MakeSphere(ExplosionRadius));
 
 	for (FOverlapResult Overlaps : outOverlaps)
 	{
 		if (auto healthComponent = Overlaps.GetActor()->GetComponentByClass<UHealthComponent>())
 		{
-			float distance = FVector::Distance(ActorToWorld().GetLocation(), Overlaps.GetActor()->ActorToWorld().GetLocation());
+			float distance = FVector::Distance(ActorToWorld().GetLocation(),
+			                                   Overlaps.GetActor()->ActorToWorld().GetLocation());
 			float scale = 1.f - (distance / ExplosionRadius);
 			healthComponent->TakeDamage(Overlaps.GetActor(), scale * MaxDamage, nullptr, nullptr, this);
 		}

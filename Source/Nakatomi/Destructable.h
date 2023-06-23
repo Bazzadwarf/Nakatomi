@@ -10,8 +10,8 @@ UCLASS()
 class NAKATOMI_API ADestructable : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	class UParticleSystem* ParticleEffect;
 
@@ -26,7 +26,5 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-
 	void Destruct();
-
 };

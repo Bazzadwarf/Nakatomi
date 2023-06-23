@@ -15,9 +15,9 @@ class NAKATOMI_API UTaskFireWeapon : public UBTTaskNode
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, Category = "Options", Meta = (AllowPrivateAccess = "true", DisplayName = "Target Actor Key"))
+	UPROPERTY(EditAnywhere, Category = "Options",
+		Meta = (AllowPrivateAccess = "true", DisplayName = "Target Actor Key"))
 	FBlackboardKeySelector TargetActor;
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner, uint8* memory) override;
-
 };

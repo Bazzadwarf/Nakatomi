@@ -15,7 +15,7 @@ EBTNodeResult::Type UTaskGetRandomLocation::ExecuteTask(UBehaviorTreeComponent& 
 	{
 		FNavLocation navLocation;
 		navigationSystem->GetRandomReachablePointInRadius(enemyPawn->GetActorLocation(), MaximumDistance, navLocation);
-		
+
 		blackboardComponent->SetValueAsVector(PatrolLocationKey.SelectedKeyName, navLocation.Location);
 		return EBTNodeResult::Succeeded;
 	}

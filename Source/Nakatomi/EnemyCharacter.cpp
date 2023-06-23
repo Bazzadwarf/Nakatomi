@@ -9,7 +9,7 @@
 AEnemyCharacter::AEnemyCharacter()
 {
 	PerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component"));
-	
+
 	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Configuration"));
 	SightConfig->SightRadius = 700.0f;
 	SightConfig->LoseSightRadius = 850.0f;
@@ -22,7 +22,7 @@ AEnemyCharacter::AEnemyCharacter()
 	PerceptionComponent->ConfigureSense(*SightConfig);
 
 	RandomWeaponParameters = CreateDefaultSubobject<URandomWeaponParameters>(TEXT("Random Weapon Parameters"));
-	
+
 	GetHealthComponent()->SetMaxHealth(100.0f);
 
 	this->Tags.Add(FName("Enemy"));
@@ -40,7 +40,7 @@ UAIPerceptionComponent* AEnemyCharacter::GetPerceptionComponent()
 
 void AEnemyCharacter::OnFire()
 {
-	CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Firing);
+	CurrentWeapon->SetCurrentWeaponStatus(Firing);
 
 	TArray<FHitResult> Hits = TArray<FHitResult>();
 	CalculateHits(&Hits);
@@ -50,7 +50,7 @@ void AEnemyCharacter::OnFire()
 
 	// TODO: Play some animation here
 
-	CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Cooldown);
+	CurrentWeapon->SetCurrentWeaponStatus(Cooldown);
 }
 
 void AEnemyCharacter::BeginPlay()
@@ -84,7 +84,8 @@ void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits)
 	for (size_t i = 0; i < CurrentWeapon->GetWeaponProperties()->ProjectilesPerShot; i++)
 	{
 		// Calculate the maximum distance the weapon can fire
-		FVector ShootDir = WeaponRandomStream.VRandCone(AimDir, FMath::DegreesToRadians(Spread), FMath::DegreesToRadians(Spread));
+		FVector ShootDir = WeaponRandomStream.VRandCone(AimDir, FMath::DegreesToRadians(Spread),
+		                                                FMath::DegreesToRadians(Spread));
 		FVector MaxHitLoc = TraceStart + (ShootDir * Range);
 
 		GetWorld()->LineTraceMultiByChannel(HitResults, TraceStart, MaxHitLoc, COLLISION_WEAPON, TraceParams);
@@ -108,7 +109,8 @@ void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits)
 		// Spawn field actor
 		FTransform transform;
 		transform.SetLocation(Hit.ImpactPoint);
-		auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
+		auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform,
+		                                                       SpawnParameters);
 
 		if (Hit.GetActor())
 		{
@@ -119,7 +121,8 @@ void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits)
 
 			if (auto healthComponent = Hit.GetActor()->GetComponentByClass<UHealthComponent>())
 			{
-				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr, GetController(), this);
+				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr,
+				                            GetController(), this);
 			}
 		}
 	}

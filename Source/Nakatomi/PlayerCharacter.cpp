@@ -33,13 +33,13 @@ APlayerCharacter::APlayerCharacter()
 	CameraBoom->TargetArmLength = 350.0f;
 	CameraBoom->bEnableCameraLag = true;
 	CameraBoom->CameraLagSpeed = 10.0f;
-	CameraBoom->SocketOffset = { 0.0f, 75.0f, 110.0f };
+	CameraBoom->SocketOffset = {0.0f, 75.0f, 110.0f};
 
 	// Setup the camera component
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	CameraComponent->bUsePawnControlRotation = false;
-	CameraComponent->SetRelativeRotation({ -5.0f,0.0f,0.0f });
+	CameraComponent->SetRelativeRotation({-5.0f, 0.0f, 0.0f});
 
 	// Setup the character movement
 	UCharacterMovementComponent* CharacterMovementComponent = GetCharacterMovement();
@@ -89,7 +89,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	if (APlayerController* PC = Cast<APlayerController>(GetController()))
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* InputSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* InputSystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 		{
 			if (!InputMappingContext.IsNull())
 			{
@@ -134,7 +135,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 		if (WeaponSwitchingAction)
 		{
-			Input->BindAction(WeaponSwitchingAction, ETriggerEvent::Triggered, this, &APlayerCharacter::WeaponSwitchingCallback);
+			Input->BindAction(WeaponSwitchingAction, ETriggerEvent::Triggered, this,
+			                  &APlayerCharacter::WeaponSwitchingCallback);
 		}
 	}
 }
@@ -168,7 +170,7 @@ void APlayerCharacter::JumpCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::BeginFireCallback(const FInputActionInstance& Instance)
 {
-	if (CurrentWeapon == nullptr || CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != WeaponState::Idle)
+	if (CurrentWeapon == nullptr || CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != Idle)
 	{
 		return;
 	}
@@ -184,12 +186,15 @@ void APlayerCharacter::BeginFireCallback(const FInputActionInstance& Instance)
 
 	if (CurrentWeapon->GetWeaponProperties()->IsAutomatic)
 	{
-		GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &APlayerCharacter::WeaponCooldownHandler, CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
-		GetWorldTimerManager().SetTimer(FireTimerHandle, this, &APlayerCharacter::OnFire, CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
+		GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &APlayerCharacter::WeaponCooldownHandler,
+		                                CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
+		GetWorldTimerManager().SetTimer(FireTimerHandle, this, &APlayerCharacter::OnFire,
+		                                CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
 	}
 	else
 	{
-		GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &APlayerCharacter::WeaponCooldownHandler, CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
+		GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &APlayerCharacter::WeaponCooldownHandler,
+		                                CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
 	}
 }
 
@@ -243,7 +248,8 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	for (size_t i = 0; i < CurrentWeapon->GetWeaponProperties()->ProjectilesPerShot; i++)
 	{
 		// Calculate the maximum distance the weapon can fire
-		FVector ShootDir = WeaponRandomStream.VRandCone(AimDir, FMath::DegreesToRadians(Spread), FMath::DegreesToRadians(Spread));
+		FVector ShootDir = WeaponRandomStream.VRandCone(AimDir, FMath::DegreesToRadians(Spread),
+		                                                FMath::DegreesToRadians(Spread));
 		FVector MaxHitLoc = TraceStart + (ShootDir * Range);
 
 		GetWorld()->LineTraceMultiByChannel(HitResults, TraceStart, MaxHitLoc, COLLISION_WEAPON, TraceParams);
@@ -269,12 +275,13 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 		{
 			FTransform transform;
 			transform.SetLocation(Hit.ImpactPoint);
-			auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform, SpawnParameters);
-			
+			auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform,
+			                                                       SpawnParameters);
+
 			if (field)
 			{
 				field->Destroy();
-			}		
+			}
 		}
 
 		if (Hit.GetActor())
@@ -286,7 +293,8 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 
 			if (auto healthComponent = Hit.GetActor()->GetComponentByClass<UHealthComponent>())
 			{
-				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr, GetController(), this);
+				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr,
+				                            GetController(), this);
 			}
 		}
 	}
@@ -313,7 +321,7 @@ void APlayerCharacter::OnFire()
 		return;
 	}
 
-	CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Firing);
+	CurrentWeapon->SetCurrentWeaponStatus(Firing);
 
 	TArray<FHitResult> Hits = TArray<FHitResult>();
 	CalculateHits(&Hits);
@@ -325,7 +333,7 @@ void APlayerCharacter::OnFire()
 
 	// TODO: Play some animation here
 
-	CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Cooldown);
+	CurrentWeapon->SetCurrentWeaponStatus(Cooldown);
 
 	if (CurrentWeapon->GetAmmoCount() == 0)
 	{
@@ -335,9 +343,9 @@ void APlayerCharacter::OnFire()
 
 void APlayerCharacter::WeaponCooldownHandler()
 {
-	if (CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != WeaponState::Idle)
+	if (CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != Idle)
 	{
-		CurrentWeapon->SetCurrentWeaponStatus(WeaponState::Idle);
+		CurrentWeapon->SetCurrentWeaponStatus(Idle);
 	}
 
 	if (!IsFiring)

@@ -31,7 +31,7 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 	enemy->GetCharacterMovement()->MaxWalkSpeed = 500.f;
 	enemy->GetHealthComponent()->OnDamaged.BindUFunction(this, "OnDamaged");
 	enemy->GetHealthComponent()->OnDeath.BindUFunction(this, "OnDeath");
-	
+
 	if (auto behaviourTree = enemy->GetBehaviourTree())
 	{
 		Blackboard->InitializeBlackboard(*behaviourTree->BlackboardAsset);
@@ -72,8 +72,8 @@ void AEnemyAIController::OnDeath(FDamageInfo info)
 
 	enemy->DetachFromControllerPendingDestroy();
 	enemy->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	enemy->GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	
+	enemy->GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
+
 	enemy->GetMesh()->SetCollisionProfileName("Ragdoll");
 	enemy->SetActorEnableCollision(true);
 

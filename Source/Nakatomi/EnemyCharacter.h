@@ -20,7 +20,6 @@ class NAKATOMI_API AEnemyCharacter : public ANakatomiCharacter
 	GENERATED_BODY()
 
 private:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionComponent* PerceptionComponent;
 
@@ -28,7 +27,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
 	UBehaviorTree* BehaviourTree;
-	
+
 	UPROPERTY(VisibleAnywhere)
 	URandomWeaponParameters* RandomWeaponParameters;
 
@@ -45,7 +44,6 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 
 	virtual void ProcessHits(TArray<FHitResult> hits) override;

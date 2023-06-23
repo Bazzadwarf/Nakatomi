@@ -17,14 +17,14 @@ FWeaponProperties URandomWeaponParameters::GenerateRandomWeaponProperties()
 	weaponProperties.ProjectilesPerShot = FMath::RandRange(ProjectilePerShotMin, ProjectilePerShotMax);
 	weaponProperties.ProjectileRange = FMath::FRandRange(ProjectileRangeMin, ProjectileRangeMax);
 	weaponProperties.WeaponSpread = FMath::FRandRange(WeaponSpreadMin, WeaponSpreadMax);
-	
+
 	if (IsAutomaticOverride)
 	{
 		weaponProperties.IsAutomatic = IsAutomaticOverride;
 	}
 	else
 	{
-		weaponProperties.IsAutomatic = bool(FMath::Rand() % 2);
+		weaponProperties.IsAutomatic = static_cast<bool>(FMath::Rand() % 2);
 	}
 
 	return weaponProperties;

@@ -8,7 +8,7 @@
 // Sets default values
 AExplosiveActor::AExplosiveActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
@@ -22,7 +22,6 @@ AExplosiveActor::AExplosiveActor()
 void AExplosiveActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AExplosiveActor::Explode()
@@ -33,25 +32,26 @@ void AExplosiveActor::Explode()
 
 	if (ExplosionParticleSystem)
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(this, 
-												 ExplosionParticleSystem, 
-												 this->ActorToWorld().GetLocation(), 
-												 FRotator::ZeroRotator, 
-												 true);
+		UGameplayStatics::SpawnEmitterAtLocation(this,
+		                                         ExplosionParticleSystem,
+		                                         this->ActorToWorld().GetLocation(),
+		                                         FRotator::ZeroRotator,
+		                                         true);
 	}
-		
+
 	TArray<FOverlapResult> outOverlaps;
-	GetWorld()->OverlapMultiByObjectType(outOverlaps, 
-										 ActorToWorld().GetLocation(),
-										 FQuat::Identity,
-										 FCollisionObjectQueryParams::AllObjects,
-										 FCollisionShape::MakeSphere(ExplosionRadius));
+	GetWorld()->OverlapMultiByObjectType(outOverlaps,
+	                                     ActorToWorld().GetLocation(),
+	                                     FQuat::Identity,
+	                                     FCollisionObjectQueryParams::AllObjects,
+	                                     FCollisionShape::MakeSphere(ExplosionRadius));
 
 	for (FOverlapResult Overlaps : outOverlaps)
 	{
 		if (auto healthComponent = Overlaps.GetActor()->GetComponentByClass<UHealthComponent>())
 		{
-			float distance = FVector::Distance(ActorToWorld().GetLocation(), Overlaps.GetActor()->ActorToWorld().GetLocation());
+			float distance = FVector::Distance(ActorToWorld().GetLocation(),
+			                                   Overlaps.GetActor()->ActorToWorld().GetLocation());
 			float scale = 1.f - (distance / ExplosionRadius);
 			healthComponent->TakeDamage(Overlaps.GetActor(), scale * MaxDamage, nullptr, nullptr, this);
 		}
@@ -71,4 +71,3 @@ void AExplosiveActor::Explode()
 
 	this->Destroy();
 }
-

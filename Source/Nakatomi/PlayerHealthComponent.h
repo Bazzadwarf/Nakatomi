@@ -13,8 +13,7 @@ UCLASS()
 class NAKATOMI_API UPlayerHealthComponent : public UHealthComponent
 {
 	GENERATED_BODY()
-	
+
 protected:
 	virtual void BeginPlay() override;
-
 };

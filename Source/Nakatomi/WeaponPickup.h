@@ -16,7 +16,6 @@ class NAKATOMI_API AWeaponPickup : public AActor
 	GENERATED_BODY()
 
 public:
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class AWeapon> Weapon;
 
@@ -28,7 +27,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float MovementSpeed = 1.0f;
-		
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FRotator SpinRotation = FRotator(0.0, 1.0f, 0.0f);
 
@@ -42,7 +41,6 @@ public:
 	FColor LightColor = FColor::White;
 
 private:
-
 	UPROPERTY()
 	USphereComponent* SphereComponent;
 
@@ -57,7 +55,7 @@ private:
 	UPROPERTY()
 	UPointLightComponent* PointLightComponent;
 
-public:	
+public:
 	// Sets default values for this actor's properties
 	AWeaponPickup();
 
@@ -65,12 +63,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	void SetWeapon(TSubclassOf<class AWeapon> weapon);
 
@@ -79,6 +78,5 @@ public:
 	void SetWeaponProperties(FWeaponProperties FWeaponProperties);
 
 private:
-
 	void SpawnWeapon();
 };

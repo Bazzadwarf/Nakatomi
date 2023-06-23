@@ -14,14 +14,12 @@ UCLASS()
 class NAKATOMI_API ARandomWeapon : public AWeapon
 {
 	GENERATED_BODY()
-	
-private: 
 
+private:
 	UPROPERTY(VisibleAnywhere, Category = "Random Weapon Parameters")
 	URandomWeaponParameters* RandomWeaponParameters;
 
 public:
-
 	ARandomWeapon();
 
 protected:

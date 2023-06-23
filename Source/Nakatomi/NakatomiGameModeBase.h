@@ -13,5 +13,4 @@ UCLASS()
 class NAKATOMI_API ANakatomiGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };

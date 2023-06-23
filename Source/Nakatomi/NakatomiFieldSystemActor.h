@@ -15,10 +15,8 @@ UCLASS()
 class NAKATOMI_API ANakatomiFieldSystemActor : public AFieldSystemActor
 {
 	GENERATED_BODY()
-	
 
 private:
-
 	UPROPERTY()
 	USphereComponent* SphereComponent;
 
@@ -50,11 +48,9 @@ private:
 	FVector Position = FVector::ZeroVector;
 
 public:
-
 	ANakatomiFieldSystemActor();
 
 protected:
-
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 };

@@ -13,15 +13,16 @@ UCLASS()
 class NAKATOMI_API UTaskGetRandomLocation : public UBTTaskNode
 {
 	GENERATED_BODY()
-public:
 
-	UPROPERTY(EditAnywhere, Category = "Options", Meta = (AllowPrivateAccess = "true", DisplayName = "Patrol Location Key"))
+public:
+	UPROPERTY(EditAnywhere, Category = "Options",
+		Meta = (AllowPrivateAccess = "true", DisplayName = "Patrol Location Key"))
 	FBlackboardKeySelector PatrolLocationKey;
 
-	UPROPERTY(EditAnywhere, Category = "Options", Meta = (AllowPrivateAccess = "true", DisplayName = "Maximum Distance"))
+	UPROPERTY(EditAnywhere, Category = "Options",
+		Meta = (AllowPrivateAccess = "true", DisplayName = "Maximum Distance"))
 	float MaximumDistance = 500.0f;
 
 public:
-	
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner, uint8* memory) override;
 };

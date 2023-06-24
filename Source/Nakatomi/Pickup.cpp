@@ -19,7 +19,6 @@ APickup::APickup()
 	SphereComponent->SetupAttachment(RootComponent);
 
 	PointLightComponent = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
-	PointLightComponent->SetLightColor(FLinearColor::FromSRGBColor(LightColor));
 	PointLightComponent->SetupAttachment(RootComponent);
 }
 
@@ -29,6 +28,7 @@ void APickup::BeginPlay()
 	Super::BeginPlay();
 
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &APickup::OnOverlapBegin);
+	PointLightComponent->SetLightColor(FLinearColor::FromSRGBColor(LightColor));
 	PointLightComponent->SetWorldLocation(this->GetActorLocation());
 }
 

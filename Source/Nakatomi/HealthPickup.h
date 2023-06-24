@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "CoreMinimal.h"
 #include "Pickup.h"
 #include "HealthPickup.generated.h"
 
@@ -8,6 +7,10 @@ UCLASS()
 class NAKATOMI_API AHealthPickup : public APickup
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float Health = 20.0f;
 
 public:
 	// Sets default values for this actor's properties
@@ -20,4 +23,8 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                            UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+	                            const FHitResult& SweepResult) override;
 };

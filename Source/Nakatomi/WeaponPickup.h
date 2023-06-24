@@ -2,22 +2,18 @@
 
 #pragma once
 
-#include <Components/PointLightComponent.h>
-#include "Components/SphereComponent.h"
-#include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "PlayerCharacter.h"
+#include "Pickup.h"
 #include "Weapon.h"
 #include "WeaponPickup.generated.h"
 
 UCLASS()
-class NAKATOMI_API AWeaponPickup : public AActor
+class NAKATOMI_API AWeaponPickup : public APickup
 {
 	GENERATED_BODY()
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TSubclassOf<class AWeapon> Weapon;
+	TSubclassOf<AWeapon> Weapon;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector MovementDirection = FVector(0.0f, 0.0f, 1.0f);
@@ -34,16 +30,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float RotationSpeed = 50.0f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float MaxLightBrightness = 5000.0f;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FColor LightColor = FColor::White;
-
 private:
-	UPROPERTY()
-	USphereComponent* SphereComponent;
-
 	UPROPERTY()
 	AWeapon* WeaponComponent;
 
@@ -51,9 +38,6 @@ private:
 	FVector WeaponStartingLocation;
 
 	FWeaponProperties WeaponProperties;
-
-	UPROPERTY()
-	UPointLightComponent* PointLightComponent;
 
 public:
 	// Sets default values for this actor's properties
@@ -67,15 +51,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	                    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                            UPrimitiveComponent* OtherComp,
+	                            int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 
-	void SetWeapon(TSubclassOf<class AWeapon> weapon);
+	void SetWeapon(TSubclassOf<AWeapon> NewWeapon);
 
 	FWeaponProperties* GetWeaponProperties();
 
-	void SetWeaponProperties(FWeaponProperties FWeaponProperties);
+	void SetWeaponProperties(const FWeaponProperties& FWeaponProperties) const;
 
 private:
 	void SpawnWeapon();

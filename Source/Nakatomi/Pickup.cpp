@@ -2,6 +2,9 @@
 
 
 #include "Pickup.h"
+
+#include <Kismet/GameplayStatics.h>
+
 #include "PlayerCharacter.h"
 
 // Sets default values
@@ -50,6 +53,20 @@ void APickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* O
 {
 	if (Cast<APlayerCharacter>(OtherActor))
 	{
+		if (FireSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, FireSound, this->ActorToWorld().GetLocation());
+		}
+
+		if (ParticleSystem)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(this,
+			                                         ParticleSystem,
+			                                         this->ActorToWorld().GetLocation(),
+			                                         FRotator::ZeroRotator,
+			                                         true);
+		}
+
 		this->Destroy();
 	}
 }

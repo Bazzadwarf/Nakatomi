@@ -25,6 +25,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FColor LightColor = FColor::White;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	USoundBase* FireSound;
+
+	UPROPERTY(EditDefaultsOnly)
+	UParticleSystem* ParticleSystem;
+
 private:
 	UPROPERTY()
 	USphereComponent* SphereComponent;

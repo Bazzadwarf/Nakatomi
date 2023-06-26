@@ -10,6 +10,8 @@ ANakatomiCharacter::ANakatomiCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+	HealthComponent->OnDamaged.BindUFunction(this, "OnDamaged");
+	HealthComponent->OnDeath.BindUFunction(this, "OnDeath");
 }
 
 // Called when the game starts or when spawned
@@ -216,5 +218,13 @@ void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)
 }
 
 void ANakatomiCharacter::ProcessHits(TArray<FHitResult> hits)
+{
+}
+
+void ANakatomiCharacter::OnDamaged()
+{
+}
+
+void ANakatomiCharacter::OnDeath()
 {
 }

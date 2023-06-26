@@ -83,4 +83,10 @@ protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits);
 
 	virtual void ProcessHits(TArray<FHitResult> hits);
+
+	UFUNCTION()
+	virtual void OnDamaged();
+
+	UFUNCTION()
+	virtual void OnDeath();
 };

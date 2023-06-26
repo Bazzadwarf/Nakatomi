@@ -8,7 +8,6 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "InputMappingContext.h"
-#include "Destructable.h"
 #include "EnemyCharacter.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
@@ -298,6 +297,17 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 			}
 		}
 	}
+}
+
+void APlayerCharacter::OnDamaged()
+{
+	Super::OnDamaged();
+}
+
+void APlayerCharacter::OnDeath()
+{
+	Super::OnDeath();
+	UE_LOG(LogTemp, Error, TEXT("YOU ARE DEAD!"));
 }
 
 void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)

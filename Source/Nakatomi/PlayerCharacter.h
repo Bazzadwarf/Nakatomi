@@ -131,4 +131,8 @@ protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 
 	virtual void ProcessHits(TArray<FHitResult> hits) override;
+	
+	virtual void OnDamaged() override;
+	
+	virtual void OnDeath() override;
 };

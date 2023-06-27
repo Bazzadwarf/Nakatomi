@@ -3,6 +3,8 @@
 
 #include "PlayerCharacter.h"
 // You can remove these, this is just to get intellisense to work
+#include <Components/CapsuleComponent.h>
+
 #include "InputTriggers.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -232,7 +234,16 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	// Calculate starting position and direction
 	FVector TraceStart;
 	FRotator PlayerRot;
-	GetController<APlayerController>()->GetPlayerViewPoint(TraceStart, PlayerRot);
+
+	APlayerController* Con;
+	Con = GetController<APlayerController>();
+
+	if (!Con)
+	{
+		return;
+	}
+
+	Con->GetPlayerViewPoint(TraceStart, PlayerRot);
 	TraceStart = GetRootComponent()->GetComponentLocation();
 	FVector AimDir = PlayerRot.Vector();
 	TraceStart = TraceStart + AimDir * ((GetInstigator()->GetActorLocation() - TraceStart) | AimDir);
@@ -308,6 +319,30 @@ void APlayerCharacter::OnDeath()
 {
 	Super::OnDeath();
 	UE_LOG(LogTemp, Error, TEXT("YOU ARE DEAD!"));
+
+	this->DetachFromControllerPendingDestroy();
+	this->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	this->GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
+
+	this->GetMesh()->SetCollisionProfileName("Ragdoll");
+	this->SetActorEnableCollision(true);
+
+	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
+	this->GetMesh()->SetSimulatePhysics(true);
+	this->GetMesh()->WakeAllRigidBodies();
+	this->GetMesh()->bBlendPhysics = true;
+
+	if (auto characterMovementComponent = this->GetCharacterMovement())
+	{
+		characterMovementComponent->StopMovementImmediately();
+		characterMovementComponent->DisableMovement();
+		characterMovementComponent->SetComponentTickEnabled(false);
+	}
+
+	this->SetLifeSpan(10.0f);
+
+	IsFiring = false;
+	ClearAllTimers();
 }
 
 void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)
@@ -330,7 +365,7 @@ void APlayerCharacter::OnFire()
 	{
 		return;
 	}
-
+	
 	CurrentWeapon->SetCurrentWeaponStatus(Firing);
 
 	TArray<FHitResult> Hits = TArray<FHitResult>();

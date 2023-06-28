@@ -4,6 +4,7 @@
 #include "PlayerCharacter.h"
 // You can remove these, this is just to get intellisense to work
 #include <Components/CapsuleComponent.h>
+#include <Kismet/GameplayStatics.h>
 
 #include "InputTriggers.h"
 #include "EnhancedInputComponent.h"
@@ -75,6 +76,13 @@ void APlayerCharacter::BeginPlay()
 			currentPlayerHUD->AddToViewport();
 		}
 	}
+}
+
+void APlayerCharacter::Destroyed()
+{
+	Super::Destroyed();
+
+	UGameplayStatics::OpenLevel(GetWorld(), FName(GetWorld()->GetMapName()));
 }
 
 // Called every frame
@@ -318,7 +326,6 @@ void APlayerCharacter::OnDamaged()
 void APlayerCharacter::OnDeath()
 {
 	Super::OnDeath();
-	UE_LOG(LogTemp, Error, TEXT("YOU ARE DEAD!"));
 
 	this->DetachFromControllerPendingDestroy();
 	this->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);

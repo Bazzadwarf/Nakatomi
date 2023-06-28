@@ -242,16 +242,8 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	// Calculate starting position and direction
 	FVector TraceStart;
 	FRotator PlayerRot;
-
-	APlayerController* Con;
-	Con = GetController<APlayerController>();
-
-	if (!Con)
-	{
-		return;
-	}
-
-	Con->GetPlayerViewPoint(TraceStart, PlayerRot);
+	
+	GetController<APlayerController>()->GetPlayerViewPoint(TraceStart, PlayerRot);
 	TraceStart = GetRootComponent()->GetComponentLocation();
 	FVector AimDir = PlayerRot.Vector();
 	TraceStart = TraceStart + AimDir * ((GetInstigator()->GetActorLocation() - TraceStart) | AimDir);

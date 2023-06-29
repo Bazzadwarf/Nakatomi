@@ -51,6 +51,17 @@ void AEnemyCharacter::OnFire()
 	// TODO: Play some animation here
 
 	CurrentWeapon->SetCurrentWeaponStatus(Cooldown);
+
+	GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &AEnemyCharacter::WeaponCooldownHandler,
+										CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
+}
+
+void AEnemyCharacter::WeaponCooldownHandler()
+{
+	if (CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != Idle)
+	{
+		CurrentWeapon->SetCurrentWeaponStatus(Idle);
+	}
 }
 
 void AEnemyCharacter::BeginPlay()

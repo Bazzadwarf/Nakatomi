@@ -10,7 +10,7 @@ EBTNodeResult::Type UTaskFireWeapon::ExecuteTask(UBehaviorTreeComponent& owner, 
 	auto blackboardComponent = owner.GetBlackboardComponent();
 	auto playerCharacter = Cast<APlayerCharacter>(blackboardComponent->GetValueAsObject(TargetActor.SelectedKeyName));
 
-	if (enemyPawn && playerCharacter)
+	if (enemyPawn && playerCharacter && enemyPawn->GetCurrentWeapon()->GetCurrentWeaponStatus()->GetValue() == Idle)
 	{
 		enemyPawn->OnFire();
 		return EBTNodeResult::Succeeded;

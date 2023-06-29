@@ -31,6 +31,8 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	URandomWeaponParameters* RandomWeaponParameters;
 
+	FTimerHandle CooldownTimerHandle;
+	
 public:
 	AEnemyCharacter();
 
@@ -39,6 +41,8 @@ public:
 	UAIPerceptionComponent* GetPerceptionComponent();
 
 	virtual void OnFire() override;
+
+	void WeaponCooldownHandler();
 
 protected:
 	virtual void BeginPlay() override;

@@ -3,6 +3,7 @@
 
 #include "PlayerCharacter.h"
 // You can remove these, this is just to get intellisense to work
+#include <string>
 #include <Components/CapsuleComponent.h>
 #include <Kismet/GameplayStatics.h>
 
@@ -80,9 +81,11 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::Destroyed()
 {
-	Super::Destroyed();
+	FString map = GetWorld()->GetMapName();
+	map.RemoveFromStart("UEDPIE_0_"); // We have to remove this for reason, I don't fully understand at the moment
+	UGameplayStatics::OpenLevel(this, FName(map), false);
 
-	UGameplayStatics::OpenLevel(GetWorld(), FName(GetWorld()->GetMapName()));
+	Super::Destroyed();	
 }
 
 // Called every frame

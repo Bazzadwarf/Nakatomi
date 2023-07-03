@@ -412,7 +412,7 @@ int APlayerCharacter::GetCurrentAmmoCount()
 {
 	if (CurrentWeapon == nullptr)
 	{
-		return -1;
+		return 0;
 	}
 
 	return CurrentWeapon->GetAmmoCount();
@@ -422,8 +422,38 @@ float APlayerCharacter::GetCurrentHealthCount()
 {
 	if (!GetHealthComponent())
 	{
-		return -1;
+		return 0;
 	}
 
 	return GetHealthComponent()->GetCurrentHealth();
+}
+
+int APlayerCharacter::GetWeaponProjectiles()
+{
+	if (CurrentWeapon == nullptr)
+	{
+		return 0;
+	}
+
+	return CurrentWeapon->GetWeaponProperties()->ProjectilesPerShot;
+}
+
+float APlayerCharacter::GetWeaponCooldown()
+{
+	if (CurrentWeapon == nullptr)
+	{
+		return 0;
+	}
+
+	return CurrentWeapon->GetWeaponProperties()->WeaponCooldown;
+}
+
+float APlayerCharacter::GetWeaponSpread()
+{
+	if (CurrentWeapon == nullptr)
+	{
+		return 0;
+	}
+
+	return CurrentWeapon->GetWeaponProperties()->WeaponSpread;
 }

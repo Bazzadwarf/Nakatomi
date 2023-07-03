@@ -129,6 +129,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetCurrentHealthCount();
 
+	UFUNCTION(BlueprintCallable)
+	int GetWeaponProjectiles();
+
+	UFUNCTION(BlueprintCallable)
+	float GetWeaponCooldown();
+
+	UFUNCTION(BlueprintCallable)
+	float GetWeaponSpread();
+
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 

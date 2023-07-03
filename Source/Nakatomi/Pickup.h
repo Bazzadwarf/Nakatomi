@@ -26,7 +26,7 @@ public:
 	FColor LightColor = FColor::White;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	USoundBase* FireSound;
+	USoundBase* OverlapSound;
 
 	UPROPERTY(EditDefaultsOnly)
 	UParticleSystem* ParticleSystem;

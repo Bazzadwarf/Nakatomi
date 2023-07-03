@@ -53,9 +53,9 @@ void APickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* O
 {
 	if (Cast<APlayerCharacter>(OtherActor))
 	{
-		if (FireSound)
+		if (OverlapSound)
 		{
-			UGameplayStatics::PlaySoundAtLocation(this, FireSound, this->ActorToWorld().GetLocation());
+			UGameplayStatics::PlaySoundAtLocation(this, OverlapSound, this->ActorToWorld().GetLocation());
 		}
 
 		if (ParticleSystem)

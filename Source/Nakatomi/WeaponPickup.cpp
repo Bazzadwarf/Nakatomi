@@ -31,7 +31,7 @@ void AWeaponPickup::Tick(const float DeltaTime)
 
 		// Bob weapon up and down
 		const float Time = GetWorld()->GetRealTimeSeconds();
-		const float Sine = FMath::Sin(Time * MovementSpeed);
+		const float Sine = FMath::Abs(FMath::Sin(Time * MovementSpeed));
 		WeaponComponent->SetActorLocation(WeaponStartingLocation + ((MovementDirection * Sine) * MovementDistance));
 	}
 }

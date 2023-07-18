@@ -29,21 +29,30 @@ APlayerCharacter::APlayerCharacter()
 	//bUseControllerRotationRoll = false;
 
 	// Setup the camera boom
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->bDoCollisionTest = true;
-	CameraBoom->bUsePawnControlRotation = true;
-	CameraBoom->TargetArmLength = 350.0f;
-	CameraBoom->bEnableCameraLag = true;
-	CameraBoom->CameraLagSpeed = 10.0f;
-	CameraBoom->SocketOffset = {0.0f, 75.0f, 110.0f};
+	CameraSpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraSpringArmComponent"));
+	CameraSpringArmComponent->SetupAttachment(RootComponent);
+	CameraSpringArmComponent->bDoCollisionTest = true;
+	CameraSpringArmComponent->bUsePawnControlRotation = true;
+	CameraSpringArmComponent->TargetArmLength = 350.0f;
+	CameraSpringArmComponent->bEnableCameraLag = true;
+	CameraSpringArmComponent->CameraLagSpeed = 10.0f;
+	CameraSpringArmComponent->SocketOffset = {0.0f, 75.0f, 110.0f};
 
 	// Setup the camera component
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
-	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	CameraComponent->SetupAttachment(CameraSpringArmComponent, USpringArmComponent::SocketName);
 	CameraComponent->bUsePawnControlRotation = false;
 	CameraComponent->SetRelativeRotation({-5.0f, 0.0f, 0.0f});
 
+	// Setup the camera sights boom
+	CameraADSSpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraADSSpringArmComponent"));
+	CameraADSSpringArmComponent->SetupAttachment(RootComponent);
+	CameraADSSpringArmComponent->bDoCollisionTest = true;
+	CameraADSSpringArmComponent->bUsePawnControlRotation = true;
+	CameraADSSpringArmComponent->TargetArmLength = 100.0f;
+	CameraADSSpringArmComponent->bEnableCameraLag = false;
+	CameraADSSpringArmComponent->SocketOffset = {0.0f, 50.0f, 75.0f};
+	
 	// Setup the character movement
 	UCharacterMovementComponent* CharacterMovementComponent = GetCharacterMovement();
 	CharacterMovementComponent->AirControl = 1.0f;
@@ -149,6 +158,14 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		{
 			Input->BindAction(WeaponSwitchingAction, ETriggerEvent::Triggered, this,
 			                  &APlayerCharacter::WeaponSwitchingCallback);
+		}
+
+		if (AimDownSightsAction)
+		{
+			Input->BindAction(AimDownSightsAction, ETriggerEvent::Started, this,
+			                  &APlayerCharacter::BeginAimDownSightsCallback);
+			Input->BindAction(AimDownSightsAction, ETriggerEvent::Completed, this,
+			                  &APlayerCharacter::EndAimDownSightsCallback);
 		}
 	}
 }
@@ -359,6 +376,30 @@ void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Insta
 	{
 		InventoryDecrement();
 	}
+}
+
+void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& Instance)
+{
+	FLatentActionInfo LatentActionInfo;
+	LatentActionInfo.CallbackTarget = this;
+	CameraComponent->AttachToComponent(CameraADSSpringArmComponent, FAttachmentTransformRules::KeepWorldTransform,
+	                                   USpringArmComponent::SocketName);
+
+	UKismetSystemLibrary::MoveComponentTo(CameraComponent, FVector::ZeroVector, FRotator::ZeroRotator, true, true,
+	                                      CameraBlendTime,
+	                                      true, EMoveComponentAction::Type::Move, LatentActionInfo);
+}
+
+void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Instance)
+{
+	FLatentActionInfo LatentActionInfo;
+	LatentActionInfo.CallbackTarget = this;
+	CameraComponent->AttachToComponent(CameraSpringArmComponent, FAttachmentTransformRules::KeepWorldTransform,
+	                                   USpringArmComponent::SocketName);
+
+	UKismetSystemLibrary::MoveComponentTo(CameraComponent, FVector::ZeroVector, FRotator::ZeroRotator, true, true,
+	                                      CameraBlendTime,
+	                                      true, EMoveComponentAction::Type::Move, LatentActionInfo);
 }
 
 void APlayerCharacter::OnFire()

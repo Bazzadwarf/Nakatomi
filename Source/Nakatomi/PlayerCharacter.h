@@ -56,19 +56,28 @@ public:
 	UInputAction* WeaponSwitchingAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* AimDownSightsAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> PlayerHUD;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float SprintSpeedMultiplier = 2.0f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float CameraBlendTime = 0.1f;
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* CameraBoom = nullptr;
+	USpringArmComponent* CameraSpringArmComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* CameraComponent = nullptr;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* CameraADSSpringArmComponent = nullptr;
+	
 	float DefaultMovementSpeed;
 
 	FTimerHandle FireTimerHandle;
@@ -116,6 +125,10 @@ public:
 	void SetWalkingCallback(const FInputActionInstance& Instance);
 
 	void WeaponSwitchingCallback(const FInputActionInstance& Instance);
+
+	void BeginAimDownSightsCallback(const FInputActionInstance& Instance);
+
+	void EndAimDownSightsCallback(const FInputActionInstance& Instance);
 
 	virtual void OnFire() override;
 

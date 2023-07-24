@@ -252,28 +252,39 @@ void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 {
+	// Set up the collision query params, use the Weapon trace settings, Ignore the actor firing this trace
+	FCollisionQueryParams TraceParams(SCENE_QUERY_STAT(WeaponTrace), true, GetInstigator());
+	TraceParams.bReturnPhysicalMaterial = true;
+
 	// Set up randomness
 	const int32 RandomSeed = FMath::Rand();
 	FRandomStream WeaponRandomStream(RandomSeed);
 	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread;
 	const float Range = CurrentWeapon->GetWeaponProperties()->ProjectileRange;
 
+	FVector CamStart = CameraComponent->GetComponentTransform().GetLocation();
+	FVector CamRot = CameraComponent->GetComponentTransform().GetRotation().Vector();
+	FVector CamEnd = CamStart + CamRot * 99999.f;
+
+	FHitResult CamHit;
+	if (!GetWorld()->LineTraceSingleByChannel(CamHit, CamStart, CamEnd, ECC_Camera))
+	{
+		return;
+	}	
+
 	// TODO: have this start from the end point of the weapon rather than character center
 	// Calculate starting position and direction
 	FVector TraceStart;
 	FRotator PlayerRot;
-	
+
 	GetController<APlayerController>()->GetPlayerViewPoint(TraceStart, PlayerRot);
 	TraceStart = GetRootComponent()->GetComponentLocation();
-	FVector AimDir = PlayerRot.Vector();
+	FVector AimDir = CamHit.ImpactPoint - TraceStart;
+	AimDir.Normalize();
 	TraceStart = TraceStart + AimDir * ((GetInstigator()->GetActorLocation() - TraceStart) | AimDir);
 
 	// Calculate the hit results from the trace
 	TArray<FHitResult> HitResults;
-
-	// Set up the collision query params, use the Weapon trace settings, Ignore the actor firing this trace
-	FCollisionQueryParams TraceParams(SCENE_QUERY_STAT(WeaponTrace), true, GetInstigator());
-	TraceParams.bReturnPhysicalMaterial = true;
 
 	for (size_t i = 0; i < CurrentWeapon->GetWeaponProperties()->ProjectilesPerShot; i++)
 	{

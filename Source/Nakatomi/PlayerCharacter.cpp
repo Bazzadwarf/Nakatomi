@@ -242,12 +242,16 @@ void APlayerCharacter::QuitCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance)
 {
-	GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed * SprintSpeedMultiplier;
+	IsSpriting = true;
+	
+	SetMovementSpeed();
 }
 
 void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 {
-	GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed;
+	IsSpriting = false;
+	
+	SetMovementSpeed();
 }
 
 void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
@@ -375,6 +379,22 @@ void APlayerCharacter::OnDeath()
 	ClearAllTimers();
 }
 
+void APlayerCharacter::SetMovementSpeed()
+{
+	if (IsADS)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed * ADSSpeedMultiplier;
+	}
+	else if (IsSpriting)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed * SprintSpeedMultiplier;
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed;
+	}
+}
+
 void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)
 {
 	float value = Instance.GetValue().Get<float>();
@@ -391,6 +411,10 @@ void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Insta
 
 void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& Instance)
 {
+	IsADS = true;
+
+	SetMovementSpeed();
+
 	FLatentActionInfo LatentActionInfo;
 	LatentActionInfo.CallbackTarget = this;
 	CameraComponent->AttachToComponent(CameraADSSpringArmComponent, FAttachmentTransformRules::KeepWorldTransform,
@@ -403,6 +427,10 @@ void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& In
 
 void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Instance)
 {
+	IsADS = false;
+
+	SetMovementSpeed();
+
 	FLatentActionInfo LatentActionInfo;
 	LatentActionInfo.CallbackTarget = this;
 	CameraComponent->AttachToComponent(CameraSpringArmComponent, FAttachmentTransformRules::KeepWorldTransform,

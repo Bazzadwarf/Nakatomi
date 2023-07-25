@@ -66,6 +66,9 @@ protected:
 	float SprintSpeedMultiplier = 2.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float ADSSpeedMultiplier = 0.5f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float CameraBlendTime = 0.1f;
 
 private:
@@ -91,6 +94,10 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionStimuliSourceComponent* PerceptionSource;
 
+	bool IsSpriting = false;
+
+	bool IsADS = false;
+	
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
@@ -159,4 +166,6 @@ protected:
 	virtual void OnDamaged() override;
 	
 	virtual void OnDeath() override;
+
+	void SetMovementSpeed();
 };

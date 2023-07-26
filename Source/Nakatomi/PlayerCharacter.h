@@ -69,7 +69,13 @@ protected:
 	float ADSSpeedMultiplier = 0.5f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float ADSAimSensitivityMultiplier = 0.5f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float CameraBlendTime = 0.1f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float DefaultAimSensitivity = 45.0f;
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
@@ -97,6 +103,8 @@ private:
 	bool IsSpriting = false;
 
 	bool IsADS = false;
+
+	float AimSensitivity;
 	
 public:
 	// Sets default values for this character's properties

@@ -72,6 +72,8 @@ void APlayerCharacter::BeginPlay()
 
 	DefaultMovementSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
+	AimSensitivity = DefaultAimSensitivity;
+
 	if (!this->ActorHasTag(FName("Player")))
 	{
 		this->Tags.Add(FName("Player"));
@@ -187,8 +189,8 @@ void APlayerCharacter::LookCallback(const FInputActionInstance& Instance)
 
 	if (vec2.Size() != 0.0f)
 	{
-		AddControllerYawInput(vec2.X * 45.0f * GetWorld()->GetDeltaSeconds());
-		AddControllerPitchInput((vec2.Y * (-1.0f)) * 45.0f * GetWorld()->GetDeltaSeconds());
+		AddControllerYawInput(vec2.X * AimSensitivity * GetWorld()->GetDeltaSeconds());
+		AddControllerPitchInput((vec2.Y * (-1.0f)) * AimSensitivity * GetWorld()->GetDeltaSeconds());
 	}
 }
 
@@ -415,6 +417,8 @@ void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& In
 
 	SetMovementSpeed();
 
+	AimSensitivity = DefaultAimSensitivity * ADSAimSensitivityMultiplier;
+
 	FLatentActionInfo LatentActionInfo;
 	LatentActionInfo.CallbackTarget = this;
 	CameraComponent->AttachToComponent(CameraADSSpringArmComponent, FAttachmentTransformRules::KeepWorldTransform,
@@ -430,6 +434,8 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 	IsADS = false;
 
 	SetMovementSpeed();
+
+	AimSensitivity = DefaultAimSensitivity;
 
 	FLatentActionInfo LatentActionInfo;
 	LatentActionInfo.CallbackTarget = this;

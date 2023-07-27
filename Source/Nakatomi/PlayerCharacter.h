@@ -105,6 +105,8 @@ private:
 	bool IsADS = false;
 
 	float AimSensitivity;
+
+	float WeaponSpreadMultiplier = 1.0;
 	
 public:
 	// Sets default values for this character's properties

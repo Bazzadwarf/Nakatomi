@@ -265,7 +265,7 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	// Set up randomness
 	const int32 RandomSeed = FMath::Rand();
 	FRandomStream WeaponRandomStream(RandomSeed);
-	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread;
+	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread * WeaponSpreadMultiplier;
 	const float Range = CurrentWeapon->GetWeaponProperties()->ProjectileRange;
 
 	FVector CamStart = CameraComponent->GetComponentTransform().GetLocation();
@@ -419,6 +419,11 @@ void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& In
 
 	AimSensitivity = DefaultAimSensitivity * ADSAimSensitivityMultiplier;
 
+	if (CurrentWeapon)
+	{
+		WeaponSpreadMultiplier = CurrentWeapon->GetWeaponProperties()->ADSWeaponSpreadMultiplier;
+	}
+
 	FLatentActionInfo LatentActionInfo;
 	LatentActionInfo.CallbackTarget = this;
 	CameraComponent->AttachToComponent(CameraADSSpringArmComponent, FAttachmentTransformRules::KeepWorldTransform,
@@ -436,6 +441,8 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 	SetMovementSpeed();
 
 	AimSensitivity = DefaultAimSensitivity;
+
+	WeaponSpreadMultiplier = 1.0f;
 
 	FLatentActionInfo LatentActionInfo;
 	LatentActionInfo.CallbackTarget = this;

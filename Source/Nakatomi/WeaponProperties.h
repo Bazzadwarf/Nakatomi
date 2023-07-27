@@ -39,5 +39,8 @@ struct FWeaponProperties
 	float WeaponSpread = 2.5f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
+	float ADSWeaponSpreadMultiplier = 0.5f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
 	bool IsAutomatic = true;
 };

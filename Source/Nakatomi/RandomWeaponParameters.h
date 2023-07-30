@@ -81,6 +81,14 @@ public:
 		DisplayName = "Max", meta = ( ClampMin = "0", ClampMax = "360" ))
 	float WeaponSpreadMax = 15.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Random Weapon Parameters|ADS Weapon Spread Multiplier",
+		DisplayName = "Min", meta = (ClampMin = "0", ClampMax = "360"))
+	float ADSWeaponSpreadMulMin = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Random Weapon Parameters|ADS Weapon Spread Multiplier",
+		DisplayName = "Max", meta = (ClampMin = "0", ClampMax = "360"))
+	float ADSWeaponSpreadMulMax = 1.0f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Random Weapon Parameters|Is Automatic")
 	bool IsAutomaticOverride = false;
 

@@ -17,6 +17,7 @@ FWeaponProperties URandomWeaponParameters::GenerateRandomWeaponProperties()
 	weaponProperties.ProjectilesPerShot = FMath::RandRange(ProjectilePerShotMin, ProjectilePerShotMax);
 	weaponProperties.ProjectileRange = FMath::FRandRange(ProjectileRangeMin, ProjectileRangeMax);
 	weaponProperties.WeaponSpread = FMath::FRandRange(WeaponSpreadMin, WeaponSpreadMax);
+	weaponProperties.ADSWeaponSpreadMultiplier = FMath::FRandRange(ADSWeaponSpreadMulMin, ADSWeaponSpreadMulMax);
 
 	if (IsAutomaticOverride)
 	{

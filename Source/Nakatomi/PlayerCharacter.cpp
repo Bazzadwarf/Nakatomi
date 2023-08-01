@@ -479,6 +479,8 @@ void APlayerCharacter::OnFire()
 	{
 		RemoveCurrentWeaponFromInventory();
 	}
+
+	Super::OnFire();
 }
 
 void APlayerCharacter::WeaponCooldownHandler()

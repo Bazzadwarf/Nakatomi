@@ -8,6 +8,10 @@
 #include "Weapon.h"
 #include "NakatomiCharacter.generated.h"
 
+
+DECLARE_DELEGATE(FOnFireDelegate)
+
+
 /**
  *
  */
@@ -15,6 +19,10 @@ UCLASS()
 class NAKATOMI_API ANakatomiCharacter : public ACharacter
 {
 	GENERATED_BODY()
+
+public:
+
+	FOnFireDelegate OnFired;
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

@@ -211,6 +211,7 @@ int ANakatomiCharacter::GetCurrentInventorySlot()
 
 void ANakatomiCharacter::OnFire()
 {
+	OnFired.ExecuteIfBound();
 }
 
 void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)

@@ -17,4 +17,11 @@ void UPlayerHUDWidget::NativeConstruct()
 
 void UPlayerHUDWidget::ExpandCrosshair()
 {
+	if (CrosshairFired)
+	{
+		auto player = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+		float playbackSpeed = 1.0 / player->GetCurrentWeapon()->GetWeaponProperties()->WeaponCooldown;
+
+		PlayAnimation(CrosshairFired, 0.0f, 1, EUMGSequencePlayMode::Forward, playbackSpeed);
+	}
 }

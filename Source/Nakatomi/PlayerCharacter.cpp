@@ -342,6 +342,8 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 			{
 				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr,
 				                            GetController(), this);
+				
+				OnEnemyHit.ExecuteIfBound();
 			}
 		}
 	}

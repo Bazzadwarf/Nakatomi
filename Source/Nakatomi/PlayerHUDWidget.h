@@ -26,6 +26,9 @@ public:
 	UFUNCTION()
 	void ExpandCrosshair();
 
+	UFUNCTION()
+	void ShowHitMarker();
+
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* HealthText;
 
@@ -47,6 +50,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UImage* CrosshairImage;
 
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UImage* HitmarkerImage;
+
 	UPROPERTY(Transient, meta = (BindWidgetAnim))
 	UWidgetAnimation* CrosshairFired;
+
+	UPROPERTY(Transient, meta = (BindWidgetAnim))
+	UWidgetAnimation* RevealHitmarker;
 };

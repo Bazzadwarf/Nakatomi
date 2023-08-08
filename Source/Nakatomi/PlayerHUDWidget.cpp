@@ -12,6 +12,7 @@ void UPlayerHUDWidget::NativeConstruct()
 	if (player)
 	{
 		player->OnFired.BindUFunction(this, "ExpandCrosshair");
+		player->OnEnemyHit.BindUFunction(this, "ShowHitMarker");
 	}
 }
 
@@ -23,5 +24,13 @@ void UPlayerHUDWidget::ExpandCrosshair()
 		float playbackSpeed = 1.0 / player->GetCurrentWeapon()->GetWeaponProperties()->WeaponCooldown;
 
 		PlayAnimation(CrosshairFired, 0.0f, 1, EUMGSequencePlayMode::Forward, playbackSpeed);
+	}
+}
+
+void UPlayerHUDWidget::ShowHitMarker()
+{
+	if (RevealHitmarker)
+	{
+		PlayAnimation(RevealHitmarker, 0.0f, 1, EUMGSequencePlayMode::Forward, 1.0f);
 	}
 }

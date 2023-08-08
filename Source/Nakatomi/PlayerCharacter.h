@@ -19,6 +19,8 @@
 class UInputAction;
 class UInputMappingContext;
 
+DECLARE_DELEGATE(FOnEnemyHitDelegate)
+
 /**
  * 
  */
@@ -60,6 +62,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> PlayerHUD;
+
+	FOnEnemyHitDelegate OnEnemyHit;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

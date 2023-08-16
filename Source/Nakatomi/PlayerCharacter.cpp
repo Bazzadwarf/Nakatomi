@@ -345,6 +345,11 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 				if (!healthComponent->GetIsDead())
 				{
 					OnEnemyHit.ExecuteIfBound();
+
+					if (HitMarkerSound)
+					{
+						UGameplayStatics::PlaySound2D(GetWorld(), HitMarkerSound);
+					}					
 				}
 			}
 		}

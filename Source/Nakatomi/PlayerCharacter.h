@@ -111,6 +111,9 @@ private:
 	float AimSensitivity;
 
 	float WeaponSpreadMultiplier = 1.0;
+
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* HitMarkerSound;
 	
 public:
 	// Sets default values for this character's properties

@@ -3,3 +3,7 @@
 
 #include "NakatomiGameInstance.h"
 
+UNakatomiAIAttackTokenManager* UNakatomiGameInstance::GetAIAttackTokenManager()
+{
+	return IsValid(AIAttackTokenManager) ? AIAttackTokenManager : (AIAttackTokenManager = NewObject<UNakatomiAIAttackTokenManager>(this, TEXT("AI Attack Token Manager")));
+}

@@ -12,7 +12,8 @@
 				"Engine",
 				"FieldSystemEngine",
 				"AIModule",
-				"UMG"
+				"UMG",
+				"CoreUObject"
 			]
 		}
 	],

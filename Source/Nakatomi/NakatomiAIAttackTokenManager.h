@@ -14,4 +14,19 @@ class NAKATOMI_API UNakatomiAIAttackTokenManager : public UObject
 {
 	GENERATED_BODY()
 	
+private:
+	
+	// TODO: This should really be set by the current difficulty setting.
+	static const int MAX_ATTACK_TOKEN = 5;
+
+	int attackTokensUsed = 0;
+
+public:
+
+	bool RequestToken();
+
+	void ReleaseToken();
+
+	void Reset();
+
 };

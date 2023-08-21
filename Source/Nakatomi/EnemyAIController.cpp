@@ -3,6 +3,8 @@
 #include "EnemyAIController.h"
 #include "Engine/EngineTypes.h"
 #include "Components/CapsuleComponent.h"
+#include "NakatomiGameInstance.h"
+#include <Kismet/GameplayStatics.h>
 
 AEnemyAIController::AEnemyAIController(const FObjectInitializer& object_initializer)
 {
@@ -134,4 +136,35 @@ void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& actors)
 			}
 		}
 	}
+}
+
+bool AEnemyAIController::TryObtainAttackToken()
+{
+	if (HasAttackToken)
+	{
+		return true;
+	}
+
+	if (auto gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+	{
+		HasAttackToken = gameInstance->GetAIAttackTokenManager()->RequestToken();
+	}
+	
+	return false;
+}
+
+void AEnemyAIController::TryReleaseAttackToken()
+{
+	if (HasAttackToken)
+	{
+		if (auto gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+		{
+			HasAttackToken = gameInstance->GetAIAttackTokenManager()->ReleaseToken();
+		}
+	}
+}
+
+bool AEnemyAIController::GetHasAttackToken()
+{
+	return HasAttackToken;
 }

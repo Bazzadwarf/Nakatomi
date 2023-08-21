@@ -30,6 +30,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionComponent* AIPerception;
 
+	bool HasAttackToken = false;
+
 public:
 	AEnemyAIController(const FObjectInitializer& object_initializer);
 
@@ -49,4 +51,13 @@ public:
 
 	UFUNCTION()
 	void OnPerceptionUpdated(const TArray<AActor*>& actors);
+
+	UFUNCTION()
+	bool TryObtainAttackToken();
+
+	UFUNCTION()
+	void TryReleaseAttackToken();
+
+	UFUNCTION()
+	bool GetHasAttackToken();
 };

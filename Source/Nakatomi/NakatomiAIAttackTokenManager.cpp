@@ -14,12 +14,14 @@ bool UNakatomiAIAttackTokenManager::RequestToken()
 	return true;
 }
 
-void UNakatomiAIAttackTokenManager::ReleaseToken()
+bool UNakatomiAIAttackTokenManager::ReleaseToken()
 {
 	if (attackTokensUsed > 0)
 	{
 		attackTokensUsed--;
 	}	
+
+	return false;
 }
 
 void UNakatomiAIAttackTokenManager::Reset()

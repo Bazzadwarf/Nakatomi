@@ -25,7 +25,7 @@ public:
 
 	bool RequestToken();
 
-	void ReleaseToken();
+	bool ReleaseToken();
 
 	void Reset();
 

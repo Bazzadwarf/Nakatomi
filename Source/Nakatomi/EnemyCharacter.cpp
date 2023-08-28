@@ -26,6 +26,10 @@ AEnemyCharacter::AEnemyCharacter()
 	GetHealthComponent()->SetMaxHealth(100.0f);
 
 	this->Tags.Add(FName("Enemy"));
+
+	FScriptDelegate Delegate;
+	Delegate.BindUFunction(this, "OnPerceptionComponentUpdated");
+	PerceptionComponent->OnTargetPerceptionUpdated.Add(Delegate);
 }
 
 UBehaviorTree* AEnemyCharacter::GetBehaviourTree()
@@ -62,6 +66,10 @@ void AEnemyCharacter::WeaponCooldownHandler()
 	{
 		CurrentWeapon->SetCurrentWeaponStatus(Idle);
 	}
+}
+
+void AEnemyCharacter::OnPerceptionComponentUpdated()
+{
 }
 
 void AEnemyCharacter::BeginPlay()

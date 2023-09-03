@@ -44,9 +44,6 @@ public:
 
 	void WeaponCooldownHandler();
 
-	UFUNCTION()
-	virtual void OnPerceptionComponentUpdated();
-
 protected:
 	virtual void BeginPlay() override;
 

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
+#include "DemolitionCharacter.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "GetDistanceToPlayerTask.generated.h"
 
 /**

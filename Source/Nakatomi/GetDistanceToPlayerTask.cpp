@@ -3,7 +3,7 @@
 
 #include "GetDistanceToPlayerTask.h"
 #include "EnemyAIController.h"
-#include "DemolitionCharacter.h"
+
 
 UGetDistanceToPlayerTask::UGetDistanceToPlayerTask()
 {

@@ -28,6 +28,10 @@ public:
 		Meta = (AllowPrivateAccess = "true", DisplayName = "Maximum Distance"))
 	float MaximumDistance = 500.0f;
 
+	UPROPERTY(EditAnywhere, Category = "Options",
+		Meta = (AllowPrivateAccess = "true", DisplayName = "Minimum Distance"))
+	double MinimumDistance = 0.0f;
+	
 public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner, uint8* memory) override;
 };

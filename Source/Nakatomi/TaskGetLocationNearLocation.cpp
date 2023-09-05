@@ -3,23 +3,32 @@
 
 #include "TaskGetLocationNearLocation.h"
 #include "EnemyAIController.h"
-#include "EnemyCharacter.h"
 #include <NavigationSystem.h>
 
 EBTNodeResult::Type UTaskGetLocationNearLocation::ExecuteTask(UBehaviorTreeComponent& owner, uint8* memory)
 {
-	auto enemyController = Cast<AEnemyAIController>(owner.GetAIOwner());
-	auto enemyPawn = Cast<AEnemyCharacter>(enemyController->GetPawn());
-	auto blackboardComponent = owner.GetBlackboardComponent();
-	auto navigationSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
-	FVector sourceLocation = blackboardComponent->GetValueAsVector(SourceLocationKey.SelectedKeyName);
+	auto BlackboardComponent = owner.GetBlackboardComponent();
 
-	if (blackboardComponent && navigationSystem && sourceLocation != FVector::ZeroVector)
+	if (!BlackboardComponent)
 	{
-		FNavLocation navLocation;
-		navigationSystem->GetRandomReachablePointInRadius(sourceLocation, MaximumDistance, navLocation);
+		return EBTNodeResult::Failed;
+	}
+	
+	auto NavigationSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+	FVector SourceLocation = BlackboardComponent->GetValueAsVector(SourceLocationKey.SelectedKeyName);
 
-		blackboardComponent->SetValueAsVector(TargetLocationKey.SelectedKeyName, navLocation.Location);
+	if (BlackboardComponent && NavigationSystem && SourceLocation != FVector::ZeroVector)
+	{
+		double Distance = -1.0;
+		FNavLocation NavLocation;
+
+		while (Distance < MinimumDistance)
+		{
+			NavigationSystem->GetRandomReachablePointInRadius(SourceLocation, MaximumDistance, NavLocation);
+			NavigationSystem->GetPathLength(SourceLocation, NavLocation.Location, Distance);
+		}
+
+		BlackboardComponent->SetValueAsVector(TargetLocationKey.SelectedKeyName, NavLocation.Location);
 		return EBTNodeResult::Succeeded;
 	}
 

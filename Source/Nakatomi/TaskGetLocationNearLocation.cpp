@@ -17,7 +17,7 @@ EBTNodeResult::Type UTaskGetLocationNearLocation::ExecuteTask(UBehaviorTreeCompo
 	auto NavigationSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 	FVector SourceLocation = BlackboardComponent->GetValueAsVector(SourceLocationKey.SelectedKeyName);
 
-	if (BlackboardComponent && NavigationSystem && SourceLocation != FVector::ZeroVector)
+	if (NavigationSystem && SourceLocation != FVector::ZeroVector)
 	{
 		double Distance = -1.0;
 		FNavLocation NavLocation;

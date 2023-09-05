@@ -1,10 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "EnemyAIController.h"
-#include "Engine/EngineTypes.h"
-#include "Components/CapsuleComponent.h"
-#include "NakatomiGameInstance.h"
 #include <Kismet/GameplayStatics.h>
+#include "NakatomiGameInstance.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Engine/EngineTypes.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Perception/AIPerceptionComponent.h"
 
 AEnemyAIController::AEnemyAIController(const FObjectInitializer& object_initializer)
 {
@@ -13,12 +17,16 @@ AEnemyAIController::AEnemyAIController(const FObjectInitializer& object_initiali
 	PerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component"));
 	AIPerception = PerceptionComponent;
 
-	UAISenseConfig_Sight* ConfigSight = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Sense Config"));
-	ConfigSight->SightRadius = 1000.0f;
-	ConfigSight->LoseSightRadius = 1000.0f;
-	ConfigSight->PeripheralVisionAngleDegrees = 30.0f;
+	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Sense Config"));
+	SightConfig->SightRadius = 700.0f;
+	SightConfig->LoseSightRadius = 850.0f;
+	SightConfig->PeripheralVisionAngleDegrees = 90.0f;
+	SightConfig->SetMaxAge(5.0f);
+	SightConfig->DetectionByAffiliation.bDetectEnemies = true;
+	SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
 
-	AIPerception->ConfigureSense(*ConfigSight);
+	AIPerception->SetDominantSense(SightConfig->GetSenseImplementation());
+	AIPerception->ConfigureSense(*SightConfig);
 }
 
 void AEnemyAIController::OnPossess(APawn* InPawn)
@@ -28,8 +36,8 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 	auto enemy = Cast<AEnemyCharacter>(InPawn);
 	check(enemy);
 
-	SetPerceptionComponent(*enemy->GetPerceptionComponent());
-	enemy->GetPerceptionComponent()->OnPerceptionUpdated.AddDynamic(this, &AEnemyAIController::OnPerceptionUpdated);
+	SetPerceptionComponent(*PerceptionComponent);
+	PerceptionComponent->OnPerceptionUpdated.AddDynamic(this, &AEnemyAIController::OnPerceptionUpdated);
 	enemy->GetCharacterMovement()->MaxWalkSpeed = 500.f;
 	enemy->GetHealthComponent()->OnDamaged.BindUFunction(this, "OnDamaged");
 	enemy->GetHealthComponent()->OnDeath.BindUFunction(this, "OnDeath");
@@ -149,7 +157,7 @@ bool AEnemyAIController::TryObtainAttackToken()
 	{
 		HasAttackToken = gameInstance->GetAIAttackTokenManager()->RequestToken();
 	}
-	
+
 	return false;
 }
 

@@ -1,26 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "EnemyCharacter.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "EnemyAIController.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
 AEnemyCharacter::AEnemyCharacter()
 {
-	PerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component"));
-
-	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Configuration"));
-	SightConfig->SightRadius = 700.0f;
-	SightConfig->LoseSightRadius = 850.0f;
-	SightConfig->PeripheralVisionAngleDegrees = 90.0f;
-	SightConfig->SetMaxAge(5.0f);
-	SightConfig->DetectionByAffiliation.bDetectEnemies = true;
-	SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
-
-	PerceptionComponent->SetDominantSense(SightConfig->GetSenseImplementation());
-	PerceptionComponent->ConfigureSense(*SightConfig);
-
 	RandomWeaponParameters = CreateDefaultSubobject<URandomWeaponParameters>(TEXT("Random Weapon Parameters"));
 
 	GetHealthComponent()->SetMaxHealth(100.0f);
@@ -31,11 +17,6 @@ AEnemyCharacter::AEnemyCharacter()
 UBehaviorTree* AEnemyCharacter::GetBehaviourTree()
 {
 	return BehaviourTree;
-}
-
-UAIPerceptionComponent* AEnemyCharacter::GetPerceptionComponent()
-{
-	return PerceptionComponent;
 }
 
 void AEnemyCharacter::OnFire()
@@ -53,7 +34,7 @@ void AEnemyCharacter::OnFire()
 	CurrentWeapon->SetCurrentWeaponStatus(Cooldown);
 
 	GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &AEnemyCharacter::WeaponCooldownHandler,
-										CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
+	                                CurrentWeapon->GetWeaponProperties()->WeaponCooldown, true);
 }
 
 void AEnemyCharacter::WeaponCooldownHandler()

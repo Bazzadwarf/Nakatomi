@@ -4,12 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "BehaviorTree/BehaviorTreeComponent.h"
-#include "BehaviorTree/BehaviorTree.h"
-#include "BehaviorTree/BlackboardComponent.h"
 #include "EnemyCharacter.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "PlayerCharacter.h"
+#include "Perception/AISenseConfig_Sight.h"
 #include "EnemyAIController.generated.h"
 
 /**
@@ -29,6 +26,8 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionComponent* AIPerception;
+
+	UAISenseConfig_Sight* SightConfig;
 
 	bool HasAttackToken = false;
 

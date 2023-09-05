@@ -5,8 +5,6 @@
 #include "CoreMinimal.h"
 #include "NakatomiCharacter.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
-#include "Perception/AIPerceptionComponent.h"
-#include <Perception/AISenseConfig_Sight.h>
 #include "RandomWeaponParameters.h"
 #include "EnemyCharacter.generated.h"
 
@@ -20,11 +18,6 @@ class NAKATOMI_API AEnemyCharacter : public ANakatomiCharacter
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
-	UAIPerceptionComponent* PerceptionComponent;
-
-	UAISenseConfig_Sight* SightConfig;
-
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
 	UBehaviorTree* BehaviourTree;
 
@@ -37,8 +30,6 @@ public:
 	AEnemyCharacter();
 
 	UBehaviorTree* GetBehaviourTree();
-
-	UAIPerceptionComponent* GetPerceptionComponent();
 
 	virtual void OnFire() override;
 

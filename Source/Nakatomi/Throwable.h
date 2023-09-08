@@ -15,8 +15,8 @@ private:
 
 	UPROPERTY()
 	USphereComponent* SphereComponent;
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AThrowable();
 
@@ -30,5 +30,7 @@ public:
 	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 								UPrimitiveComponent* OtherComp,
 								int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	USphereComponent* GetSphereComponent() const { return SphereComponent; }
 
 };

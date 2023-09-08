@@ -13,6 +13,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "InputMappingContext.h"
 #include "EnemyCharacter.h"
+#include "Throwable.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
@@ -560,4 +561,18 @@ float APlayerCharacter::GetWeaponSpread()
 	}
 
 	return CurrentWeapon->GetWeaponProperties()->WeaponSpread;
+}
+
+void APlayerCharacter::ThrowThrowable()
+{
+	FVector Location;
+	FVector BoxExtent;
+	GetActorBounds(true, Location, BoxExtent, false);
+
+	FVector SpawnLocation = FVector(Location.Z, Location.Y + (BoxExtent.Y / 2), Location.Z + (BoxExtent.Z / 2));
+
+	AThrowable* Throwable = GetWorld()->SpawnActor<AThrowable>(SpawnLocation, FRotator::ZeroRotator);
+
+	// TODO: Set the collision size to the size of the static mesh in the throwable
+	//throwable->GetSphereComponent()->SetSphereRadius();
 }

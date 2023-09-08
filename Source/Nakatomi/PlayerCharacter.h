@@ -175,6 +175,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetWeaponSpread();
 
+	void ThrowThrowable();
+
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 

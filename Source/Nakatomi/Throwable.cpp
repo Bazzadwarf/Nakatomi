@@ -9,7 +9,7 @@
 // Sets default values
 AThrowable::AThrowable()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	StaticMeshComponent->SetCollisionProfileName(FName("NoCollision"));
@@ -19,9 +19,6 @@ AThrowable::AThrowable()
 	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndProbe);
 	SphereComponent->SetCollisionProfileName(FName("IgnoreOnlyPawn"));
 	SphereComponent->SetupAttachment(RootComponent);
-	
-	HealthComponent->OnDeath.BindUFunction(this, "Explode");
-
 }
 
 // Called when the game starts or when spawned
@@ -30,7 +27,7 @@ void AThrowable::BeginPlay()
 	Super::BeginPlay();
 
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AThrowable::OnOverlapBegin);
-	auto playerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	auto playerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	auto playerForwardVector = playerCharacter->GetActorForwardVector();
 	StaticMeshComponent->AddImpulse(playerForwardVector);
 }

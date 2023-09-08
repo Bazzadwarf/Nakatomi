@@ -33,7 +33,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float MaxDamage = 150.f;
 
-private:
 	UPROPERTY(VisibleDefaultsOnly)
 	UHealthComponent* HealthComponent = nullptr;
 

@@ -19,6 +19,9 @@ AThrowable::AThrowable()
 	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndProbe);
 	SphereComponent->SetCollisionProfileName(FName("IgnoreOnlyPawn"));
 	SphereComponent->SetupAttachment(RootComponent);
+	
+	HealthComponent->OnDeath.BindUFunction(this, "Explode");
+
 }
 
 // Called when the game starts or when spawned
@@ -38,9 +41,9 @@ void AThrowable::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor
 {
 	if (OtherActor)
 	{
-		if (auto healthComponent = GetComponentByClass<UHealthComponent>())
+		if (HealthComponent)
 		{
-			healthComponent->TakeDamage(this, healthComponent->GetMaxHealth(), nullptr,
+			HealthComponent->TakeDamage(this, HealthComponent->GetMaxHealth(), nullptr,
 			                            nullptr, this);
 		}
 	}

@@ -18,8 +18,7 @@ APickup::APickup()
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	SphereComponent->SetSphereRadius(25.0f, true);
 	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndProbe);
-
-	SphereComponent->SetupAttachment(RootComponent);
+	SetRootComponent(SphereComponent);
 
 	PointLightComponent = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
 	PointLightComponent->SetupAttachment(RootComponent);

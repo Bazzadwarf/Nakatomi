@@ -104,10 +104,12 @@ void AEnemyAIController::OnDeath(FDamageInfo info)
 	if (enemy->DefaultWeaponInventory.Num() > 0)
 	{
 		// TODO: This can sometimes crash, need to investigate
-		auto weaponPickup = GetWorld()->SpawnActor<AWeaponPickup>();
-		weaponPickup->SetActorLocation(enemy->GetActorLocation());
-		weaponPickup->SetWeapon(enemy->DefaultWeaponInventory[enemy->GetCurrentInventorySlot()]);
-		weaponPickup->SetWeaponProperties(*enemy->CurrentWeapon->GetWeaponProperties());
+		if (auto weaponPickup = GetWorld()->SpawnActor<AWeaponPickup>())
+		{
+			weaponPickup->SetActorLocation(enemy->GetActorLocation());
+			weaponPickup->SetWeapon(enemy->DefaultWeaponInventory[enemy->GetCurrentInventorySlot()]);
+			weaponPickup->SetWeaponProperties(*enemy->CurrentWeapon->GetWeaponProperties());			
+		}
 	}
 }
 

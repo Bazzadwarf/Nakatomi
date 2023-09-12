@@ -170,6 +170,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 			Input->BindAction(AimDownSightsAction, ETriggerEvent::Completed, this,
 			                  &APlayerCharacter::EndAimDownSightsCallback);
 		}
+
+		if (ThrowAction)
+		{
+			Input->BindAction(ThrowAction, ETriggerEvent::Started, this, &APlayerCharacter::ThrowThrowable);
+		}
 	}
 }
 

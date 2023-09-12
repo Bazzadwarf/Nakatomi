@@ -12,7 +12,10 @@ AThrowable::AThrowable()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	StaticMeshComponent->SetCollisionProfileName(FName("NoCollision"));
+	StaticMeshComponent->SetCollisionProfileName(FName("PhysicsActor"));
+	StaticMeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	StaticMeshComponent->SetSimulatePhysics(true);
+	SetRootComponent(StaticMeshComponent);
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	SphereComponent->SetSphereRadius(25.0f, true);

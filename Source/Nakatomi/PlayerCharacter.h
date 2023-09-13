@@ -14,6 +14,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "InteractableComponent.h"
+#include "Throwable.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;
@@ -49,8 +50,11 @@ public:
 	UInputAction* SprintAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	UInputAction* ThrowAction;
+	UInputAction* ThrowWeaponAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* ThrowExplosiveAction;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UInputMappingContext> InputMappingContext;
 
@@ -178,7 +182,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetWeaponSpread();
 
-	void ThrowThrowable();
+	void ThrowWeaponCallback();
+
+	void ThrowExplosiveCallback();
+	
+	AThrowable* ThrowThrowable();
 
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;

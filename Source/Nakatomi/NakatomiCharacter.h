@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "HealthComponent.h"
+#include "Throwable.h"
 #include "Weapon.h"
 #include "NakatomiCharacter.generated.h"
 
@@ -34,11 +35,17 @@ public:
 	UPROPERTY()
 	AWeapon* CurrentWeapon = nullptr;
 
+	UPROPERTY()
+	TArray<AThrowable*> ThrowableInventory;
+
 private:
 	UPROPERTY(VisibleDefaultsOnly)
 	UHealthComponent* HealthComponent = nullptr;
 
 	int CurrentInventorySlot = 0;
+
+	UPROPERTY(EditDefaultsOnly)
+	int MaximumThrowableInventorySize = 4;
 
 public:
 	// Sets default values for this character's properties
@@ -86,6 +93,10 @@ public:
 	int GetCurrentInventorySlot();
 
 	virtual void OnFire();
+
+	AThrowable* PopThrowableFromInventory();
+
+	void PushThrowableToInventory(AThrowable* Throwable);
 
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits);

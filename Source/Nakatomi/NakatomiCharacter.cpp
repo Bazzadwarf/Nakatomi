@@ -214,6 +214,24 @@ void ANakatomiCharacter::OnFire()
 	OnFired.ExecuteIfBound();
 }
 
+AThrowable* ANakatomiCharacter::PopThrowableFromInventory()
+{
+	if (ThrowableInventory.Num() > 0)
+	{
+		return ThrowableInventory.Pop();
+	}
+
+	return {};
+}
+
+void ANakatomiCharacter::PushThrowableToInventory(AThrowable* Throwable)
+{
+	if (ThrowableInventory.Num() < MaximumThrowableInventorySize)
+	{
+		ThrowableInventory.Push(Throwable);		
+	}
+}
+
 void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)
 {
 }

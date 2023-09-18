@@ -48,14 +48,17 @@ void AExplosiveActor::Explode()
 
 	for (FOverlapResult Overlaps : outOverlaps)
 	{
-		UHealthComponent* healthComponent = Overlaps.GetActor()->GetComponentByClass<UHealthComponent>();
-
-		if (healthComponent)
+		if (Overlaps.GetActor())
 		{
-			float distance = FVector::Distance(ActorToWorld().GetLocation(),
-			                                   Overlaps.GetActor()->ActorToWorld().GetLocation());
-			float scale = 1.f - (distance / ExplosionRadius);
-			healthComponent->TakeDamage(Overlaps.GetActor(), scale * MaxDamage, nullptr, nullptr, this);
+			UHealthComponent* healthComponent = Overlaps.GetActor()->GetComponentByClass<UHealthComponent>();
+
+			if (healthComponent)
+			{
+				float distance = FVector::Distance(ActorToWorld().GetLocation(),
+				                                   Overlaps.GetActor()->ActorToWorld().GetLocation());
+				float scale = 1.f - (distance / ExplosionRadius);
+				healthComponent->TakeDamage(Overlaps.GetActor(), scale * MaxDamage, nullptr, nullptr, this);
+			}
 		}
 	}
 

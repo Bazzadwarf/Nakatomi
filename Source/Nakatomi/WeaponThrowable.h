@@ -13,5 +13,20 @@ UCLASS()
 class NAKATOMI_API AWeaponThrowable : public AThrowable
 {
 	GENERATED_BODY()
+
+public:
+
+	USkeletalMeshComponent* WeaponSkeletalMeshComponent;
 	
+public:
+	// Sets default values for this actor's properties
+	AWeaponThrowable();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+
+	void SetWeaponSkeletalMesh(USkeletalMesh* SkeletalMesh);
 };

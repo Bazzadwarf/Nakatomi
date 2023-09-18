@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "NakatomiFieldSystemActor.h"
 #include "WeaponProperties.h"
+#include "WeaponThrowable.h"
 #include "Weapon.generated.h"
 
 class ANakatomiCharacter;
@@ -46,6 +47,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ANakatomiFieldSystemActor> FieldSystemActor;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AWeaponThrowable> WeaponThrowableTemplate;
 
 public:
 	// Sets default values for this actor's properties
@@ -89,4 +93,6 @@ public:
 	void DecrementAmmoCount(int ammoCount);
 
 	TSubclassOf<class ANakatomiFieldSystemActor> GetFieldSystemActor();
+
+	TSubclassOf<AWeaponThrowable> GetWeaponThrowableTemplate();
 };

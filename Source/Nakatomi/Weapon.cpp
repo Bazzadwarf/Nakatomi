@@ -115,6 +115,11 @@ void AWeapon::DecrementAmmoCount(int ammoCount)
 	}
 }
 
+TSubclassOf<AWeaponThrowable> AWeapon::GetWeaponThrowableTemplate()
+{
+	return WeaponThrowableTemplate;
+}
+
 TSubclassOf<class ANakatomiFieldSystemActor> AWeapon::GetFieldSystemActor()
 {
 	return FieldSystemActor;

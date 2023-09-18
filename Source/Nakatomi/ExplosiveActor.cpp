@@ -48,7 +48,9 @@ void AExplosiveActor::Explode()
 
 	for (FOverlapResult Overlaps : outOverlaps)
 	{
-		if (auto healthComponent = Overlaps.GetActor()->GetComponentByClass<UHealthComponent>())
+		UHealthComponent* healthComponent = Overlaps.GetActor()->GetComponentByClass<UHealthComponent>();
+
+		if (healthComponent)
 		{
 			float distance = FVector::Distance(ActorToWorld().GetLocation(),
 			                                   Overlaps.GetActor()->ActorToWorld().GetLocation());

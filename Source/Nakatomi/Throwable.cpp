@@ -32,7 +32,8 @@ void AThrowable::BeginPlay()
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AThrowable::OnOverlapBegin);
 	auto playerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	auto playerForwardVector = playerCharacter->GetActorForwardVector();
-	StaticMeshComponent->AddImpulse(playerForwardVector);
+	playerForwardVector.Z = ImpulseAngle;
+	StaticMeshComponent->AddImpulse(playerForwardVector * ImpulseForce);
 }
 
 void AThrowable::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

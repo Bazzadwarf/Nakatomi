@@ -11,6 +11,14 @@ class NAKATOMI_API AThrowable : public AExplosiveActor
 {
 	GENERATED_BODY()
 
+public:
+
+	UPROPERTY(meta = (ClampMin = "0.0"))
+	float ImpulseForce = 10000.f;
+
+	UPROPERTY(meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	float ImpulseAngle = 0.5f;
+	
 private:
 
 	UPROPERTY()

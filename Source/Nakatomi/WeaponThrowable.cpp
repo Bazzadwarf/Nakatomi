@@ -21,7 +21,8 @@ void AWeaponThrowable::BeginPlay()
 	
 	auto playerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	auto playerForwardVector = playerCharacter->GetActorForwardVector();
-	WeaponSkeletalMeshComponent->AddImpulse(playerForwardVector);
+	playerForwardVector.Z = ImpulseAngle;
+	WeaponSkeletalMeshComponent->AddImpulse(playerForwardVector * ImpulseForce);
 }
 
 void AWeaponThrowable::SetWeaponSkeletalMesh(USkeletalMesh* SkeletalMesh)
@@ -30,5 +31,6 @@ void AWeaponThrowable::SetWeaponSkeletalMesh(USkeletalMesh* SkeletalMesh)
 	
 	auto playerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	auto playerForwardVector = playerCharacter->GetActorForwardVector();
-	WeaponSkeletalMeshComponent->AddImpulse(playerForwardVector);
+	playerForwardVector.Z = ImpulseAngle;
+	WeaponSkeletalMeshComponent->AddImpulse(playerForwardVector * ImpulseForce);
 }

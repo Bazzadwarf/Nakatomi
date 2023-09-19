@@ -580,9 +580,10 @@ void APlayerCharacter::ThrowWeaponCallback()
 	FVector Location;
 	FVector BoxExtent;
 	GetActorBounds(true, Location, BoxExtent, false);
-
-	FVector SpawnLocation = FVector(Location.X, Location.Y + (BoxExtent.Y / 2), Location.Z + (BoxExtent.Z / 2));
-	SpawnLocation += GetTransform().GetLocation();
+	
+	FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2; 
+	SpawnLocation += Location;
+	SpawnLocation.Z += BoxExtent.Z; 
 	
 	if (TSubclassOf<AWeaponThrowable> WeaponThrowableTemplate = GetCurrentWeapon()->GetWeaponThrowableTemplate())
 	{

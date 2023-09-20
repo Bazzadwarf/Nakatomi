@@ -35,8 +35,8 @@ public:
 	UPROPERTY()
 	AWeapon* CurrentWeapon = nullptr;
 
-	UPROPERTY()
-	TArray<AThrowable*> ThrowableInventory;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TArray<TSubclassOf<AThrowable>> ThrowableInventory;
 
 private:
 	UPROPERTY(VisibleDefaultsOnly)
@@ -94,9 +94,9 @@ public:
 
 	virtual void OnFire();
 
-	AThrowable* PopThrowableFromInventory();
+	TSubclassOf<AThrowable> PopThrowableFromInventory();
 
-	void PushThrowableToInventory(AThrowable* Throwable);
+	void PushThrowableToInventory(TSubclassOf<AThrowable> Throwable);
 
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits);

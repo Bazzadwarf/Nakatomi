@@ -214,7 +214,7 @@ void ANakatomiCharacter::OnFire()
 	OnFired.ExecuteIfBound();
 }
 
-AThrowable* ANakatomiCharacter::PopThrowableFromInventory()
+TSubclassOf<AThrowable> ANakatomiCharacter::PopThrowableFromInventory()
 {
 	if (ThrowableInventory.Num() > 0)
 	{
@@ -224,7 +224,7 @@ AThrowable* ANakatomiCharacter::PopThrowableFromInventory()
 	return {};
 }
 
-void ANakatomiCharacter::PushThrowableToInventory(AThrowable* Throwable)
+void ANakatomiCharacter::PushThrowableToInventory(TSubclassOf<AThrowable> Throwable)
 {
 	if (ThrowableInventory.Num() < MaximumThrowableInventorySize)
 	{

@@ -63,7 +63,7 @@ APlayerCharacter::APlayerCharacter()
 	// Setup the character perception component
 	PerceptionSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Perception Source Stimuli"));
 	PerceptionSource->bAutoRegister = true;
-
+	
 	this->Tags.Add(FName("Player"));
 }
 
@@ -581,7 +581,7 @@ void APlayerCharacter::ThrowWeaponCallback()
 	FVector BoxExtent;
 	GetActorBounds(true, Location, BoxExtent, false);
 	
-	FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2; 
+	FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2;
 	SpawnLocation += Location;
 	SpawnLocation.Z += BoxExtent.Z; 
 	
@@ -596,11 +596,19 @@ void APlayerCharacter::ThrowWeaponCallback()
 
 void APlayerCharacter::ThrowExplosiveCallback()
 {
-	auto throwable = ThrowThrowable();
-
+	if (ThrowableInventory.Num() > 0)
+	{
+		FVector Location;
+		FVector BoxExtent;
+		GetActorBounds(true, Location, BoxExtent, false);
 	
-	// TODO: Set the collision size to the size of the static mesh in the throwable
-	// throwable->GetSphereComponent()->SetSphereRadius();
+		FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2; 
+		SpawnLocation += Location;
+		SpawnLocation += (25.0f * GetActorForwardVector());
+		SpawnLocation.Z += BoxExtent.Z;
+
+		AThrowable* Throwable = GetWorld()->SpawnActor<AThrowable>(ThrowableInventory.Pop(), SpawnLocation, FRotator::ZeroRotator);
+	}
 }
 
 AThrowable* APlayerCharacter::ThrowThrowable()

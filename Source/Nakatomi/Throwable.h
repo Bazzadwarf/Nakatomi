@@ -13,13 +13,13 @@ class NAKATOMI_API AThrowable : public AExplosiveActor
 
 public:
 
-	UPROPERTY(meta = (ClampMin = "0.0"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (ClampMin = "0.0"))
 	float ImpulseForce = 10000.f;
 
-	UPROPERTY(meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "1.0"))
 	float ImpulseAngle = 0.5f;
 	
-private:
+protected:
 
 	UPROPERTY()
 	USphereComponent* SphereComponent;

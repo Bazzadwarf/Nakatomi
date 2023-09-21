@@ -12,16 +12,13 @@ AThrowable::AThrowable()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	StaticMeshComponent->SetCollisionProfileName(FName("PhysicsActor"));
+	StaticMeshComponent->SetCollisionProfileName(FName("BlockAll"));
 	StaticMeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	StaticMeshComponent->SetCollisionObjectType(ECC_WorldDynamic);
 	StaticMeshComponent->SetSimulatePhysics(true);
+	StaticMeshComponent->SetGenerateOverlapEvents(true);
+	StaticMeshComponent->SetNotifyRigidBodyCollision(true);
 	SetRootComponent(StaticMeshComponent);
-
-	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
-	SphereComponent->SetSphereRadius(25.0f, true);
-	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndProbe);
-	SphereComponent->SetCollisionProfileName(FName("IgnoreOnlyPawn"));
-	SphereComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -29,18 +26,19 @@ void AThrowable::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AThrowable::OnOverlapBegin);
-	auto playerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	StaticMeshComponent->OnComponentHit.AddDynamic(this, &AThrowable::OnOverlapBegin);
+
+	auto playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	auto playerForwardVector = playerCharacter->GetActorForwardVector();
 	playerForwardVector.Z = ImpulseAngle;
+
 	StaticMeshComponent->AddImpulse(playerForwardVector * ImpulseForce);
 }
 
-void AThrowable::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-                                UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
-                                const FHitResult& SweepResult)
+void AThrowable::OnOverlapBegin(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+                                FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor)
+	if (!OtherActor->ActorHasTag(FName("Player")) && OtherActor != this)
 	{
 		if (HealthComponent)
 		{

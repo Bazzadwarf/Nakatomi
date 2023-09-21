@@ -15,9 +15,9 @@ class NAKATOMI_API AWeaponThrowable : public AThrowable
 	GENERATED_BODY()
 
 public:
-
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	USkeletalMeshComponent* WeaponSkeletalMeshComponent;
-	
+
 public:
 	// Sets default values for this actor's properties
 	AWeaponThrowable();
@@ -27,6 +27,5 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-
 	void SetWeaponSkeletalMesh(USkeletalMesh* SkeletalMesh);
 };

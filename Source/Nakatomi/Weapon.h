@@ -49,7 +49,7 @@ protected:
 	TSubclassOf<class ANakatomiFieldSystemActor> FieldSystemActor;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AWeaponThrowable> WeaponThrowableTemplate;
+	TSubclassOf<class AWeaponThrowable> WeaponThrowableTemplate;
 
 public:
 	// Sets default values for this actor's properties

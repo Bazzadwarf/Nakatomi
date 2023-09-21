@@ -9,28 +9,37 @@
 AWeaponThrowable::AWeaponThrowable()
 {
 	WeaponSkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Skeletal Mesh Component"));
-	WeaponSkeletalMeshComponent->SetCollisionProfileName(FName("PhysicsActor"));
+	WeaponSkeletalMeshComponent->SetCollisionProfileName(FName("BlockAll"));
 	WeaponSkeletalMeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	WeaponSkeletalMeshComponent->SetCollisionObjectType(ECC_WorldDynamic);
 	WeaponSkeletalMeshComponent->SetSimulatePhysics(true);
+	WeaponSkeletalMeshComponent->SetGenerateOverlapEvents(true);
+	WeaponSkeletalMeshComponent->SetNotifyRigidBodyCollision(true);
 	SetRootComponent(WeaponSkeletalMeshComponent);
 }
 
 void AWeaponThrowable::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	auto playerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	WeaponSkeletalMeshComponent->OnComponentHit.AddDynamic(this, &AWeaponThrowable::OnOverlapBegin);
+
+	auto playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	auto playerForwardVector = playerCharacter->GetActorForwardVector();
 	playerForwardVector.Z = ImpulseAngle;
+
 	WeaponSkeletalMeshComponent->AddImpulse(playerForwardVector * ImpulseForce);
 }
 
 void AWeaponThrowable::SetWeaponSkeletalMesh(USkeletalMesh* SkeletalMesh)
 {
 	WeaponSkeletalMeshComponent->SetSkeletalMesh(SkeletalMesh);
-	
-	auto playerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	auto playerForwardVector = playerCharacter->GetActorForwardVector();
-	playerForwardVector.Z = ImpulseAngle;
-	WeaponSkeletalMeshComponent->AddImpulse(playerForwardVector * ImpulseForce);
+
+	if (auto playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))
+	{
+		auto playerForwardVector = playerCharacter->GetActorForwardVector();
+		playerForwardVector.Z = ImpulseAngle;
+
+		WeaponSkeletalMeshComponent->AddImpulse(playerForwardVector * ImpulseForce);
+	}
 }

@@ -219,6 +219,12 @@ void APlayerCharacter::BeginFireCallback(const FInputActionInstance& Instance)
 		return;
 	}
 
+	if (CurrentWeapon->GetAmmoCount() == 0)
+	{
+		ThrowWeaponCallback();
+		return;
+	}
+	
 	IsFiring = true;
 
 	OnFire();
@@ -478,7 +484,7 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 
 void APlayerCharacter::OnFire()
 {
-	if (!IsFiring)
+	if (!IsFiring || CurrentWeapon->GetAmmoCount() == 0)
 	{
 		return;
 	}
@@ -497,11 +503,6 @@ void APlayerCharacter::OnFire()
 
 	CurrentWeapon->SetCurrentWeaponStatus(Cooldown);
 
-	if (CurrentWeapon->GetAmmoCount() == 0)
-	{
-		RemoveCurrentWeaponFromInventory();
-	}
-
 	Super::OnFire();
 }
 
@@ -511,7 +512,7 @@ void APlayerCharacter::WeaponCooldownHandler()
 	{
 		CurrentWeapon->SetCurrentWeaponStatus(Idle);
 	}
-
+	
 	if (!IsFiring)
 	{
 		GetWorldTimerManager().ClearTimer(FireTimerHandle);
@@ -592,6 +593,8 @@ void APlayerCharacter::ThrowWeaponCallback()
 
 		Throwable->SetWeaponSkeletalMesh(GetCurrentWeapon()->GetSkeletalMesh());
 	}
+
+	RemoveCurrentWeaponFromInventory();
 }
 
 void APlayerCharacter::ThrowExplosiveCallback()

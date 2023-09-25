@@ -182,6 +182,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 			Input->BindAction(ThrowExplosiveAction, ETriggerEvent::Started, this,
 			                  &APlayerCharacter::ThrowExplosiveCallback);
 		}
+
+		if (PauseAction)
+		{
+			Input->BindAction(PauseAction, ETriggerEvent::Completed, this, &APlayerCharacter::PauseCallback);
+		}
 	}
 }
 
@@ -480,6 +485,10 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 	UKismetSystemLibrary::MoveComponentTo(CameraComponent, FVector::ZeroVector, FRotator::ZeroRotator, true, true,
 	                                      CameraBlendTime,
 	                                      true, EMoveComponentAction::Type::Move, LatentActionInfo);
+}
+
+void APlayerCharacter::PauseCallback(const FInputActionInstance& Instance)
+{
 }
 
 void APlayerCharacter::OnFire()

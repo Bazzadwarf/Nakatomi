@@ -54,18 +54,21 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UInputAction* ThrowExplosiveAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* PauseAction;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* WeaponSwitchingAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* AimDownSightsAction;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UInputMappingContext> InputMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	int MappingPriority = 0;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	UInputAction* WeaponSwitchingAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	UInputAction* AimDownSightsAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> PlayerHUD;
@@ -161,6 +164,8 @@ public:
 
 	void EndAimDownSightsCallback(const FInputActionInstance& Instance);
 
+	void PauseCallback(const FInputActionInstance& Instance);
+	
 	virtual void OnFire() override;
 
 	void WeaponCooldownHandler();

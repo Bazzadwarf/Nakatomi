@@ -90,6 +90,11 @@ void APlayerCharacter::BeginPlay()
 			currentPlayerHUD->AddToViewport();
 		}
 	}
+
+	if (PauseMenuWidget)
+	{
+		currentPauseMenuWidget = CreateWidget<UUserWidget>(GetWorld(), PauseMenuWidget);
+	}
 }
 
 void APlayerCharacter::Destroyed()
@@ -489,6 +494,10 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 
 void APlayerCharacter::PauseCallback(const FInputActionInstance& Instance)
 {
+	if (PauseMenuWidget)
+	{
+		// TODO: Add pause functionality
+	}
 }
 
 void APlayerCharacter::OnFire()

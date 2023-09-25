@@ -73,6 +73,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> PlayerHUD;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSubclassOf<class UUserWidget> PauseMenuWidget;
+
 	FOnEnemyHitDelegate OnEnemyHit;
 
 protected:
@@ -110,6 +113,8 @@ private:
 	bool IsFiring = false;
 
 	class UUserWidget* currentPlayerHUD;
+
+	UUserWidget* currentPauseMenuWidget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionStimuliSourceComponent* PerceptionSource;

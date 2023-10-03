@@ -33,19 +33,24 @@ public:
 	UButton* QuitButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UButton* CloseApplicationButton;
+	UButton* ExitGameButton;
 
 public:
 	virtual void NativeConstruct() override;
 
 private:
+	UFUNCTION()
 	void ResumeButtonOnClicked();
 
+	UFUNCTION()
 	void OptionsButtonOnClicked();
 
+	UFUNCTION()
 	void SaveButtonOnClicked();
 
+	UFUNCTION()
 	void QuitButtonOnClicked();
 
-	void CloseApplicationButtonOnClicked();
+	UFUNCTION()
+	void ExitGameButtonOnClicked();
 };

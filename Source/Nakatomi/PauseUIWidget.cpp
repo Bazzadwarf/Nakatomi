@@ -3,21 +3,58 @@
 
 #include "PauseUIWidget.h"
 
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Kismet/GameplayStatics.h"
+
 
 void UPauseUIWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	ResumeButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::ResumeButtonOnClicked);
-	OptionsButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::OptionsButtonOnClicked);
-	SaveButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::SaveButtonOnClicked);
-	QuitButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::QuitButtonOnClicked);
-	CloseApplicationButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::CloseApplicationButtonOnClicked);
+	if (ResumeButton)
+	{
+		ResumeButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::ResumeButtonOnClicked);
+	}
+
+	if (OptionsButton)
+	{
+		OptionsButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::OptionsButtonOnClicked);
+	}
+
+	if (SaveButton)
+	{
+		SaveButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::SaveButtonOnClicked);
+	}
+
+	if (QuitButton)
+	{
+		QuitButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::QuitButtonOnClicked);
+	}
+
+	if (ExitGameButton)
+	{
+		ExitGameButton->OnClicked.AddUniqueDynamic(this, &UPauseUIWidget::ExitGameButtonOnClicked);
+	}
+
+	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(PlayerController, this, EMouseLockMode::LockAlways);
+		PlayerController->bShowMouseCursor = true;
+	}
+
+	SetIsFocusable(true);
 }
 
 void UPauseUIWidget::ResumeButtonOnClicked()
 {
-	// TODO: Implement Functionality
+	this->RemoveFromParent();
+
+	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
+		PlayerController->bShowMouseCursor = false;
+		PlayerController->SetPause(false);
+	}
 }
 
 void UPauseUIWidget::OptionsButtonOnClicked()
@@ -35,7 +72,12 @@ void UPauseUIWidget::QuitButtonOnClicked()
 	// TODO: Implement Functionality
 }
 
-void UPauseUIWidget::CloseApplicationButtonOnClicked()
+void UPauseUIWidget::ExitGameButtonOnClicked()
 {
-	// TODO: Implement Functionality
+	// TODO: We probably want to do an autosave here.
+
+	// TODO: Add platform specific Exit requests
+	// This is not a bit deal for the moment as we are only building for windows
+	// For some reason the generic version does not work the same as FWindowsPlatformMisc
+	FWindowsPlatformMisc::RequestExit(false);
 }

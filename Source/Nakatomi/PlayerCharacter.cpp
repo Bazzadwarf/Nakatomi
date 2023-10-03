@@ -494,9 +494,15 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 
 void APlayerCharacter::PauseCallback(const FInputActionInstance& Instance)
 {
-	if (PauseMenuWidget)
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+
+	if (PlayerController->SetPause(true))
 	{
-		// TODO: Add pause functionality
+		if (PauseMenuWidget)
+		{
+			// TODO: Add pause functionality
+			currentPauseMenuWidget->AddToViewport();
+		}
 	}
 }
 

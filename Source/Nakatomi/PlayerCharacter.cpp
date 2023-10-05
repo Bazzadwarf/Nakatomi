@@ -602,23 +602,25 @@ float APlayerCharacter::GetWeaponSpread()
 
 void APlayerCharacter::ThrowWeaponCallback()
 {
-	FVector Location;
-	FVector BoxExtent;
-	GetActorBounds(true, Location, BoxExtent, false);
-	
-	FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2;
-	SpawnLocation += Location;
-	SpawnLocation.Z += BoxExtent.Z; 
-	
-	if (TSubclassOf<AWeaponThrowable> WeaponThrowableTemplate = GetCurrentWeapon()->GetWeaponThrowableTemplate())
+	if (CurrentWeapon)
 	{
+		FVector Location;
+		FVector BoxExtent;
+		GetActorBounds(true, Location, BoxExtent, false);
+
+		FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2;
+		SpawnLocation += Location;
+		SpawnLocation.Z += BoxExtent.Z;
+
+		TSubclassOf<AWeaponThrowable> WeaponThrowableTemplate = CurrentWeapon->GetWeaponThrowableTemplate();
+
 		AWeaponThrowable* Throwable = GetWorld()->SpawnActor<AWeaponThrowable>(
 			WeaponThrowableTemplate, SpawnLocation, FRotator::ZeroRotator);
 
 		Throwable->SetWeaponSkeletalMesh(GetCurrentWeapon()->GetSkeletalMesh());
-	}
 
-	RemoveCurrentWeaponFromInventory();
+		RemoveCurrentWeaponFromInventory();
+	}
 }
 
 void APlayerCharacter::ThrowExplosiveCallback()

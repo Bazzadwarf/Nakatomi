@@ -60,6 +60,11 @@ void UPauseUIWidget::ResumeButtonOnClicked()
 void UPauseUIWidget::OptionsButtonOnClicked()
 {
 	// TODO: Implement Functionality
+	if (OptionsMenuWidget)
+	{
+		currentOptionsMenuWidget = CreateWidget<UUserWidget>(GetWorld(), OptionsMenuWidget);
+		currentOptionsMenuWidget->AddToViewport();
+	}
 }
 
 void UPauseUIWidget::SaveButtonOnClicked()

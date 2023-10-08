@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/ComboBox.h"
 #include "Components/CheckBox.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
 #include "OptionsUIWidget.generated.h"
 
 /**
@@ -19,14 +19,20 @@ class NAKATOMI_API UOptionsUIWidget : public UUserWidget
 
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UComboBox* ResolutionSelector;
+	UButton* ResolutionButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UCheckBox* FullscreenBox;
+	UTextBlock* ResolutionTextBlock;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UButton* ApplyButton;
+	UCheckBox* FullscreenCheckBox;
 
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UCheckBox* VsyncCheckBox;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UCheckBox* DynamicResolutionCheckBox;
+	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* BackButton;
 
@@ -37,13 +43,22 @@ public:
 	virtual void NativeConstruct() override;
 
 private:
-	UFUNCTION()
-	void ApplyButtonOnClicked();
 
 	UFUNCTION()
 	void BackButtonOnClicked();
-
 	
 	UFUNCTION()
 	void ResetToDefaultsButtonOnClicked();
+
+	UFUNCTION()
+	void OnResolutionSelectorChanged();
+	
+	UFUNCTION()
+	void OnFullscreenCheckboxChanged(bool bIsChecked);
+
+	UFUNCTION()
+	void OnVsyncCheckboxChanged(bool bIsChecked);
+
+	UFUNCTION()
+	void OnDynamicResolutionCheckboxChanged(bool bIsChecked);
 };

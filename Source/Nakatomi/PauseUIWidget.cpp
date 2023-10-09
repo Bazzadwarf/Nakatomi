@@ -62,8 +62,10 @@ void UPauseUIWidget::OptionsButtonOnClicked()
 	// TODO: Implement Functionality
 	if (OptionsMenuWidget)
 	{
-		currentOptionsMenuWidget = CreateWidget<UUserWidget>(GetWorld(), OptionsMenuWidget);
+		currentOptionsMenuWidget = CreateWidget<UOptionsUIWidget>(GetWorld(), OptionsMenuWidget);
 		currentOptionsMenuWidget->AddToViewport();
+		currentOptionsMenuWidget->SetReturnScreen(this);
+		this->RemoveFromParent();
 	}
 }
 

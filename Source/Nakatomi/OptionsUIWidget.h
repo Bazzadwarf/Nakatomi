@@ -39,9 +39,15 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* ResetToDefaultsButton;
 
+private:
+
+	UUserWidget* PreviousScreen;
+	
 public:
 	virtual void NativeConstruct() override;
 
+	void SetReturnScreen(UUserWidget* userWidget);
+	
 private:
 
 	UFUNCTION()

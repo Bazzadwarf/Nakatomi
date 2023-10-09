@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "OptionsUIWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "PauseUIWidget.generated.h"
@@ -35,7 +36,7 @@ public:
 	TSubclassOf<class UUserWidget> OptionsMenuWidget;
 
 private:
-	UUserWidget* currentOptionsMenuWidget;
+	UOptionsUIWidget* currentOptionsMenuWidget;
 
 public:
 	virtual void NativeConstruct() override;

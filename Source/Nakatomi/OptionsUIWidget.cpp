@@ -59,53 +59,65 @@ void UOptionsUIWidget::NativeConstruct()
 	}
 }
 
+void UOptionsUIWidget::SetReturnScreen(UUserWidget* userWidget)
+{
+	if (userWidget)
+	{
+		PreviousScreen = userWidget;
+	}
+}
+
 void UOptionsUIWidget::BackButtonOnClicked()
 {
 	// TODO: Implement Functionality
-	GEngine->GameUserSettings->SaveSettings();
+	GEngine->GameUserSettings->ApplySettings(true);
+
+	this->RemoveFromParent();
+	PreviousScreen->AddToViewport();
 }
 
 void UOptionsUIWidget::ResetToDefaultsButtonOnClicked()
 {
 	GEngine->GameUserSettings->SetToDefaults(); // :)
-	GEngine->GameUserSettings->SaveSettings();
+	GEngine->GameUserSettings->ApplySettings(true);
 }
 
 void UOptionsUIWidget::OnResolutionSelectorChanged()
 {
 	FIntPoint screenResolution = GEngine->GameUserSettings->GetDesktopResolution();
-	float widthScale = screenResolution.Y / screenResolution.X;
+	float widthScale = static_cast<float>(screenResolution.X) / static_cast<float>(screenResolution.Y);
 
 	switch (GEngine->GameUserSettings->GetScreenResolution().Y)
 	{
 	case 480:
-		screenResolution.Y = 480;
-		break;
-	case 720:
 		screenResolution.Y = 720;
 		break;
-	case 1080:
+	case 720:
 		screenResolution.Y = 1080;
 		break;
-	case 1440:
+	case 1080:
 		screenResolution.Y = 1440;
 		break;
-	case 2160:
+	case 1440:
 		screenResolution.Y = 2160;
 		break;
+	case 2160:
+		screenResolution.Y = 480;
+		break;
 	default:
-		GEngine->GameUserSettings->SetScreenResolution(FIntPoint(1920, 1080));
+		screenResolution.Y = 1080;
 	}
 
 	screenResolution.X = widthScale * screenResolution.Y;
 	GEngine->GameUserSettings->SetScreenResolution(screenResolution);
+	
 
 	if (ResolutionTextBlock)
 	{
 		ResolutionTextBlock->SetText(FText::AsNumber(screenResolution.Y));
 	}
 
-	GEngine->GameUserSettings->SaveSettings();
+	GEngine->GameUserSettings->ApplySettings(true);
 }
 
 void UOptionsUIWidget::OnFullscreenCheckboxChanged(bool bIsChecked)
@@ -119,17 +131,17 @@ void UOptionsUIWidget::OnFullscreenCheckboxChanged(bool bIsChecked)
 		GEngine->GameUserSettings->SetFullscreenMode(EWindowMode::Windowed);
 	}
 
-	GEngine->GameUserSettings->SaveSettings();
+	GEngine->GameUserSettings->ApplySettings(true);
 }
 
 void UOptionsUIWidget::OnVsyncCheckboxChanged(bool bIsChecked)
 {
 	GEngine->GameUserSettings->SetVSyncEnabled(bIsChecked);
-	GEngine->GameUserSettings->SaveSettings();
+	GEngine->GameUserSettings->ApplySettings(true);
 }
 
 void UOptionsUIWidget::OnDynamicResolutionCheckboxChanged(bool bIsChecked)
 {
 	GEngine->GameUserSettings->SetDynamicResolutionEnabled(bIsChecked);
-	GEngine->GameUserSettings->SaveSettings();
+	GEngine->GameUserSettings->ApplySettings(true);
 }

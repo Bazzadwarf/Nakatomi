@@ -3,6 +3,8 @@
 
 #include "OptionsUIWidget.h"
 
+#include <Kismet/KismetSystemLibrary.h>
+
 #include "GameFramework/GameUserSettings.h"
 
 void UOptionsUIWidget::NativeConstruct()
@@ -29,6 +31,16 @@ void UOptionsUIWidget::NativeConstruct()
 			this, &UOptionsUIWidget::OnFullscreenCheckboxChanged);
 	}
 
+	if (RefreshRateButton)
+	{
+		if (RefreshRateTextBlock)
+		{
+			SetRefreshRateTextBlock(GEngine->GameUserSettings->GetFrameRateLimit());
+		}
+
+		RefreshRateButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::OnRefreshRateSelectorChanged);
+	}
+	
 	if (VsyncCheckBox)
 	{
 		VsyncCheckBox->SetCheckedState(GEngine->GameUserSettings->IsVSyncEnabled()
@@ -89,9 +101,6 @@ void UOptionsUIWidget::OnResolutionSelectorChanged()
 
 	switch (GEngine->GameUserSettings->GetScreenResolution().Y)
 	{
-	case 480:
-		screenResolution.Y = 720;
-		break;
 	case 720:
 		screenResolution.Y = 1080;
 		break;
@@ -102,12 +111,12 @@ void UOptionsUIWidget::OnResolutionSelectorChanged()
 		screenResolution.Y = 2160;
 		break;
 	case 2160:
-		screenResolution.Y = 480;
+		screenResolution.Y = 720;
 		break;
 	default:
 		screenResolution.Y = 1080;
 	}
-
+	
 	screenResolution.X = widthScale * screenResolution.Y;
 	GEngine->GameUserSettings->SetScreenResolution(screenResolution);
 	
@@ -118,6 +127,11 @@ void UOptionsUIWidget::OnResolutionSelectorChanged()
 	}
 
 	GEngine->GameUserSettings->ApplySettings(true);
+}
+
+void UOptionsUIWidget::SetRefreshRateTextBlock(float RefreshRateText)
+{
+	RefreshRateTextBlock->SetText(RefreshRateText == 0.0f ? FText::FromString("Unlimited") : FText::AsNumber(RefreshRateText));
 }
 
 void UOptionsUIWidget::OnFullscreenCheckboxChanged(bool bIsChecked)
@@ -131,6 +145,30 @@ void UOptionsUIWidget::OnFullscreenCheckboxChanged(bool bIsChecked)
 		GEngine->GameUserSettings->SetFullscreenMode(EWindowMode::Windowed);
 	}
 
+	GEngine->GameUserSettings->ApplySettings(true);
+}
+
+void UOptionsUIWidget::OnRefreshRateSelectorChanged()
+{
+	switch (static_cast<int>(GEngine->GameUserSettings->GetFrameRateLimit()))
+	{
+	case 0:
+		GEngine->GameUserSettings->SetFrameRateLimit(60);
+		break;
+	case 60:
+		GEngine->GameUserSettings->SetFrameRateLimit(144);
+		break;
+	case 144:
+		GEngine->GameUserSettings->SetFrameRateLimit(240);
+		break;
+	case 240:
+		GEngine->GameUserSettings->SetFrameRateLimit(0);
+		break;
+	default:
+		GEngine->GameUserSettings->SetFrameRateLimit(0);
+	}
+	
+	SetRefreshRateTextBlock(GEngine->GameUserSettings->GetFrameRateLimit());
 	GEngine->GameUserSettings->ApplySettings(true);
 }
 

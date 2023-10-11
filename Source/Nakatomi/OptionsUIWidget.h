@@ -29,6 +29,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UCheckBox* VsyncCheckBox;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* RefreshRateButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* RefreshRateTextBlock;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UCheckBox* DynamicResolutionCheckBox;
@@ -58,10 +64,16 @@ private:
 
 	UFUNCTION()
 	void OnResolutionSelectorChanged();
+
+	UFUNCTION()
+	void SetRefreshRateTextBlock(float RefreshRateText);
 	
 	UFUNCTION()
 	void OnFullscreenCheckboxChanged(bool bIsChecked);
 
+	UFUNCTION()
+	void OnRefreshRateSelectorChanged();
+	
 	UFUNCTION()
 	void OnVsyncCheckboxChanged(bool bIsChecked);
 

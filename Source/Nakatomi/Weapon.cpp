@@ -120,6 +120,11 @@ TSubclassOf<AWeaponThrowable> AWeapon::GetWeaponThrowableTemplate()
 	return WeaponThrowableTemplate;
 }
 
+TSubclassOf<ADecalActor> AWeapon::GetDecalActor()
+{
+	return DecalActor;
+}
+
 TSubclassOf<class ANakatomiFieldSystemActor> AWeapon::GetFieldSystemActor()
 {
 	return FieldSystemActor;

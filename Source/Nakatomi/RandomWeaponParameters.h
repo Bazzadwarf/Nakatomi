@@ -101,6 +101,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Random Weapon Parameters|Field System Actor")
 	TArray<TSubclassOf<class ANakatomiFieldSystemActor>> FieldSystemActor;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Random Weapon Parameters|Decal Actor")
+	TArray<TSubclassOf<class ADecalActor>> DecalActor;
+
 	FWeaponProperties GenerateRandomWeaponProperties();
 
 	USkeletalMesh* PickRandomMesh();

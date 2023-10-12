@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/DecalActor.h"
 #include "GameFramework/Actor.h"
 #include "NakatomiFieldSystemActor.h"
 #include "WeaponProperties.h"
@@ -51,6 +52,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class AWeaponThrowable> WeaponThrowableTemplate;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ADecalActor> DecalActor;
+
 public:
 	// Sets default values for this actor's properties
 	AWeapon();
@@ -95,4 +99,6 @@ public:
 	TSubclassOf<class ANakatomiFieldSystemActor> GetFieldSystemActor();
 
 	TSubclassOf<AWeaponThrowable> GetWeaponThrowableTemplate();
+
+	TSubclassOf<class ADecalActor> GetDecalActor();
 };

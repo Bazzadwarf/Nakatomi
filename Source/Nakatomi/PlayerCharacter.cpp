@@ -381,6 +381,21 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 					}					
 				}
 			}
+
+			auto staticMeshComponent = Hit.GetActor()->GetComponentByClass<UStaticMeshComponent>();
+			
+			if (staticMeshComponent && !staticMeshComponent->IsSimulatingPhysics() && CurrentWeapon->GetDecalActor())
+			{
+				FTransform transform;
+				transform.SetLocation(Hit.ImpactPoint);
+
+				auto decalActor = GetWorld()->SpawnActor<ADecalActor>(CurrentWeapon->GetDecalActor(), transform,
+				                                                      SpawnParameters);
+				auto rot = Hit.ImpactNormal.Rotation();
+				rot.Roll += 90.0f;
+				rot.Yaw += 180.0f;
+				decalActor->SetActorRotation(rot);
+			}
 		}
 	}
 }

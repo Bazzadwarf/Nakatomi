@@ -383,7 +383,7 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 			}
 
 			auto staticMeshComponent = Hit.GetActor()->GetComponentByClass<UStaticMeshComponent>();
-			
+
 			if (staticMeshComponent && !staticMeshComponent->IsSimulatingPhysics() && CurrentWeapon->GetDecalActor())
 			{
 				FTransform transform;
@@ -664,7 +664,7 @@ void APlayerCharacter::ThrowExplosiveCallback()
 		SpawnLocation += (25.0f * GetActorForwardVector());
 		SpawnLocation.Z += BoxExtent.Z;
 
-		AThrowable* Throwable = GetWorld()->SpawnActor<AThrowable>(ThrowableInventory.Pop(), SpawnLocation, FRotator::ZeroRotator);
+		GetWorld()->SpawnActor<AThrowable>(ThrowableInventory.Pop(), SpawnLocation, FRotator::ZeroRotator);
 	}
 }
 

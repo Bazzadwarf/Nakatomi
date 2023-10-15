@@ -59,7 +59,6 @@ void UPauseUIWidget::ResumeButtonOnClicked()
 
 void UPauseUIWidget::OptionsButtonOnClicked()
 {
-	// TODO: Implement Functionality
 	if (OptionsMenuWidget)
 	{
 		currentOptionsMenuWidget = CreateWidget<UOptionsUIWidget>(GetWorld(), OptionsMenuWidget);

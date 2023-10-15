@@ -396,6 +396,19 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 				rot.Yaw += 180.0f;
 				decalActor->SetActorRotation(rot);
 			}
+			
+			if (staticMeshComponent && !staticMeshComponent->IsSimulatingPhysics() &&
+				CurrentWeapon->GetImpactParticleSystem())
+			{
+				FTransform transform;
+				transform.SetLocation(Hit.ImpactPoint);
+
+				UGameplayStatics::SpawnEmitterAtLocation(this,
+				                                         CurrentWeapon->GetImpactParticleSystem(),
+				                                         transform.GetLocation(),
+				                                         FRotator::ZeroRotator,
+				                                         true);
+			}
 		}
 	}
 }

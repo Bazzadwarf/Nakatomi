@@ -55,6 +55,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ADecalActor> DecalActor;
 
+	UPROPERTY(EditDefaultsOnly)
+	UParticleSystem* ImpactParticleSystem;
+
 public:
 	// Sets default values for this actor's properties
 	AWeapon();
@@ -101,4 +104,6 @@ public:
 	TSubclassOf<AWeaponThrowable> GetWeaponThrowableTemplate();
 
 	TSubclassOf<class ADecalActor> GetDecalActor();
+
+	UParticleSystem* GetImpactParticleSystem();
 };

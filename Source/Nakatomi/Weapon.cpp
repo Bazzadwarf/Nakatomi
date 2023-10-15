@@ -125,6 +125,11 @@ TSubclassOf<ADecalActor> AWeapon::GetDecalActor()
 	return DecalActor;
 }
 
+UParticleSystem* AWeapon::GetImpactParticleSystem()
+{
+	return ImpactParticleSystem;
+}
+
 TSubclassOf<class ANakatomiFieldSystemActor> AWeapon::GetFieldSystemActor()
 {
 	return FieldSystemActor;

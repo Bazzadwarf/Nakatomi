@@ -17,10 +17,10 @@ EBTNodeResult::Type UTaskIsWithinRange::ExecuteTask(UBehaviorTreeComponent& owne
 
 	auto NavigationSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 	FVector SourceLocation = BlackboardComponent->GetValueAsVector(SourceLocationKey.SelectedKeyName);
-	ANakatomiCharacter* selfActor = Cast<ANakatomiCharacter>(
+	auto selfActor = Cast<ANakatomiCharacter>(
 		BlackboardComponent->GetValueAsObject(SelfActorKey.SelectedKeyName));
 
-	if (NavigationSystem && SourceLocation != FVector::ZeroVector)
+	if (selfActor && NavigationSystem && SourceLocation != FVector::ZeroVector)
 	{
 		double Distance = -1.0;
 		FNavLocation NavLocation;

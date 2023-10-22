@@ -46,8 +46,9 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 	{
 		Blackboard->InitializeBlackboard(*behaviourTree->BlackboardAsset);
 		BehaviorTree->StartTree(*behaviourTree);
+		Blackboard->SetValueAsObject("SelfActor", enemy);
 	}
-
+	
 	//ensure(enemy->GetMovementComponent()->UseAccelerationForPathFollowing());
 }
 

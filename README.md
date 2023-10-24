@@ -4,5 +4,5 @@
 
 ## Required Software
 
- - Unreal Engine 5.2 (or later)
- - An IDE (Visual Studio 20XX, Rider for Unreal Engine)
+ - Unreal Engine 5.3 (or later)
+ - An IDE (Visual Studio 20XX, Rider)

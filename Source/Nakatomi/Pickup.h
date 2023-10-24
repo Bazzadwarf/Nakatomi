@@ -9,7 +9,6 @@
 #include "Pickup.generated.h"
 
 
-// TODO: We probably want to add some extra stuff here, particle effects, sounds, etc
 UCLASS()
 class NAKATOMI_API APickup : public AActor
 {

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
 #include "Field/FieldSystemActor.h"
+#include <Field/FieldSystemObjects.h>
+#include "Field/FieldSystemComponent.h"
 #include "NakatomiFieldSystemActor.generated.h"
 
 

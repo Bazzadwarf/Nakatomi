@@ -43,7 +43,7 @@ void APickup::Tick(const float DeltaTime)
 	// We have to do this because Unreal doesn't like it when you create lights in c++ apparently ::pain::
 	const float Sin = FMath::Abs(FMath::Sin(GetWorld()->GetRealTimeSeconds() * (LightFadeSpeed / 2)));
 	//PointLightComponent->SetLightBrightness(sin * MaxLightBrightness);
-	PointLightComponent->SetLightBrightness(Sin * MaxLightBrightness);
+	//PointLightComponent->SetLightBrightness(Sin * MaxLightBrightness);
 }
 
 void APickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

@@ -40,7 +40,13 @@ void UMainMenuUIWidget::LoadGameButtonOnClicked()
 
 void UMainMenuUIWidget::OptionsButtonOnClicked()
 {
-	// TODO: Implement Functionality
+	if (OptionsMenuWidget)
+	{
+		currentOptionsMenuWidget = CreateWidget<UOptionsUIWidget>(GetWorld(), OptionsMenuWidget);
+		currentOptionsMenuWidget->AddToViewport();
+		currentOptionsMenuWidget->SetReturnScreen(this);
+		this->RemoveFromParent();
+	}
 }
 
 void UMainMenuUIWidget::QuitButtonOnClicked()

@@ -38,6 +38,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> OptionsMenuWidget;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSoftObjectPtr<UWorld> NewGameLevel;
+
 private:
 	UUserWidget* currentNewGameWidget;
 

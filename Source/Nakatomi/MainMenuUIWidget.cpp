@@ -3,6 +3,8 @@
 
 #include "MainMenuUIWidget.h"
 
+#include "Kismet/GameplayStatics.h"
+
 void UMainMenuUIWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -30,7 +32,11 @@ void UMainMenuUIWidget::NativeConstruct()
 
 void UMainMenuUIWidget::NewGameButtonOnClicked()
 {
-	// TODO: Implement Functionality
+	// TODO: Replace this is a menu to confirm the user wants to start a new game
+	if (!NewGameLevel.IsNull())
+	{
+		UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), NewGameLevel);	
+	}
 }
 
 void UMainMenuUIWidget::LoadGameButtonOnClicked()

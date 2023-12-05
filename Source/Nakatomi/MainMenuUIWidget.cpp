@@ -3,6 +3,7 @@
 
 #include "MainMenuUIWidget.h"
 
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
 void UMainMenuUIWidget::NativeConstruct()
@@ -28,6 +29,14 @@ void UMainMenuUIWidget::NativeConstruct()
 	{
 		QuitButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitButtonOnClicked);
 	}
+
+	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(PlayerController, this, EMouseLockMode::LockAlways);
+		PlayerController->bShowMouseCursor = true;
+	}
+
+
 }
 
 void UMainMenuUIWidget::NewGameButtonOnClicked()
@@ -37,6 +46,14 @@ void UMainMenuUIWidget::NewGameButtonOnClicked()
 	{
 		UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), NewGameLevel);	
 	}
+
+	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		PlayerController->bShowMouseCursor = false;
+		UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
+	}
+
+	SetIsFocusable(false);
 }
 
 void UMainMenuUIWidget::LoadGameButtonOnClicked()

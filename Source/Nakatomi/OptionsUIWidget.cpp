@@ -5,7 +5,9 @@
 
 #include <Kismet/KismetSystemLibrary.h>
 
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "GameFramework/GameUserSettings.h"
+#include "Kismet/GameplayStatics.h"
 
 void UOptionsUIWidget::NativeConstruct()
 {
@@ -69,6 +71,14 @@ void UOptionsUIWidget::NativeConstruct()
 	{
 		ResetToDefaultsButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::ResetToDefaultsButtonOnClicked);
 	}
+
+	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(PlayerController, this, EMouseLockMode::LockAlways);
+		PlayerController->bShowMouseCursor = true;
+	}
+
+	SetIsFocusable(true);
 }
 
 void UOptionsUIWidget::SetReturnScreen(UUserWidget* userWidget)

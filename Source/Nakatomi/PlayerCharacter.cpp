@@ -99,10 +99,6 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::Destroyed()
 {
-	FString map = GetWorld()->GetMapName();
-	map.RemoveFromStart("UEDPIE_0_"); // We have to remove this for reason, I don't fully understand at the moment
-	UGameplayStatics::OpenLevel(this, FName(map), false);
-
 	Super::Destroyed();	
 }
 
@@ -445,6 +441,11 @@ void APlayerCharacter::OnDeath()
 
 	IsFiring = false;
 	ClearAllTimers();
+
+	// TODO: Move this out into it's own method.
+	FString map = GetWorld()->GetMapName();
+	map.RemoveFromStart("UEDPIE_0_"); // We have to remove this for reason, I don't fully understand at the moment
+	UGameplayStatics::OpenLevel(this, FName(map), false);
 }
 
 void APlayerCharacter::SetMovementSpeed()

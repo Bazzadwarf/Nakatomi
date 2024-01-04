@@ -187,6 +187,12 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		{
 			Input->BindAction(PauseAction, ETriggerEvent::Completed, this, &APlayerCharacter::PauseCallback);
 		}
+
+		if (CrouchAction)
+		{
+			Input->BindAction(CrouchAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginCrouchCallback);
+			Input->BindAction(CrouchAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndCrouchCallback);
+		}
 	}
 }
 
@@ -268,17 +274,21 @@ void APlayerCharacter::QuitCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance)
 {
-	if (NakatomiCMC)
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (cmc)
 	{
-		NakatomiCMC->EnableSprint();
+		cmc->EnableSprint();
 	}
 }
 
 void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 {
-	if (NakatomiCMC)
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (cmc)
 	{
-		NakatomiCMC->DisableSprint();
+		cmc->DisableSprint();
 	}
 }
 
@@ -533,6 +543,26 @@ void APlayerCharacter::PauseCallback(const FInputActionInstance& Instance)
 			// TODO: Add pause functionality
 			currentPauseMenuWidget->AddToViewport();
 		}
+	}
+}
+
+void APlayerCharacter::BeginCrouchCallback(const FInputActionInstance& Instance)
+{
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (cmc)
+	{
+		cmc->EnableCrouch();
+	}
+}
+
+void APlayerCharacter::EndCrouchCallback(const FInputActionInstance& Instance)
+{
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (cmc)
+	{
+		cmc->DisableCrouch();
 	}
 }
 

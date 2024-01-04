@@ -5,6 +5,11 @@
 
 #include <GameFramework/Character.h>
 
+UNakatomiCMC::UNakatomiCMC(): Safe_bWantsToSprint(false)
+{
+	NavAgentProps.bCanCrouch = true;
+}
+
 // Checks if we can combine the NewMove with the current move to save on data.
 // If all the data in a saved move is identical, if true, we cam tell the server to run the existing move instead.
 bool UNakatomiCMC::FSavedMove_Nakatomi::CanCombineWith(const FSavedMovePtr& NewMove, ACharacter* InCharacter,
@@ -83,10 +88,6 @@ FNetworkPredictionData_Client* UNakatomiCMC::GetPredictionData_Client() const
 	return ClientPredictionData;
 }
 
-UNakatomiCMC::UNakatomiCMC(): Safe_bWantsToSprint(false)
-{
-}
-
 void UNakatomiCMC::UpdateFromCompressedFlags(uint8 Flags)
 {
 	Super::UpdateFromCompressedFlags(Flags);
@@ -119,4 +120,14 @@ void UNakatomiCMC::EnableSprint()
 void UNakatomiCMC::DisableSprint()
 {
 	Safe_bWantsToSprint = false;
+}
+
+void UNakatomiCMC::EnableCrouch()
+{
+	bWantsToCrouch = true;
+}
+
+void UNakatomiCMC::DisableCrouch()
+{
+	bWantsToCrouch = false;
 }

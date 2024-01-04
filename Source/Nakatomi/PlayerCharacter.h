@@ -64,6 +64,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UInputAction* AimDownSightsAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* CrouchAction;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UInputMappingContext> InputMappingContext;
@@ -174,6 +177,10 @@ public:
 	void EndAimDownSightsCallback(const FInputActionInstance& Instance);
 
 	void PauseCallback(const FInputActionInstance& Instance);
+
+	void BeginCrouchCallback(const FInputActionInstance& Instance);
+
+	void EndCrouchCallback(const FInputActionInstance& Instance);
 	
 	virtual void OnFire() override;
 

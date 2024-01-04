@@ -57,4 +57,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DisableSprint();
+
+	UFUNCTION(BlueprintCallable)
+	void EnableCrouch();
+
+	UFUNCTION(BlueprintCallable)
+	void DisableCrouch();
 };

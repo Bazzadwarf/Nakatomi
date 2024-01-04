@@ -25,7 +25,7 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer) 
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.SetTickFunctionEnable(true);
 	PrimaryActorTick.bStartWithTickEnabled = true;
-
+	
 	//bUseControllerRotationPitch = true;
 	//bUseControllerRotationYaw = true;
 	//bUseControllerRotationRoll = false;
@@ -56,9 +56,8 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer) 
 	CameraADSSpringArmComponent->SocketOffset = {0.0f, 50.0f, 75.0f};
 	
 	// Setup the character movement
-	UCharacterMovementComponent* CharacterMovementComponent = GetCharacterMovement();
-	CharacterMovementComponent->AirControl = 1.0f;
-	CharacterMovementComponent->bOrientRotationToMovement = true;
+	GetCharacterMovement()->AirControl = 1.0f;
+	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 	// Setup the character perception component
 	PerceptionSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Perception Source Stimuli"));
@@ -269,16 +268,18 @@ void APlayerCharacter::QuitCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance)
 {
-	IsSpriting = true;
-	
-	SetMovementSpeed();
+	if (NakatomiCMC)
+	{
+		NakatomiCMC->EnableSprint();
+	}
 }
 
 void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 {
-	IsSpriting = false;
-	
-	SetMovementSpeed();
+	if (NakatomiCMC)
+	{
+		NakatomiCMC->DisableSprint();
+	}
 }
 
 void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
@@ -450,7 +451,7 @@ void APlayerCharacter::OnDeath()
 
 void APlayerCharacter::SetMovementSpeed()
 {
-	if (IsADS)
+	/*if (IsADS)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed * ADSSpeedMultiplier;
 	}
@@ -461,7 +462,7 @@ void APlayerCharacter::SetMovementSpeed()
 	else
 	{
 		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed;
-	}
+	}*/
 }
 
 void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)

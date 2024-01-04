@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "HealthComponent.h"
+#include "NakatomiCMC.h"
 #include "Throwable.h"
 #include "Weapon.h"
 #include "NakatomiCharacter.generated.h"
@@ -38,6 +39,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TArray<TSubclassOf<AThrowable>> ThrowableInventory;
 
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
+	UNakatomiCMC* NakatomiCMC;
+	
 private:
 	UPROPERTY(VisibleDefaultsOnly)
 	UHealthComponent* HealthComponent = nullptr;
@@ -47,9 +52,10 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	int MaximumThrowableInventorySize = 4;
 
+	
 public:
 	// Sets default values for this character's properties
-	ANakatomiCharacter();
+	ANakatomiCharacter(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned

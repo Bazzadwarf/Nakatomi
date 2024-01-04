@@ -14,6 +14,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "InteractableComponent.h"
+#include "NakatomiCMC.h"
 #include "Throwable.h"
 #include "PlayerCharacter.generated.h"
 
@@ -95,6 +96,9 @@ protected:
 	float DefaultAimSensitivity = 45.0f;
 
 private:
+	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
+	// UNakatomiCMC* NakatomiCMC;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraSpringArmComponent = nullptr;
 
@@ -132,7 +136,7 @@ private:
 	
 public:
 	// Sets default values for this character's properties
-	APlayerCharacter();
+	APlayerCharacter(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned

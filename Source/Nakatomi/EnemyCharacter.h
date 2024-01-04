@@ -27,7 +27,7 @@ private:
 	FTimerHandle CooldownTimerHandle;
 	
 public:
-	AEnemyCharacter();
+	AEnemyCharacter(const FObjectInitializer& ObjectInitializer);
 
 	UBehaviorTree* GetBehaviourTree();
 

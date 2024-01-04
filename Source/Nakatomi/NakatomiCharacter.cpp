@@ -25,6 +25,8 @@ void ANakatomiCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	SetInventoryToDefault();
+
+	NakatomiCMC = Cast<UNakatomiCMC>(GetCharacterMovement());
 }
 
 // Called every frame
@@ -235,6 +237,11 @@ void ANakatomiCharacter::PushThrowableToInventory(TSubclassOf<AThrowable> Throwa
 	{
 		ThrowableInventory.Push(Throwable);		
 	}
+}
+
+UNakatomiCMC* ANakatomiCharacter::GetCharacterMovementComponent()
+{
+	return NakatomiCMC;
 }
 
 void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)

@@ -104,6 +104,8 @@ public:
 
 	void PushThrowableToInventory(TSubclassOf<AThrowable> Throwable);
 
+	UNakatomiCMC* GetCharacterMovementComponent();
+
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits);
 

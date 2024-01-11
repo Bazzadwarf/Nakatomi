@@ -3,11 +3,20 @@
 
 #include "NakatomiCMC.h"
 
+#include <Components/CapsuleComponent.h>
 #include <GameFramework/Character.h>
+#include "NakatomiCharacter.h"
 
 UNakatomiCMC::UNakatomiCMC(): Safe_bWantsToSprint(false)
 {
 	NavAgentProps.bCanCrouch = true;
+}
+
+void UNakatomiCMC::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	NakatomiCharacterOwner = Cast<ANakatomiCharacter>(GetOwner());
 }
 
 // Checks if we can combine the NewMove with the current move to save on data.
@@ -51,6 +60,7 @@ void UNakatomiCMC::FSavedMove_Nakatomi::SetMoveFor(ACharacter* C, float InDeltaT
 	UNakatomiCMC* CharacterMovement = Cast<UNakatomiCMC>(C->GetCharacterMovement());
 
 	Saved_bWantsToSprint = CharacterMovement->Safe_bWantsToSprint;
+	Saved_bPrevWantsToCrouch = CharacterMovement->Safe_bPrevWantsToCrouch;
 }
 
 void UNakatomiCMC::FSavedMove_Nakatomi::PrepMoveFor(ACharacter* C)
@@ -60,6 +70,7 @@ void UNakatomiCMC::FSavedMove_Nakatomi::PrepMoveFor(ACharacter* C)
 	UNakatomiCMC* CharacterMovement = Cast<UNakatomiCMC>(C->GetCharacterMovement());
 
 	CharacterMovement->Safe_bWantsToSprint = Saved_bWantsToSprint;
+	CharacterMovement->Safe_bPrevWantsToCrouch = Saved_bPrevWantsToCrouch;
 }
 
 UNakatomiCMC::FNetworkPredictionData_Client_Nakatomi::FNetworkPredictionData_Client_Nakatomi(
@@ -110,6 +121,51 @@ void UNakatomiCMC::OnMovementUpdated(float DeltaSeconds, const FVector& OldLocat
 			MaxWalkSpeed = Walk_MaxWalkSpeed;
 		}
 	}
+
+	Safe_bPrevWantsToCrouch = bWantsToCrouch;
+}
+
+bool UNakatomiCMC::IsMovingOnGround() const
+{
+	return Super::IsMovingOnGround() || IsCustomMovementMode(CMOVE_Slide);
+}
+
+bool UNakatomiCMC::CanCrouchInCurrentState() const
+{
+	return Super::CanCrouchInCurrentState() && IsMovingOnGround();
+}
+
+void UNakatomiCMC::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
+{
+	if (MovementMode == MOVE_Walking && !bWantsToCrouch && Safe_bPrevWantsToCrouch)
+	{
+		FHitResult PotentialSlideSurface;
+		if (Velocity.SizeSquared() > pow(Slide_MinSpeed, 2) && GetSlideSurface(PotentialSlideSurface))
+		{
+			EnterSlide();
+		}
+	}
+
+	if (IsCustomMovementMode(CMOVE_Slide) && !bWantsToCrouch)
+	{
+		ExitSlide();
+	}
+	
+	Super::UpdateCharacterStateBeforeMovement(DeltaSeconds);
+}
+
+void UNakatomiCMC::PhysCustom(float deltaTime, int32 Iterations)
+{
+	Super::PhysCustom(deltaTime, Iterations);
+
+	switch (CustomMovementMode)
+	{
+	case CMOVE_Slide:
+		PhysSlide(deltaTime, Iterations);
+		break;
+	default:
+		UE_LOG(LogTemp, Fatal, TEXT("Invalid Movement Mode"));
+	}
 }
 
 void UNakatomiCMC::EnableSprint()
@@ -130,4 +186,102 @@ void UNakatomiCMC::EnableCrouch()
 void UNakatomiCMC::DisableCrouch()
 {
 	bWantsToCrouch = false;
+}
+
+bool UNakatomiCMC::IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const
+{
+	return MovementMode == MOVE_Custom && CustomMovementMode == InCustomMovementMode;
+}
+
+void UNakatomiCMC::EnterSlide()
+{
+	bWantsToCrouch = true;
+	Velocity += Velocity.GetSafeNormal2D() * Slide_EnterImpulse;
+	SetMovementMode(MOVE_Custom, CMOVE_Slide);
+}
+
+void UNakatomiCMC::ExitSlide()
+{
+	bWantsToCrouch = false;
+
+	FQuat NewRotation = FRotationMatrix::MakeFromXZ(UpdatedComponent->GetForwardVector().GetSafeNormal2D(), FVector::UpVector).ToQuat();
+	FHitResult Hit;
+	SafeMoveUpdatedComponent(FVector::ZeroVector, NewRotation, true, Hit);
+	SetMovementMode(MOVE_Walking);
+}
+
+void UNakatomiCMC::PhysSlide(float deltaTime, int32 Iterations)
+{
+	if (deltaTime < MIN_TICK_TIME) return;
+
+	// This is probably not needed for Sliding but including for completeness, will likely remove later.
+	RestorePreAdditiveRootMotionVelocity();
+
+	FHitResult SurfaceHit;
+	if (!GetSlideSurface(SurfaceHit) || Velocity.SizeSquared() < pow(Slide_MinSpeed, 2))
+	{
+		ExitSlide();
+		StartNewPhysics(deltaTime, Iterations);
+	}
+
+	// Surface Gravity
+	Velocity += Slide_GravityForce * FVector::DownVector * deltaTime;
+
+	// Calculate Strafe
+	if (FMath::Abs(FVector::DotProduct(Acceleration.GetSafeNormal(), UpdatedComponent->GetRightVector())) > 0.5f)
+	{
+		Acceleration = Acceleration.ProjectOnTo(UpdatedComponent->GetRightVector());
+	}
+	else
+	{
+		Acceleration = FVector::ZeroVector;
+	}
+
+	// Calculate Velocity
+	if (!HasAnimRootMotion() && !CurrentRootMotion.HasOverrideVelocity())
+	{
+		CalcVelocity(deltaTime, Slide_Friction, true, GetMaxBrakingDeceleration());
+	}
+	ApplyRootMotionToVelocity(deltaTime);
+
+	// Perform Move
+	Iterations++;
+	bJustTeleported = false;
+
+	FVector OldLocation = UpdatedComponent->GetComponentLocation();
+	FQuat OldRotation = UpdatedComponent->GetComponentRotation().Quaternion();
+	
+	FHitResult Hit(1.f);
+	FVector AdjustedVelocity = Velocity * deltaTime;
+	FVector VelocityPlaneDirection = FVector::VectorPlaneProject(Velocity, SurfaceHit.Normal).GetSafeNormal();
+	FQuat NewRotation = FRotationMatrix::MakeFromXZ(VelocityPlaneDirection, SurfaceHit.Normal).ToQuat();
+	SafeMoveUpdatedComponent(AdjustedVelocity, NewRotation, true, Hit);
+
+	// Post Move Checks
+	if (Hit.Time < 1.f)
+	{
+		HandleImpact(Hit, deltaTime, AdjustedVelocity);
+		SlideAlongSurface(AdjustedVelocity, (1.f - Hit.Time), Hit.Normal, Hit, true);
+	}
+
+	FHitResult NewSurfaceHit;
+	if (!GetSlideSurface(NewSurfaceHit) || Velocity.SizeSquared() < pow(Slide_MinSpeed, 2))
+	{
+		ExitSlide();
+	}
+
+	// Update outgoing Velocity and Acceleration
+	if (!bJustTeleported && !HasAnimRootMotion() && !CurrentRootMotion.HasOverrideVelocity())
+	{
+		Velocity = (UpdatedComponent->GetComponentLocation() - OldLocation) / deltaTime;
+	}
+}
+
+bool UNakatomiCMC::GetSlideSurface(FHitResult& Hit) const
+{
+	const FVector Start = UpdatedComponent->GetComponentLocation();
+	const FVector End = Start + CharacterOwner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * 2.f * FVector::DownVector;
+	const FName ProfileName = TEXT("BlockAll");
+	
+	return GetWorld()->LineTraceSingleByProfile(Hit, Start, End, ProfileName);
 }

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "HealthComponent.h"
-#include "NakatomiCMC.h"
+#include "Nakatomi.h"
 #include "Throwable.h"
 #include "Weapon.h"
 #include "NakatomiCharacter.generated.h"

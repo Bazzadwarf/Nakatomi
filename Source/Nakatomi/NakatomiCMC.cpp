@@ -60,7 +60,7 @@ void UNakatomiCMC::FSavedMove_Nakatomi::SetMoveFor(ACharacter* C, float InDeltaT
 	UNakatomiCMC* CharacterMovement = Cast<UNakatomiCMC>(C->GetCharacterMovement());
 
 	Saved_bWantsToSprint = CharacterMovement->Safe_bWantsToSprint;
-	Saved_bPrevWantsToCrouch = CharacterMovement->Safe_bPrevWantsToCrouch;
+	Saved_bWantsToSlide = CharacterMovement->Safe_bWantsToSlide;
 }
 
 void UNakatomiCMC::FSavedMove_Nakatomi::PrepMoveFor(ACharacter* C)
@@ -70,7 +70,7 @@ void UNakatomiCMC::FSavedMove_Nakatomi::PrepMoveFor(ACharacter* C)
 	UNakatomiCMC* CharacterMovement = Cast<UNakatomiCMC>(C->GetCharacterMovement());
 
 	CharacterMovement->Safe_bWantsToSprint = Saved_bWantsToSprint;
-	CharacterMovement->Safe_bPrevWantsToCrouch = Saved_bPrevWantsToCrouch;
+	CharacterMovement->Safe_bWantsToSlide = Saved_bWantsToSlide;
 }
 
 UNakatomiCMC::FNetworkPredictionData_Client_Nakatomi::FNetworkPredictionData_Client_Nakatomi(
@@ -121,8 +121,6 @@ void UNakatomiCMC::OnMovementUpdated(float DeltaSeconds, const FVector& OldLocat
 			MaxWalkSpeed = Walk_MaxWalkSpeed;
 		}
 	}
-
-	Safe_bPrevWantsToCrouch = bWantsToCrouch;
 }
 
 bool UNakatomiCMC::IsMovingOnGround() const
@@ -137,7 +135,7 @@ bool UNakatomiCMC::CanCrouchInCurrentState() const
 
 void UNakatomiCMC::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 {
-	if (MovementMode == MOVE_Walking && !bWantsToCrouch && Safe_bPrevWantsToCrouch)
+	if (MovementMode == MOVE_Walking && Safe_bWantsToSlide)
 	{
 		FHitResult PotentialSlideSurface;
 		if (Velocity.SizeSquared() > pow(Slide_MinSpeed, 2) && GetSlideSurface(PotentialSlideSurface))
@@ -146,7 +144,7 @@ void UNakatomiCMC::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 		}
 	}
 
-	if (IsCustomMovementMode(CMOVE_Slide) && !bWantsToCrouch)
+	if (IsCustomMovementMode(CMOVE_Slide) && !Safe_bWantsToSlide)
 	{
 		ExitSlide();
 	}
@@ -190,12 +188,12 @@ void UNakatomiCMC::DisableCrouch()
 
 void UNakatomiCMC::EnableSlide()
 {
-	EnterSlide();
+	Safe_bWantsToSlide = true;
 }
 
 void UNakatomiCMC::DisableSlide()
 {
-	ExitSlide();
+	Safe_bWantsToSlide = false;
 }
 
 bool UNakatomiCMC::IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const
@@ -205,14 +203,14 @@ bool UNakatomiCMC::IsCustomMovementMode(ECustomMovementMove InCustomMovementMode
 
 void UNakatomiCMC::EnterSlide()
 {
-	bWantsToCrouch = true;
+	// bWantsToCrouch = true;
 	Velocity += Velocity.GetSafeNormal2D() * Slide_EnterImpulse;
 	SetMovementMode(MOVE_Custom, CMOVE_Slide);
 }
 
 void UNakatomiCMC::ExitSlide()
 {
-	bWantsToCrouch = false;
+	// bWantsToCrouch = false;
 
 	FQuat NewRotation = FRotationMatrix::MakeFromXZ(UpdatedComponent->GetForwardVector().GetSafeNormal2D(), FVector::UpVector).ToQuat();
 	FHitResult Hit;

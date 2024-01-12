@@ -29,8 +29,8 @@ class NAKATOMI_API UNakatomiCMC : public UCharacterMovementComponent
 
 		// Flag
 		uint8 Saved_bWantsToSprint:1;
-
-		uint8 Saved_bPrevWantsToCrouch:1;
+		
+		uint8 Saved_bWantsToSlide:1;
 		
 		virtual bool CanCombineWith(const FSavedMovePtr& NewMove, ACharacter* InCharacter, float MaxDelta) const override;
 		virtual void Clear() override;
@@ -56,19 +56,19 @@ class NAKATOMI_API UNakatomiCMC : public UCharacterMovementComponent
 	float Walk_MaxWalkSpeed;
 
 	UPROPERTY(EditDefaultsOnly)
-	float Slide_MinSpeed = 10.f;
+	float Slide_MinSpeed = 50.f;
 
 	UPROPERTY(EditDefaultsOnly)
 	float Slide_EnterImpulse = 2000.f;
 
 	UPROPERTY(EditDefaultsOnly)
-	float Slide_GravityForce = 5000.f;
+	float Slide_GravityForce = 2500.f;
 
 	UPROPERTY(EditDefaultsOnly)
-	float Slide_Friction = 1.3f;
+	float Slide_Friction = 1.f;
 	
 	bool Safe_bWantsToSprint;
-	bool Safe_bPrevWantsToCrouch;
+	bool Safe_bWantsToSlide;
 
 	UPROPERTY(Transient)
 	ANakatomiCharacter* NakatomiCharacterOwner;

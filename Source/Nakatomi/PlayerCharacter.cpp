@@ -193,6 +193,12 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 			Input->BindAction(CrouchAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginCrouchCallback);
 			Input->BindAction(CrouchAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndCrouchCallback);
 		}
+
+		if (SlideAction)
+		{
+			Input->BindAction(SlideAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginSlideCallback);
+			Input->BindAction(SlideAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndSlideCallback);
+		}
 	}
 }
 
@@ -563,6 +569,26 @@ void APlayerCharacter::EndCrouchCallback(const FInputActionInstance& Instance)
 	if (cmc)
 	{
 		cmc->DisableCrouch();
+	}
+}
+
+void APlayerCharacter::BeginSlideCallback(const FInputActionInstance& Instance)
+{
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (cmc)
+	{
+		cmc->EnableSlide();
+	}
+}
+
+void APlayerCharacter::EndSlideCallback(const FInputActionInstance& Instance)
+{
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (cmc)
+	{
+		cmc->DisableSlide();
 	}
 }
 

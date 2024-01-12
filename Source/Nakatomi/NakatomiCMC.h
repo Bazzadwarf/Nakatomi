@@ -106,6 +106,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DisableCrouch();
 
+	UFUNCTION(BlueprintCallable)
+	void EnableSlide();
+
+	UFUNCTION(BlueprintCallable)
+	void DisableSlide();
+
 	UFUNCTION()
 	bool IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const;
 

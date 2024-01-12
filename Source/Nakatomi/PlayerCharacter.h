@@ -67,6 +67,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UInputAction* CrouchAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* SlideAction;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UInputMappingContext> InputMappingContext;
@@ -181,6 +184,10 @@ public:
 	void BeginCrouchCallback(const FInputActionInstance& Instance);
 
 	void EndCrouchCallback(const FInputActionInstance& Instance);
+
+	void BeginSlideCallback(const FInputActionInstance& Instance);
+
+	void EndSlideCallback(const FInputActionInstance& Instance);
 	
 	virtual void OnFire() override;
 

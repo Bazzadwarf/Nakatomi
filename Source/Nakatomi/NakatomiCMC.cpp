@@ -188,6 +188,16 @@ void UNakatomiCMC::DisableCrouch()
 	bWantsToCrouch = false;
 }
 
+void UNakatomiCMC::EnableSlide()
+{
+	EnterSlide();
+}
+
+void UNakatomiCMC::DisableSlide()
+{
+	ExitSlide();
+}
+
 bool UNakatomiCMC::IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const
 {
 	return MovementMode == MOVE_Custom && CustomMovementMode == InCustomMovementMode;

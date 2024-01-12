@@ -203,14 +203,14 @@ bool UNakatomiCMC::IsCustomMovementMode(ECustomMovementMove InCustomMovementMode
 
 void UNakatomiCMC::EnterSlide()
 {
-	// bWantsToCrouch = true;
+	Safe_bWantsToSlide = true;
 	Velocity += Velocity.GetSafeNormal2D() * Slide_EnterImpulse;
 	SetMovementMode(MOVE_Custom, CMOVE_Slide);
 }
 
 void UNakatomiCMC::ExitSlide()
 {
-	// bWantsToCrouch = false;
+	Safe_bWantsToSlide = false;
 
 	FQuat NewRotation = FRotationMatrix::MakeFromXZ(UpdatedComponent->GetForwardVector().GetSafeNormal2D(), FVector::UpVector).ToQuat();
 	FHitResult Hit;

@@ -31,6 +31,8 @@ class NAKATOMI_API UNakatomiCMC : public UCharacterMovementComponent
 		uint8 Saved_bWantsToSprint:1;
 		
 		uint8 Saved_bWantsToSlide:1;
+
+		uint8 Saved_bWantsToAds:1;
 		
 		virtual bool CanCombineWith(const FSavedMovePtr& NewMove, ACharacter* InCharacter, float MaxDelta) const override;
 		virtual void Clear() override;
@@ -50,11 +52,14 @@ class NAKATOMI_API UNakatomiCMC : public UCharacterMovementComponent
 	};
 
 	UPROPERTY(EditDefaultsOnly)
-	float Sprint_MaxWalkSpeed;
+	float Sprint_MaxWalkSpeed = 1000.0f;
 
 	UPROPERTY(EditDefaultsOnly)
-	float Walk_MaxWalkSpeed;
-
+	float Walk_MaxWalkSpeed = 500.0f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float Crouch_MaxWalkSpeed = 250.0f;
+	
 	UPROPERTY(EditDefaultsOnly)
 	float Slide_MinSpeed = 50.f;
 
@@ -66,10 +71,14 @@ class NAKATOMI_API UNakatomiCMC : public UCharacterMovementComponent
 
 	UPROPERTY(EditDefaultsOnly)
 	float Slide_Friction = 1.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float Ads_Multiplier = 0.5f;
 	
 	bool Safe_bWantsToSprint;
 	bool Safe_bWantsToSlide;
-
+	bool Safe_bWantsToAds;
+	
 	UPROPERTY(Transient)
 	ANakatomiCharacter* NakatomiCharacterOwner;
 	
@@ -111,6 +120,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DisableSlide();
+
+	UFUNCTION(BlueprintCallable)
+	void EnableAds();
+
+	UFUNCTION(BlueprintCallable)
+	void DisableAds();
 
 	UFUNCTION()
 	bool IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const;

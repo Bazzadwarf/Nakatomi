@@ -465,22 +465,6 @@ void APlayerCharacter::OnDeath()
 	UGameplayStatics::OpenLevel(this, FName(map), false);
 }
 
-void APlayerCharacter::SetMovementSpeed()
-{
-	/*if (IsADS)
-	{
-		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed * ADSSpeedMultiplier;
-	}
-	else if (IsSpriting)
-	{
-		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed * SprintSpeedMultiplier;
-	}
-	else
-	{
-		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed;
-	}*/
-}
-
 void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)
 {
 	float value = Instance.GetValue().Get<float>();
@@ -499,7 +483,12 @@ void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& In
 {
 	IsADS = true;
 
-	SetMovementSpeed();
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (cmc)
+	{
+		cmc->EnableAds();
+	}
 
 	AimSensitivity = DefaultAimSensitivity * ADSAimSensitivityMultiplier;
 
@@ -522,7 +511,12 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 {
 	IsADS = false;
 
-	SetMovementSpeed();
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (cmc)
+	{
+		cmc->DisableAds();
+	}
 
 	AimSensitivity = DefaultAimSensitivity;
 

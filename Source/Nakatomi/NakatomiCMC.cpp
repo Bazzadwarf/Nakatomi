@@ -61,6 +61,7 @@ void UNakatomiCMC::FSavedMove_Nakatomi::SetMoveFor(ACharacter* C, float InDeltaT
 
 	Saved_bWantsToSprint = CharacterMovement->Safe_bWantsToSprint;
 	Saved_bWantsToSlide = CharacterMovement->Safe_bWantsToSlide;
+	Saved_bWantsToAds = CharacterMovement->Safe_bWantsToAds;
 }
 
 void UNakatomiCMC::FSavedMove_Nakatomi::PrepMoveFor(ACharacter* C)
@@ -71,6 +72,7 @@ void UNakatomiCMC::FSavedMove_Nakatomi::PrepMoveFor(ACharacter* C)
 
 	CharacterMovement->Safe_bWantsToSprint = Saved_bWantsToSprint;
 	CharacterMovement->Safe_bWantsToSlide = Saved_bWantsToSlide;
+	CharacterMovement->Safe_bWantsToAds = Saved_bWantsToAds;
 }
 
 UNakatomiCMC::FNetworkPredictionData_Client_Nakatomi::FNetworkPredictionData_Client_Nakatomi(
@@ -120,6 +122,23 @@ void UNakatomiCMC::OnMovementUpdated(float DeltaSeconds, const FVector& OldLocat
 		{
 			MaxWalkSpeed = Walk_MaxWalkSpeed;
 		}
+
+		if (Safe_bWantsToAds)
+		{
+			MaxWalkSpeed *= Ads_Multiplier;
+		}
+	}
+
+	if (bWantsToCrouch)
+	{
+		if (Safe_bWantsToAds)
+		{
+			MaxWalkSpeedCrouched = Crouch_MaxWalkSpeed * Ads_Multiplier;
+		}
+		else
+		{
+			MaxWalkSpeedCrouched = Crouch_MaxWalkSpeed;
+		}
 	}
 }
 
@@ -135,7 +154,7 @@ bool UNakatomiCMC::CanCrouchInCurrentState() const
 
 void UNakatomiCMC::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 {
-	if (MovementMode == MOVE_Walking && Safe_bWantsToSlide)
+	if (MovementMode == MOVE_Walking && Safe_bWantsToSlide && !Safe_bWantsToAds)
 	{
 		FHitResult PotentialSlideSurface;
 		if (Velocity.SizeSquared() > pow(Slide_MinSpeed, 2) && GetSlideSurface(PotentialSlideSurface))
@@ -194,6 +213,16 @@ void UNakatomiCMC::EnableSlide()
 void UNakatomiCMC::DisableSlide()
 {
 	Safe_bWantsToSlide = false;
+}
+
+void UNakatomiCMC::EnableAds()
+{
+	Safe_bWantsToAds = true;
+}
+
+void UNakatomiCMC::DisableAds()
+{
+	Safe_bWantsToAds = false;
 }
 
 bool UNakatomiCMC::IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const

@@ -90,9 +90,6 @@ protected:
 	float SprintSpeedMultiplier = 2.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float ADSSpeedMultiplier = 0.5f;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float ADSAimSensitivityMultiplier = 0.5f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -224,6 +221,5 @@ protected:
 	virtual void OnDamaged() override;
 	
 	virtual void OnDeath() override;
-
-	void SetMovementSpeed();
+	
 };

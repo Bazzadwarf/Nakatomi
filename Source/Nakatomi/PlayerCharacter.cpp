@@ -280,9 +280,7 @@ void APlayerCharacter::QuitCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance)
 {
-	UNakatomiCMC* cmc = GetCharacterMovementComponent();
-	
-	if (cmc)
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->EnableSprint();
 	}
@@ -290,9 +288,7 @@ void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance
 
 void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 {
-	UNakatomiCMC* cmc = GetCharacterMovementComponent();
-	
-	if (cmc)
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->DisableSprint();
 	}
@@ -483,9 +479,7 @@ void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& In
 {
 	IsADS = true;
 
-	UNakatomiCMC* cmc = GetCharacterMovementComponent();
-	
-	if (cmc)
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->EnableAds();
 	}
@@ -511,9 +505,7 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 {
 	IsADS = false;
 
-	UNakatomiCMC* cmc = GetCharacterMovementComponent();
-	
-	if (cmc)
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->DisableAds();
 	}
@@ -548,9 +540,7 @@ void APlayerCharacter::PauseCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::BeginCrouchCallback(const FInputActionInstance& Instance)
 {
-	UNakatomiCMC* cmc = GetCharacterMovementComponent();
-	
-	if (cmc)
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->EnableCrouch();
 	}
@@ -558,9 +548,7 @@ void APlayerCharacter::BeginCrouchCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::EndCrouchCallback(const FInputActionInstance& Instance)
 {
-	UNakatomiCMC* cmc = GetCharacterMovementComponent();
-	
-	if (cmc)
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->DisableCrouch();
 	}
@@ -568,9 +556,7 @@ void APlayerCharacter::EndCrouchCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::BeginSlideCallback(const FInputActionInstance& Instance)
 {
-	UNakatomiCMC* cmc = GetCharacterMovementComponent();
-	
-	if (cmc)
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->EnableSlide();
 	}
@@ -578,9 +564,7 @@ void APlayerCharacter::BeginSlideCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::EndSlideCallback(const FInputActionInstance& Instance)
 {
-	UNakatomiCMC* cmc = GetCharacterMovementComponent();
-	
-	if (cmc)
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->DisableSlide();
 	}

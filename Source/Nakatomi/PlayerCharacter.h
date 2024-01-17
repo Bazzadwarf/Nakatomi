@@ -70,6 +70,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UInputAction* SlideAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* DashAction;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UInputMappingContext> InputMappingContext;
@@ -185,6 +188,10 @@ public:
 	void BeginSlideCallback(const FInputActionInstance& Instance);
 
 	void EndSlideCallback(const FInputActionInstance& Instance);
+
+	void BeginDashCallback(const FInputActionInstance& Instance);
+
+	void EndDashCallback(const FInputActionInstance& Instance);
 	
 	virtual void OnFire() override;
 

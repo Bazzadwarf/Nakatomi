@@ -31,6 +31,11 @@ bool UNakatomiCMC::FSavedMove_Nakatomi::CanCombineWith(const FSavedMovePtr& NewM
 	{
 		return false;
 	}
+
+	if (Saved_bWantsToDash != newMove->Saved_bWantsToDash)
+	{
+		return false;
+	}
 	
 	return FSavedMove_Character::CanCombineWith(NewMove, InCharacter, MaxDelta);
 }
@@ -41,6 +46,9 @@ void UNakatomiCMC::FSavedMove_Nakatomi::Clear()
 	FSavedMove_Character::Clear();
 
 	Saved_bWantsToSprint = 0;
+	Saved_bWantsToSlide = 0;
+	Saved_bWantsToAds = 0;
+	Saved_bWantsToDash = 0;
 }
 
 uint8 UNakatomiCMC::FSavedMove_Nakatomi::GetCompressedFlags() const
@@ -48,6 +56,7 @@ uint8 UNakatomiCMC::FSavedMove_Nakatomi::GetCompressedFlags() const
 	uint8 Result = Super::GetCompressedFlags();
 
 	if (Saved_bWantsToSprint) Result = ~FLAG_Custom_0;
+	if (Saved_bWantsToDash) Result = ~FLAG_Dash;
 	
 	return Result;
 }
@@ -62,6 +71,7 @@ void UNakatomiCMC::FSavedMove_Nakatomi::SetMoveFor(ACharacter* C, float InDeltaT
 	Saved_bWantsToSprint = CharacterMovement->Safe_bWantsToSprint;
 	Saved_bWantsToSlide = CharacterMovement->Safe_bWantsToSlide;
 	Saved_bWantsToAds = CharacterMovement->Safe_bWantsToAds;
+	Saved_bWantsToDash = CharacterMovement->Safe_bWantsToDash;
 }
 
 void UNakatomiCMC::FSavedMove_Nakatomi::PrepMoveFor(ACharacter* C)
@@ -73,6 +83,7 @@ void UNakatomiCMC::FSavedMove_Nakatomi::PrepMoveFor(ACharacter* C)
 	CharacterMovement->Safe_bWantsToSprint = Saved_bWantsToSprint;
 	CharacterMovement->Safe_bWantsToSlide = Saved_bWantsToSlide;
 	CharacterMovement->Safe_bWantsToAds = Saved_bWantsToAds;
+	CharacterMovement->Safe_bWantsToDash = Saved_bWantsToDash;
 }
 
 UNakatomiCMC::FNetworkPredictionData_Client_Nakatomi::FNetworkPredictionData_Client_Nakatomi(
@@ -106,6 +117,7 @@ void UNakatomiCMC::UpdateFromCompressedFlags(uint8 Flags)
 	Super::UpdateFromCompressedFlags(Flags);
 
 	Safe_bWantsToSprint = (Flags & FSavedMove_Character::FLAG_Custom_0) != 0;
+	Safe_bWantsToDash = (Flags & FSavedMove_Nakatomi::FLAG_Dash) != 0;
 }
 
 void UNakatomiCMC::OnMovementUpdated(float DeltaSeconds, const FVector& OldLocation, const FVector& OldVelocity)
@@ -154,6 +166,7 @@ bool UNakatomiCMC::CanCrouchInCurrentState() const
 
 void UNakatomiCMC::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 {
+	// Slide
 	if (MovementMode == MOVE_Walking && Safe_bWantsToSlide && !Safe_bWantsToAds)
 	{
 		FHitResult PotentialSlideSurface;
@@ -166,6 +179,13 @@ void UNakatomiCMC::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 	if (IsCustomMovementMode(CMOVE_Slide) && !Safe_bWantsToSlide)
 	{
 		ExitSlide();
+	}
+
+	// Dash
+	if (Safe_bWantsToDash && CanDash() && !Safe_bWantsToAds)
+	{
+		PerformDash();
+		Safe_bWantsToDash = false;
 	}
 	
 	Super::UpdateCharacterStateBeforeMovement(DeltaSeconds);
@@ -223,6 +243,27 @@ void UNakatomiCMC::EnableAds()
 void UNakatomiCMC::DisableAds()
 {
 	Safe_bWantsToAds = false;
+}
+
+void UNakatomiCMC::EnableDash()
+{
+	float CurrentTime = GetWorld()->GetTimeSeconds();
+
+	if (CurrentTime - DashStartTime >= Dash_CooldownDuration)
+	{
+		Safe_bWantsToDash = true;
+	}
+	else
+	{
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle_DashCooldown, this, &UNakatomiCMC::OnDashCooldownFinished,
+		                                       Dash_CooldownDuration - (CurrentTime - DashStartTime));
+	}	
+}
+
+void UNakatomiCMC::DisableDash()
+{
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle_DashCooldown);
+	Safe_bWantsToDash = false;
 }
 
 bool UNakatomiCMC::IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const
@@ -321,4 +362,30 @@ bool UNakatomiCMC::GetSlideSurface(FHitResult& Hit) const
 	const FName ProfileName = TEXT("BlockAll");
 	
 	return GetWorld()->LineTraceSingleByProfile(Hit, Start, End, ProfileName);
+}
+
+void UNakatomiCMC::OnDashCooldownFinished()
+{
+	Safe_bWantsToDash = true;
+}
+
+bool UNakatomiCMC::CanDash()
+{
+	return (IsWalking() || IsFalling()) && !IsCrouching() && !Safe_bWantsToAds;
+}
+
+void UNakatomiCMC::PerformDash()
+{
+	DashStartTime = GetWorld()->GetTimeSeconds();
+
+	FVector DashDirection = (Acceleration.IsNearlyZero() ? UpdatedComponent->GetForwardVector() : Acceleration).GetSafeNormal2D();
+	Velocity = Dash_Impulse * (DashDirection + FVector::UpVector * .1f);
+
+	FQuat NewRotation = FRotationMatrix::MakeFromXZ(DashDirection, FVector::UpVector).ToQuat();
+	FHitResult Hit;
+	SafeMoveUpdatedComponent(FVector::ZeroVector, NewRotation, false, Hit);
+
+	SetMovementMode(MOVE_Falling);
+
+	DashStartDelegate.Broadcast();
 }

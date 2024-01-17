@@ -199,6 +199,12 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 			Input->BindAction(SlideAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginSlideCallback);
 			Input->BindAction(SlideAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndSlideCallback);
 		}
+
+		if (DashAction)
+		{
+			Input->BindAction(DashAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginDashCallback);
+			Input->BindAction(DashAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndDashCallback);
+		}
 	}
 }
 
@@ -567,6 +573,22 @@ void APlayerCharacter::EndSlideCallback(const FInputActionInstance& Instance)
 	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->DisableSlide();
+	}
+}
+
+void APlayerCharacter::BeginDashCallback(const FInputActionInstance& Instance)
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->EnableDash();
+	}
+}
+
+void APlayerCharacter::EndDashCallback(const FInputActionInstance& Instance)
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->DisableDash();
 	}
 }
 

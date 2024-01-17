@@ -7,14 +7,15 @@
 #include <Components/CapsuleComponent.h>
 #include <Kismet/GameplayStatics.h>
 
-#include "InputTriggers.h"
+#include "EnemyCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "InputMappingContext.h"
-#include "EnemyCharacter.h"
+#include "InputTriggers.h"
+#include "InteractableComponent.h"
+#include "NakatomiCMC.h"
 #include "WeaponThrowable.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 

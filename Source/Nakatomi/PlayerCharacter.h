@@ -2,20 +2,15 @@
 
 #pragma once
 
-#include "Camera/CameraComponent.h"
 #include "CoreMinimal.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "InputActionValue.h"
 #include "EnhancedInputComponent.h"
 #include "NakatomiCharacter.h"
-#include "Weapon.h"
-#include "Engine/EngineTypes.h"
-#include "Engine/DamageEvents.h"
-#include "Blueprint/UserWidget.h"
-#include "Perception/AIPerceptionStimuliSourceComponent.h"
-#include "InteractableComponent.h"
-#include "NakatomiCMC.h"
 #include "Throwable.h"
+#include "Blueprint/UserWidget.h"
+#include "Camera/CameraComponent.h"
+#include "Engine/EngineTypes.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;
@@ -101,10 +96,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float DefaultAimSensitivity = 45.0f;
 
-private:
-	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
-	// UNakatomiCMC* NakatomiCMC;
-	
+private:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraSpringArmComponent = nullptr;
 

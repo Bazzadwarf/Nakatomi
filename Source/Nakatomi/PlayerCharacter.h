@@ -2,19 +2,15 @@
 
 #pragma once
 
-#include "Camera/CameraComponent.h"
 #include "CoreMinimal.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "InputActionValue.h"
 #include "EnhancedInputComponent.h"
 #include "NakatomiCharacter.h"
-#include "Weapon.h"
-#include "Engine/EngineTypes.h"
-#include "Engine/DamageEvents.h"
-#include "Blueprint/UserWidget.h"
-#include "Perception/AIPerceptionStimuliSourceComponent.h"
-#include "InteractableComponent.h"
 #include "Throwable.h"
+#include "Blueprint/UserWidget.h"
+#include "Camera/CameraComponent.h"
+#include "Engine/EngineTypes.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;
@@ -63,6 +59,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UInputAction* AimDownSightsAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* CrouchAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* SlideAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputAction* DashAction;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UInputMappingContext> InputMappingContext;
@@ -83,9 +88,6 @@ protected:
 	float SprintSpeedMultiplier = 2.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float ADSSpeedMultiplier = 0.5f;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float ADSAimSensitivityMultiplier = 0.5f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -94,7 +96,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float DefaultAimSensitivity = 45.0f;
 
-private:
+private:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraSpringArmComponent = nullptr;
 
@@ -119,7 +121,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionStimuliSourceComponent* PerceptionSource;
 
-	bool IsSpriting = false;
+	bool IsSprinting = false;
 
 	bool IsADS = false;
 
@@ -132,7 +134,7 @@ private:
 	
 public:
 	// Sets default values for this character's properties
-	APlayerCharacter();
+	APlayerCharacter(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned
@@ -170,6 +172,18 @@ public:
 	void EndAimDownSightsCallback(const FInputActionInstance& Instance);
 
 	void PauseCallback(const FInputActionInstance& Instance);
+
+	void BeginCrouchCallback(const FInputActionInstance& Instance);
+
+	void EndCrouchCallback(const FInputActionInstance& Instance);
+
+	void BeginSlideCallback(const FInputActionInstance& Instance);
+
+	void EndSlideCallback(const FInputActionInstance& Instance);
+
+	void BeginDashCallback(const FInputActionInstance& Instance);
+
+	void EndDashCallback(const FInputActionInstance& Instance);
 	
 	virtual void OnFire() override;
 
@@ -206,6 +220,5 @@ protected:
 	virtual void OnDamaged() override;
 	
 	virtual void OnDeath() override;
-
-	void SetMovementSpeed();
+	
 };

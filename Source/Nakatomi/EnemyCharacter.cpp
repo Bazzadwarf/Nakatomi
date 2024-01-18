@@ -5,7 +5,7 @@
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
-AEnemyCharacter::AEnemyCharacter()
+AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer) : ANakatomiCharacter(ObjectInitializer)
 {
 	RandomWeaponParameters = CreateDefaultSubobject<URandomWeaponParameters>(TEXT("Random Weapon Parameters"));
 

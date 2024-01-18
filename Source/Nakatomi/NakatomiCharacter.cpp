@@ -3,11 +3,16 @@
 
 #include "NakatomiCharacter.h"
 
+#include "NakatomiCMC.h"
+
 // Sets default values
-ANakatomiCharacter::ANakatomiCharacter()
+ANakatomiCharacter::ANakatomiCharacter(const FObjectInitializer& ObjectInitializer) : Super(
+	ObjectInitializer.SetDefaultSubobjectClass<UNakatomiCMC>(ACharacter::CharacterMovementComponentName))
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	NakatomiCMC = Cast<UNakatomiCMC>(GetCharacterMovement());
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 	HealthComponent->OnDamaged.BindUFunction(this, "OnDamaged");
@@ -20,6 +25,8 @@ void ANakatomiCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	SetInventoryToDefault();
+
+	NakatomiCMC = Cast<UNakatomiCMC>(GetCharacterMovement());
 }
 
 // Called every frame
@@ -230,6 +237,11 @@ void ANakatomiCharacter::PushThrowableToInventory(TSubclassOf<AThrowable> Throwa
 	{
 		ThrowableInventory.Push(Throwable);		
 	}
+}
+
+UNakatomiCMC* ANakatomiCharacter::GetCharacterMovementComponent()
+{
+	return NakatomiCMC;
 }
 
 void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)

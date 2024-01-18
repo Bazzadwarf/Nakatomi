@@ -7,25 +7,26 @@
 #include <Components/CapsuleComponent.h>
 #include <Kismet/GameplayStatics.h>
 
-#include "InputTriggers.h"
+#include "EnemyCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "InputMappingContext.h"
-#include "EnemyCharacter.h"
+#include "InputTriggers.h"
+#include "InteractableComponent.h"
+#include "NakatomiCMC.h"
 #include "WeaponThrowable.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
 // Sets default values
-APlayerCharacter::APlayerCharacter()
+APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer) : ANakatomiCharacter(ObjectInitializer)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.SetTickFunctionEnable(true);
 	PrimaryActorTick.bStartWithTickEnabled = true;
-
+	
 	//bUseControllerRotationPitch = true;
 	//bUseControllerRotationYaw = true;
 	//bUseControllerRotationRoll = false;
@@ -56,9 +57,8 @@ APlayerCharacter::APlayerCharacter()
 	CameraADSSpringArmComponent->SocketOffset = {0.0f, 50.0f, 75.0f};
 	
 	// Setup the character movement
-	UCharacterMovementComponent* CharacterMovementComponent = GetCharacterMovement();
-	CharacterMovementComponent->AirControl = 1.0f;
-	CharacterMovementComponent->bOrientRotationToMovement = true;
+	GetCharacterMovement()->AirControl = 1.0f;
+	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 	// Setup the character perception component
 	PerceptionSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Perception Source Stimuli"));
@@ -188,6 +188,24 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		{
 			Input->BindAction(PauseAction, ETriggerEvent::Completed, this, &APlayerCharacter::PauseCallback);
 		}
+
+		if (CrouchAction)
+		{
+			Input->BindAction(CrouchAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginCrouchCallback);
+			Input->BindAction(CrouchAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndCrouchCallback);
+		}
+
+		if (SlideAction)
+		{
+			Input->BindAction(SlideAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginSlideCallback);
+			Input->BindAction(SlideAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndSlideCallback);
+		}
+
+		if (DashAction)
+		{
+			Input->BindAction(DashAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginDashCallback);
+			Input->BindAction(DashAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndDashCallback);
+		}
 	}
 }
 
@@ -269,16 +287,18 @@ void APlayerCharacter::QuitCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance)
 {
-	IsSpriting = true;
-	
-	SetMovementSpeed();
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->EnableSprint();
+	}
 }
 
 void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 {
-	IsSpriting = false;
-	
-	SetMovementSpeed();
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->DisableSprint();
+	}
 }
 
 void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
@@ -448,22 +468,6 @@ void APlayerCharacter::OnDeath()
 	UGameplayStatics::OpenLevel(this, FName(map), false);
 }
 
-void APlayerCharacter::SetMovementSpeed()
-{
-	if (IsADS)
-	{
-		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed * ADSSpeedMultiplier;
-	}
-	else if (IsSpriting)
-	{
-		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed * SprintSpeedMultiplier;
-	}
-	else
-	{
-		GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed;
-	}
-}
-
 void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Instance)
 {
 	float value = Instance.GetValue().Get<float>();
@@ -482,7 +486,10 @@ void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& In
 {
 	IsADS = true;
 
-	SetMovementSpeed();
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->EnableAds();
+	}
 
 	AimSensitivity = DefaultAimSensitivity * ADSAimSensitivityMultiplier;
 
@@ -505,7 +512,10 @@ void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Inst
 {
 	IsADS = false;
 
-	SetMovementSpeed();
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->DisableAds();
+	}
 
 	AimSensitivity = DefaultAimSensitivity;
 
@@ -532,6 +542,54 @@ void APlayerCharacter::PauseCallback(const FInputActionInstance& Instance)
 			// TODO: Add pause functionality
 			currentPauseMenuWidget->AddToViewport();
 		}
+	}
+}
+
+void APlayerCharacter::BeginCrouchCallback(const FInputActionInstance& Instance)
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->EnableCrouch();
+	}
+}
+
+void APlayerCharacter::EndCrouchCallback(const FInputActionInstance& Instance)
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->DisableCrouch();
+	}
+}
+
+void APlayerCharacter::BeginSlideCallback(const FInputActionInstance& Instance)
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->EnableSlide();
+	}
+}
+
+void APlayerCharacter::EndSlideCallback(const FInputActionInstance& Instance)
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->DisableSlide();
+	}
+}
+
+void APlayerCharacter::BeginDashCallback(const FInputActionInstance& Instance)
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->EnableDash();
+	}
+}
+
+void APlayerCharacter::EndDashCallback(const FInputActionInstance& Instance)
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		cmc->DisableDash();
 	}
 }
 

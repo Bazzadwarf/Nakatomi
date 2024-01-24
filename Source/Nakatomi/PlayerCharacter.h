@@ -131,6 +131,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	USoundBase* HitMarkerSound;
+
+	bool jumpPressed = false;
 	
 public:
 	// Sets default values for this character's properties
@@ -153,7 +155,9 @@ public:
 
 	void LookCallback(const FInputActionInstance& Instance);
 
-	void JumpCallback(const FInputActionInstance& Instance);
+	void BeginJumpCallback(const FInputActionInstance& Instance);
+	
+	void EndJumpCallback(const FInputActionInstance& Instance);
 
 	void BeginFireCallback(const FInputActionInstance& Instance);
 
@@ -211,6 +215,9 @@ public:
 	void ThrowExplosiveCallback();
 	
 	AThrowable* ThrowThrowable();
+
+	UFUNCTION(BlueprintCallable)
+	bool GetPressedJump();
 
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;

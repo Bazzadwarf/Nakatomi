@@ -121,6 +121,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionStimuliSourceComponent* PerceptionSource;
 
+	UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	bool IsSprinting = false;
 
 	bool IsADS = false;

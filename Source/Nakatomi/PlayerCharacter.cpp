@@ -299,6 +299,8 @@ void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance
 	{
 		cmc->EnableSprint();
 	}
+
+	IsSprinting = true;
 }
 
 void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
@@ -307,6 +309,8 @@ void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 	{
 		cmc->DisableSprint();
 	}
+
+	IsSprinting = false;
 }
 
 void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)

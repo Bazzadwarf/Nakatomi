@@ -124,6 +124,7 @@ private:
 	UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	bool IsSprinting = false;
 
+    UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	bool IsADS = false;
 
 	float AimSensitivity;

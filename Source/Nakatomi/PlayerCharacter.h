@@ -221,6 +221,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool GetPressedJump();
 
+	UFUNCTION(BlueprintCallable)
+	bool GetCrouched();
+
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 

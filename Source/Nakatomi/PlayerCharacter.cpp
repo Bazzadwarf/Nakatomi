@@ -759,3 +759,13 @@ bool APlayerCharacter::GetPressedJump()
 {
 	return jumpPressed;
 }
+
+bool APlayerCharacter::GetCrouched()
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		return cmc->IsCrouching();
+	}
+	
+	return false;
+}

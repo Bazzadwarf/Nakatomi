@@ -141,6 +141,8 @@ private:
 	USoundBase* HitMarkerSound;
 
 	bool jumpPressed = false;
+
+	bool IsThrowing = false;
 	
 public:
 	// Sets default values for this character's properties
@@ -233,6 +235,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool GetCrouched();
+
+	UFUNCTION(BlueprintCallable)
+	bool GetIsThrowing();
+
+	UFUNCTION(BlueprintCallable)
+	void SetIsThrowing(bool bIsThrowing);
 
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;

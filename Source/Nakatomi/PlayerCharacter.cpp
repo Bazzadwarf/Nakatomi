@@ -701,8 +701,9 @@ float APlayerCharacter::GetWeaponSpread()
 
 void APlayerCharacter::ThrowWeaponCallback()
 {
-	if (CurrentWeapon)
+	if (CurrentWeapon && !IsThrowing)
 	{
+		IsThrowing = true;
 		PlayAnimMontage(ThrowWeaponAnimMontage);
 	}
 }
@@ -723,14 +724,13 @@ void APlayerCharacter::ThrowWeapon()
 		WeaponThrowableTemplate, SpawnLocation, FRotator::ZeroRotator);
 
 	Throwable->SetWeaponSkeletalMesh(GetCurrentWeapon()->GetSkeletalMesh());
-
-	RemoveCurrentWeaponFromInventory();
 }
 
 void APlayerCharacter::ThrowExplosiveCallback()
 {
 	if (ThrowableInventory.Num() > 0)
 	{
+		IsThrowing = true;
 		PlayAnimMontage(ThrowExplosiveAnimMontage);
 	}
 }
@@ -778,4 +778,14 @@ bool APlayerCharacter::GetCrouched()
 	}
 	
 	return false;
+}
+
+bool APlayerCharacter::GetIsThrowing()
+{
+	return IsThrowing;
+}
+
+void APlayerCharacter::SetIsThrowing(bool bIsThrowing)
+{
+	IsThrowing = bIsThrowing;
 }

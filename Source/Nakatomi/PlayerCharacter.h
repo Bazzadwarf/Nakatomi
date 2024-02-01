@@ -83,6 +83,9 @@ public:
 
 	FOnEnemyHitDelegate OnEnemyHit;
 
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* ThrowAnimMontage;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float SprintSpeedMultiplier = 2.0f;

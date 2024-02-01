@@ -703,6 +703,8 @@ void APlayerCharacter::ThrowWeaponCallback()
 {
 	if (CurrentWeapon)
 	{
+		PlayAnimMontage(ThrowAnimMontage);
+		
 		FVector Location;
 		FVector BoxExtent;
 		GetActorBounds(true, Location, BoxExtent, false);
@@ -726,6 +728,8 @@ void APlayerCharacter::ThrowExplosiveCallback()
 {
 	if (ThrowableInventory.Num() > 0)
 	{
+		PlayAnimMontage(ThrowAnimMontage);
+		
 		FVector Location;
 		FVector BoxExtent;
 		GetActorBounds(true, Location, BoxExtent, false);

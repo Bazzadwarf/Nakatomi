@@ -575,7 +575,8 @@ void APlayerCharacter::EndCrouchCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::BeginSlideCallback(const FInputActionInstance& Instance)
 {
-	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	if (cmc && !IsThrowing)
 	{
 		cmc->EnableSlide();
 	}
@@ -591,7 +592,8 @@ void APlayerCharacter::EndSlideCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::BeginDashCallback(const FInputActionInstance& Instance)
 {
-	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	if (cmc && !IsThrowing)
 	{
 		cmc->EnableDash();
 	}

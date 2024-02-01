@@ -83,6 +83,9 @@ public:
 
 	FOnEnemyHitDelegate OnEnemyHit;
 
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* ThrowAnimMontage;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float SprintSpeedMultiplier = 2.0f;
@@ -121,8 +124,10 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionStimuliSourceComponent* PerceptionSource;
 
+	UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	bool IsSprinting = false;
 
+    UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	bool IsADS = false;
 
 	float AimSensitivity;
@@ -131,6 +136,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	USoundBase* HitMarkerSound;
+
+	bool jumpPressed = false;
 	
 public:
 	// Sets default values for this character's properties
@@ -153,7 +160,9 @@ public:
 
 	void LookCallback(const FInputActionInstance& Instance);
 
-	void JumpCallback(const FInputActionInstance& Instance);
+	void BeginJumpCallback(const FInputActionInstance& Instance);
+	
+	void EndJumpCallback(const FInputActionInstance& Instance);
 
 	void BeginFireCallback(const FInputActionInstance& Instance);
 
@@ -211,6 +220,12 @@ public:
 	void ThrowExplosiveCallback();
 	
 	AThrowable* ThrowThrowable();
+
+	UFUNCTION(BlueprintCallable)
+	bool GetPressedJump();
+
+	UFUNCTION(BlueprintCallable)
+	bool GetCrouched();
 
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;

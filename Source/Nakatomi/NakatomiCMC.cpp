@@ -384,6 +384,8 @@ void UNakatomiCMC::PerformDash()
 	FQuat NewRotation = FRotationMatrix::MakeFromXZ(DashDirection, FVector::UpVector).ToQuat();
 	FHitResult Hit;
 	SafeMoveUpdatedComponent(FVector::ZeroVector, NewRotation, false, Hit);
+	
+	NakatomiCharacterOwner->PlayAnimMontage(Dash_Montage);
 
 	SetMovementMode(MOVE_Falling);
 

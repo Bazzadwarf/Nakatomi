@@ -139,7 +139,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 		if (JumpAction)
 		{
-			Input->BindAction(JumpAction, ETriggerEvent::Triggered, this, &APlayerCharacter::JumpCallback);
+			Input->BindAction(JumpAction, ETriggerEvent::Started, this, &APlayerCharacter::BeginJumpCallback);
+			Input->BindAction(JumpAction, ETriggerEvent::Completed, this, &APlayerCharacter::EndJumpCallback);
 		}
 
 		if (FireAction)
@@ -231,9 +232,16 @@ void APlayerCharacter::LookCallback(const FInputActionInstance& Instance)
 	}
 }
 
-void APlayerCharacter::JumpCallback(const FInputActionInstance& Instance)
+void APlayerCharacter::BeginJumpCallback(const FInputActionInstance& Instance)
 {
 	Jump();
+	jumpPressed = true;
+}
+
+void APlayerCharacter::EndJumpCallback(const FInputActionInstance& Instance)
+{
+	StopJumping();
+	jumpPressed = false;
 }
 
 void APlayerCharacter::BeginFireCallback(const FInputActionInstance& Instance)
@@ -291,6 +299,8 @@ void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance
 	{
 		cmc->EnableSprint();
 	}
+
+	IsSprinting = true;
 }
 
 void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
@@ -299,6 +309,8 @@ void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 	{
 		cmc->DisableSprint();
 	}
+
+	IsSprinting = false;
 }
 
 void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
@@ -691,6 +703,8 @@ void APlayerCharacter::ThrowWeaponCallback()
 {
 	if (CurrentWeapon)
 	{
+		PlayAnimMontage(ThrowAnimMontage);
+		
 		FVector Location;
 		FVector BoxExtent;
 		GetActorBounds(true, Location, BoxExtent, false);
@@ -714,6 +728,8 @@ void APlayerCharacter::ThrowExplosiveCallback()
 {
 	if (ThrowableInventory.Num() > 0)
 	{
+		PlayAnimMontage(ThrowAnimMontage);
+		
 		FVector Location;
 		FVector BoxExtent;
 		GetActorBounds(true, Location, BoxExtent, false);
@@ -741,4 +757,19 @@ AThrowable* APlayerCharacter::ThrowThrowable()
 	}
 
 	return nullptr;
+}
+
+bool APlayerCharacter::GetPressedJump()
+{
+	return jumpPressed;
+}
+
+bool APlayerCharacter::GetCrouched()
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		return cmc->IsCrouching();
+	}
+	
+	return false;
 }

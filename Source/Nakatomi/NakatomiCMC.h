@@ -94,6 +94,9 @@ class NAKATOMI_API UNakatomiCMC : public UCharacterMovementComponent
 	UPROPERTY(EditDefaultsOnly)
 	float Dash_CooldownDuration = 1.0f;
 
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* Dash_Montage;
+
 	bool Safe_bWantsToSprint;
 	bool Safe_bWantsToSlide;
 	bool Safe_bWantsToAds;

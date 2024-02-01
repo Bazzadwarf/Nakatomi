@@ -84,7 +84,7 @@ public:
 	FOnEnemyHitDelegate OnEnemyHit;
 
 	UPROPERTY(EditDefaultsOnly)
-	UAnimMontage* ThrowAnimMontage;
+	UAnimMontage* ThrowWeaponAnimMontage;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -216,6 +216,8 @@ public:
 	float GetWeaponSpread();
 
 	void ThrowWeaponCallback();
+
+	void ThrowWeapon();
 
 	void ThrowExplosiveCallback();
 	

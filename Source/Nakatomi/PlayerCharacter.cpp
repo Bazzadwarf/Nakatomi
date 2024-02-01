@@ -703,25 +703,28 @@ void APlayerCharacter::ThrowWeaponCallback()
 {
 	if (CurrentWeapon)
 	{
-		PlayAnimMontage(ThrowAnimMontage);
-		
-		FVector Location;
-		FVector BoxExtent;
-		GetActorBounds(true, Location, BoxExtent, false);
-
-		FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2;
-		SpawnLocation += Location;
-		SpawnLocation.Z += BoxExtent.Z;
-
-		TSubclassOf<AWeaponThrowable> WeaponThrowableTemplate = CurrentWeapon->GetWeaponThrowableTemplate();
-
-		AWeaponThrowable* Throwable = GetWorld()->SpawnActor<AWeaponThrowable>(
-			WeaponThrowableTemplate, SpawnLocation, FRotator::ZeroRotator);
-
-		Throwable->SetWeaponSkeletalMesh(GetCurrentWeapon()->GetSkeletalMesh());
-
-		RemoveCurrentWeaponFromInventory();
+		PlayAnimMontage(ThrowWeaponAnimMontage);
 	}
+}
+
+void APlayerCharacter::ThrowWeapon()
+{
+	FVector Location;
+	FVector BoxExtent;
+	GetActorBounds(true, Location, BoxExtent, false);
+
+	FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2;
+	SpawnLocation += Location;
+	SpawnLocation.Z += BoxExtent.Z;
+
+	TSubclassOf<AWeaponThrowable> WeaponThrowableTemplate = CurrentWeapon->GetWeaponThrowableTemplate();
+
+	AWeaponThrowable* Throwable = GetWorld()->SpawnActor<AWeaponThrowable>(
+		WeaponThrowableTemplate, SpawnLocation, FRotator::ZeroRotator);
+
+	Throwable->SetWeaponSkeletalMesh(GetCurrentWeapon()->GetSkeletalMesh());
+
+	RemoveCurrentWeaponFromInventory();
 }
 
 void APlayerCharacter::ThrowExplosiveCallback()

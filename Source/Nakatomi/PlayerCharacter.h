@@ -85,6 +85,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* ThrowWeaponAnimMontage;
+	
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* ThrowExplosiveAnimMontage;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -220,6 +223,8 @@ public:
 	void ThrowWeapon();
 
 	void ThrowExplosiveCallback();
+
+	void ThrowExplosive();
 	
 	AThrowable* ThrowThrowable();
 

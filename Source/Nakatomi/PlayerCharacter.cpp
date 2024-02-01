@@ -731,19 +731,22 @@ void APlayerCharacter::ThrowExplosiveCallback()
 {
 	if (ThrowableInventory.Num() > 0)
 	{
-		PlayAnimMontage(ThrowAnimMontage);
-		
-		FVector Location;
-		FVector BoxExtent;
-		GetActorBounds(true, Location, BoxExtent, false);
-	
-		FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2; 
-		SpawnLocation += Location;
-		SpawnLocation += (25.0f * GetActorForwardVector());
-		SpawnLocation.Z += BoxExtent.Z;
-
-		GetWorld()->SpawnActor<AThrowable>(ThrowableInventory.Pop(), SpawnLocation, FRotator::ZeroRotator);
+		PlayAnimMontage(ThrowExplosiveAnimMontage);
 	}
+}
+
+void APlayerCharacter::ThrowExplosive()
+{
+	FVector Location;
+	FVector BoxExtent;
+	GetActorBounds(true, Location, BoxExtent, false);
+	
+	FVector SpawnLocation = (BoxExtent.X * GetActorForwardVector()) * 2; 
+	SpawnLocation += Location;
+	SpawnLocation += (25.0f * GetActorForwardVector());
+	SpawnLocation.Z += BoxExtent.Z;
+
+	GetWorld()->SpawnActor<AThrowable>(ThrowableInventory.Pop(), SpawnLocation, FRotator::ZeroRotator);
 }
 
 AThrowable* APlayerCharacter::ThrowThrowable()

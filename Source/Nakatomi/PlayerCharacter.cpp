@@ -82,7 +82,7 @@ void APlayerCharacter::BeginPlay()
 
 	if (PlayerHUD)
 	{
-		currentPlayerHUD = UUserWidget::CreateWidgetInstance(*GetWorld(), PlayerHUD, FName("PLayer HUD"));
+		currentPlayerHUD = UUserWidget::CreateWidgetInstance(*GetWorld(), PlayerHUD, FName("Player HUD"));
 
 		if (currentPlayerHUD)
 		{

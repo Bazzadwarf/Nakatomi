@@ -89,6 +89,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* ThrowExplosiveAnimMontage;
 
+	UPROPERTY(EditDefaultsOnly)
+	TArray<UAnimMontage*> OnDamagedHitAnimMontages;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float SprintSpeedMultiplier = 2.0f;

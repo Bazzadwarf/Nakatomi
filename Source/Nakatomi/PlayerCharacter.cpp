@@ -3,7 +3,6 @@
 
 #include "PlayerCharacter.h"
 // You can remove these, this is just to get intellisense to work
-#include <string>
 #include <Components/CapsuleComponent.h>
 #include <Kismet/GameplayStatics.h>
 
@@ -444,6 +443,14 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 void APlayerCharacter::OnDamaged()
 {
 	Super::OnDamaged();
+	
+	int32 randomAnimMontage = FMath::RandRange(0,OnDamagedHitAnimMontages.Num()-1);
+	
+	if (OnDamagedHitAnimMontages[randomAnimMontage] != nullptr)
+	{
+		//TODO: Disable movement while playing animation montage
+		PlayAnimMontage(OnDamagedHitAnimMontages[randomAnimMontage]);
+	}
 }
 
 void APlayerCharacter::OnDeath()

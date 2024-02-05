@@ -106,6 +106,9 @@ public:
 
 	UNakatomiCMC* GetCharacterMovementComponent();
 
+	UFUNCTION(BlueprintCallable)
+	bool GetCrouched();
+
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits);
 

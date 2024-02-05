@@ -244,6 +244,16 @@ UNakatomiCMC* ANakatomiCharacter::GetCharacterMovementComponent()
 	return NakatomiCMC;
 }
 
+bool ANakatomiCharacter::GetCrouched()
+{
+	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	{
+		return cmc->IsCrouching();
+	}
+	
+	return false;
+}
+
 void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)
 {
 }

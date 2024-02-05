@@ -237,9 +237,6 @@ public:
 	bool GetPressedJump();
 
 	UFUNCTION(BlueprintCallable)
-	bool GetCrouched();
-
-	UFUNCTION(BlueprintCallable)
 	bool GetIsThrowing();
 
 	UFUNCTION(BlueprintCallable)

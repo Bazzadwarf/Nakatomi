@@ -262,6 +262,14 @@ void ANakatomiCharacter::ProcessHits(TArray<FHitResult> hits)
 {
 }
 
+void ANakatomiCharacter::PlayOnFireAnimations()
+{
+	if (!GetCrouched())
+	{
+		PlayAnimMontage(FireWeaponAnimMontage);
+	}
+}
+
 void ANakatomiCharacter::OnDamaged()
 {
 }

@@ -39,6 +39,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TArray<TSubclassOf<AThrowable>> ThrowableInventory;
 
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* FireWeaponAnimMontage;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	UNakatomiCMC* NakatomiCMC;
@@ -114,6 +117,8 @@ protected:
 
 	virtual void ProcessHits(TArray<FHitResult> hits);
 
+	virtual void PlayOnFireAnimations(); 
+	
 	UFUNCTION()
 	virtual void OnDamaged();
 

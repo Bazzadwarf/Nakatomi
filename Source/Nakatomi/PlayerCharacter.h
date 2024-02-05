@@ -91,6 +91,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	TArray<UAnimMontage*> OnDamagedHitAnimMontages;
+	
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* FireWeaponADSAnimMontage;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -246,6 +249,8 @@ protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 
 	virtual void ProcessHits(TArray<FHitResult> hits) override;
+
+	virtual void PlayOnFireAnimations() override;
 	
 	virtual void OnDamaged() override;
 	

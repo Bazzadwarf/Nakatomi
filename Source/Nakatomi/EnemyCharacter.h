@@ -39,6 +39,8 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	virtual void PlayOnFireAnimations() override;
+	
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 
 	virtual void ProcessHits(TArray<FHitResult> hits) override;

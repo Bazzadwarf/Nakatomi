@@ -440,6 +440,14 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 	}
 }
 
+void APlayerCharacter::PlayOnFireAnimations()
+{
+	if (!GetCrouched())
+	{
+		PlayAnimMontage(IsADS ? FireWeaponADSAnimMontage : FireWeaponAnimMontage);
+	}
+}
+
 void APlayerCharacter::OnDamaged()
 {
 	Super::OnDamaged();
@@ -631,7 +639,7 @@ void APlayerCharacter::OnFire()
 
 	CurrentWeapon->PlayFireSoundAtLocation(this->GetTransform().GetLocation());
 
-	// TODO: Play some animation here
+	PlayOnFireAnimations();
 
 	CurrentWeapon->SetCurrentWeaponStatus(Cooldown);
 

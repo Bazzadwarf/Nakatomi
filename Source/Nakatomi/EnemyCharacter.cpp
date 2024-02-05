@@ -2,6 +2,7 @@
 
 #include "EnemyCharacter.h"
 #include "EnemyAIController.h"
+#include "InteractableComponent.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
@@ -29,7 +30,7 @@ void AEnemyCharacter::OnFire()
 
 	CurrentWeapon->PlayFireSoundAtLocation(GetActorLocation());
 
-	// TODO: Play some animation here
+	PlayOnFireAnimations();
 
 	CurrentWeapon->SetCurrentWeaponStatus(Cooldown);
 
@@ -48,6 +49,11 @@ void AEnemyCharacter::WeaponCooldownHandler()
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AEnemyCharacter::PlayOnFireAnimations()
+{
+	Super::PlayOnFireAnimations();
 }
 
 void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits)

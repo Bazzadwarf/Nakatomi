@@ -9,6 +9,5 @@ EBTNodeResult::Type UBTTClearFocus::ExecuteTask(UBehaviorTreeComponent& owner, u
 {
 	auto enemyController = Cast<AEnemyAIController>(owner.GetAIOwner());
 	enemyController->ClearFocus(EAIFocusPriority::Default);
-	enemyController->SetFocus();
 	return EBTNodeResult::Succeeded;
 }

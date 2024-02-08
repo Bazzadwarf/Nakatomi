@@ -13,5 +13,8 @@ UCLASS()
 class NAKATOMI_API UBTTClearFocus : public UBTTaskNode
 {
 	GENERATED_BODY()
+
+public:
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner, uint8* memory) override;
 	
 };

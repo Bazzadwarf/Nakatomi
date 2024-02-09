@@ -108,6 +108,8 @@ class NAKATOMI_API UNakatomiCMC : public UCharacterMovementComponent
 	UPROPERTY(Transient)
 	ANakatomiCharacter* NakatomiCharacterOwner;
 
+	float DefaultMaxWalkSpeed;
+
 public:
 	UPROPERTY(BlueprintAssignable)
 	FDashStartDelegate DashStartDelegate;
@@ -117,6 +119,8 @@ public:
 
 protected:
 	virtual void InitializeComponent() override;
+
+	virtual void BeginPlay() override;
 
 	virtual FNetworkPredictionData_Client* GetPredictionData_Client() const override;
 
@@ -166,6 +170,12 @@ public:
 
 	UFUNCTION()
 	bool IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const;
+
+	UFUNCTION()
+	void SetMaxWalkSpeed(float newMaxSpeed);
+
+	UFUNCTION()
+	void SetMaxWalkSpeedToDefault();
 
 private:
 	void EnterSlide();

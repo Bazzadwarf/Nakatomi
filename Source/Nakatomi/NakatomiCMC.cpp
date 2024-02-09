@@ -19,6 +19,12 @@ void UNakatomiCMC::InitializeComponent()
 	NakatomiCharacterOwner = Cast<ANakatomiCharacter>(GetOwner());
 }
 
+void UNakatomiCMC::BeginPlay()
+{
+	Super::BeginPlay();
+	DefaultMaxWalkSpeed = Walk_MaxWalkSpeed;
+}
+
 // Checks if we can combine the NewMove with the current move to save on data.
 // If all the data in a saved move is identical, if true, we cam tell the server to run the existing move instead.
 bool UNakatomiCMC::FSavedMove_Nakatomi::CanCombineWith(const FSavedMovePtr& NewMove, ACharacter* InCharacter,
@@ -269,6 +275,16 @@ void UNakatomiCMC::DisableDash()
 bool UNakatomiCMC::IsCustomMovementMode(ECustomMovementMove InCustomMovementMode) const
 {
 	return MovementMode == MOVE_Custom && CustomMovementMode == InCustomMovementMode;
+}
+
+void UNakatomiCMC::SetMaxWalkSpeed(float newMaxSpeed)
+{
+	Walk_MaxWalkSpeed = newMaxSpeed;
+}
+
+void UNakatomiCMC::SetMaxWalkSpeedToDefault()
+{
+	Walk_MaxWalkSpeed = DefaultMaxWalkSpeed;
 }
 
 void UNakatomiCMC::EnterSlide()

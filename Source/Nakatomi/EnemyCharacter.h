@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "NakatomiCharacter.h"
+#include "PatrolRoute.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "RandomWeaponParameters.h"
 #include "EnemyCharacter.generated.h"
@@ -17,6 +18,10 @@ class NAKATOMI_API AEnemyCharacter : public ANakatomiCharacter
 {
 	GENERATED_BODY()
 
+public:
+	UPROPERTY(EditAnywhere, Meta = (AllowPrivateAccess = "true"))
+	APatrolRoute* CurrentPatrolRoute;
+	
 private:
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
 	UBehaviorTree* BehaviourTree;

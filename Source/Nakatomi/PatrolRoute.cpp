@@ -24,8 +24,11 @@ void APatrolRoute::IncrementPatrolRoute()
 	}
 	
 	PatrolIndex += Direction;
+}
 
-
+FVector APatrolRoute::GetSplinePointAtWorld()
+{
+	return GetSplinePointAtWorld(PatrolIndex);
 }
 
 FVector APatrolRoute::GetSplinePointAtWorld(int pointIndex)

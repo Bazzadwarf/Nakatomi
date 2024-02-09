@@ -28,5 +28,7 @@ public:
 
 	void IncrementPatrolRoute();
 
+	FVector GetSplinePointAtWorld();
+	
 	FVector GetSplinePointAtWorld(int pointIndex);
 };

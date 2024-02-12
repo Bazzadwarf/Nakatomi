@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "EAIState.h"
 #include "EnemyCharacter.h"
 #include "PlayerCharacter.h"
 #include "Perception/AISenseConfig_Sight.h"
@@ -59,4 +60,13 @@ public:
 
 	UFUNCTION()
 	bool GetHasAttackToken();
+
+	UFUNCTION()
+	void SetState(EAIState state);
+
+	UFUNCTION()
+	void SetStateAsPassive();
+
+	UFUNCTION()
+	void SetStateAsAttacking(AActor* target);
 };

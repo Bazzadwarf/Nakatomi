@@ -2,6 +2,8 @@
 
 #include "EnemyAIController.h"
 #include <Kismet/GameplayStatics.h>
+
+#include "EAIState.h"
 #include "NakatomiGameInstance.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -48,6 +50,8 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 		BehaviorTree->StartTree(*behaviourTree);
 		Blackboard->SetValueAsObject("SelfActor", enemy);
 	}
+
+	Blackboard->SetValueAsEnum("State",  static_cast<uint8>(EAIState::PASSIVE));
 	
 	//ensure(enemy->GetMovementComponent()->UseAccelerationForPathFollowing());
 }
@@ -178,4 +182,20 @@ void AEnemyAIController::TryReleaseAttackToken()
 bool AEnemyAIController::GetHasAttackToken()
 {
 	return HasAttackToken;
+}
+
+void AEnemyAIController::SetState(EAIState state)
+{
+	Blackboard->SetValueAsEnum("State",  static_cast<uint8>(state));
+}
+
+void AEnemyAIController::SetStateAsPassive()
+{
+	SetState(EAIState::PASSIVE);
+}
+
+void AEnemyAIController::SetStateAsAttacking(AActor* target)
+{
+	Blackboard->SetValueAsObject("TargetActor", target);
+	SetState(EAIState::ATTACKING);
 }

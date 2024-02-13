@@ -7,6 +7,8 @@
 #include "EAIState.h"
 #include "EnemyCharacter.h"
 #include "PlayerCharacter.h"
+#include "Perception/AISenseConfig_Damage.h"
+#include "Perception/AISenseConfig_Hearing.h"
 #include "Perception/AISenseConfig_Sight.h"
 #include "EnemyAIController.generated.h"
 
@@ -29,6 +31,10 @@ private:
 	UAIPerceptionComponent* AIPerception;
 
 	UAISenseConfig_Sight* SightConfig;
+
+	UAISenseConfig_Hearing* HearingConfig;
+
+	UAISenseConfig_Damage* DamageConfig;
 
 	bool HasAttackToken = false;
 
@@ -69,4 +75,12 @@ public:
 
 	UFUNCTION()
 	void SetStateAsAttacking(AActor* target);
+
+private:
+
+	void SensedSight(AActor* actor, FAIStimulus& stimulus);
+	
+	void SensedHearing(AActor* actor, FAIStimulus& stimulus);
+
+	void SensedDamaged(AActor* actor, FAIStimulus& stimulus);
 };

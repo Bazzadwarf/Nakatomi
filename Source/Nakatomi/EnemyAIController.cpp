@@ -27,8 +27,19 @@ AEnemyAIController::AEnemyAIController(const FObjectInitializer& object_initiali
 	SightConfig->DetectionByAffiliation.bDetectEnemies = true;
 	SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
 
+	HearingConfig = CreateDefaultSubobject<UAISenseConfig_Hearing>(TEXT("Hearing Sense Config"));
+	HearingConfig->HearingRange = 800.0f;
+	HearingConfig->SetMaxAge(3.0f);
+	HearingConfig->DetectionByAffiliation.bDetectEnemies = true;
+	HearingConfig->DetectionByAffiliation.bDetectNeutrals = true;
+
+	DamageConfig = CreateDefaultSubobject<UAISenseConfig_Damage>(TEXT("Damage Sense Config"));
+	DamageConfig->SetMaxAge(5.0f);
+
 	AIPerception->SetDominantSense(SightConfig->GetSenseImplementation());
 	AIPerception->ConfigureSense(*SightConfig);
+	AIPerception->ConfigureSense(*HearingConfig);
+	AIPerception->ConfigureSense(*DamageConfig);
 }
 
 void AEnemyAIController::OnPossess(APawn* InPawn)
@@ -120,7 +131,7 @@ void AEnemyAIController::OnDeath(FDamageInfo info)
 
 void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& actors)
 {
-	for (auto actor : actors)
+	for (AActor* actor : actors)
 	{
 		if (!actor->GetClass()->IsChildOf(APlayerCharacter::StaticClass()))
 		{
@@ -130,11 +141,30 @@ void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& actors)
 		FActorPerceptionBlueprintInfo perceptionInfo;
 		PerceptionComponent->GetActorsPerception(actor, perceptionInfo);
 
-		for (auto& stimulus : perceptionInfo.LastSensedStimuli)
+		for (FAIStimulus& stimulus : perceptionInfo.LastSensedStimuli)
 		{
-			if (!stimulus.IsValid() || stimulus.IsExpired())
+			if (!stimulus.IsValid() || stimulus.IsExpired() ||
+				static_cast<EAIState>(Blackboard->GetValueAsEnum("State")) == EAIState::DEAD)
 			{
 				continue;
+			}
+
+			FAISenseID SightID = SightConfig->GetSenseID();
+			FAISenseID HearingID = HearingConfig->GetSenseID();
+			FAISenseID DamageID = DamageConfig->GetSenseID();
+
+			if (stimulus.Type == SightID)
+			{
+				SensedSight(actor, stimulus);
+			}
+			else if (stimulus.Type == HearingID)
+			{
+				SensedHearing(actor, stimulus);
+				stimulus.StimulusLocation;
+			}
+			else if (stimulus.Type == DamageID)
+			{
+				SensedDamaged(actor, stimulus);
 			}
 
 			Blackboard->SetValueAsObject("TargetActor", actor);
@@ -198,4 +228,31 @@ void AEnemyAIController::SetStateAsAttacking(AActor* target)
 {
 	Blackboard->SetValueAsObject("TargetActor", target);
 	SetState(EAIState::ATTACKING);
+}
+
+void AEnemyAIController::SensedSight(AActor* actor, FAIStimulus& stimulus)
+{
+	EAIState CurrentState = static_cast<EAIState>(Blackboard->GetValueAsEnum("State"));
+
+	
+	if (CurrentState == EAIState::PASSIVE || CurrentState == EAIState::INVESTIGATING)
+	{
+		SetStateAsAttacking(actor);	
+	}
+}
+
+void AEnemyAIController::SensedHearing(AActor* actor, FAIStimulus& stimulus)
+{
+	EAIState CurrentState = static_cast<EAIState>(Blackboard->GetValueAsEnum("State"));
+
+	if (CurrentState == EAIState::PASSIVE || CurrentState == EAIState::INVESTIGATING)
+	{
+		SetState(EAIState::INVESTIGATING);
+		Blackboard->SetValueAsVector("InvestigationLocation",  stimulus.StimulusLocation);	
+	}
+}
+
+void AEnemyAIController::SensedDamaged(AActor* actor, FAIStimulus& stimulus)
+{
+	SetStateAsAttacking(actor);
 }

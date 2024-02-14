@@ -160,7 +160,6 @@ void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& actors)
 			else if (stimulus.Type == HearingID)
 			{
 				SensedHearing(actor, stimulus);
-				stimulus.StimulusLocation;
 			}
 			else if (stimulus.Type == DamageID)
 			{

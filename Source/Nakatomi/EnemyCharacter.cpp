@@ -2,6 +2,7 @@
 
 #include "EnemyCharacter.h"
 #include "EnemyAIController.h"
+#include "EnemyHealthComponent.h"
 #include "InteractableComponent.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
@@ -10,6 +11,10 @@ AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer) : 
 {
 	RandomWeaponParameters = CreateDefaultSubobject<URandomWeaponParameters>(TEXT("Random Weapon Parameters"));
 
+	auto healthComponent = CreateDefaultSubobject<UEnemyHealthComponent>(TEXT("Health Component"));
+	SetHealthComponent(healthComponent);
+	GetHealthComponent()->OnDamaged.BindUFunction(this, "OnDamaged");
+	GetHealthComponent()->OnDeath.BindUFunction(this, "OnDeath");
 	GetHealthComponent()->SetMaxHealth(100.0f);
 
 	this->Tags.Add(FName("Enemy"));

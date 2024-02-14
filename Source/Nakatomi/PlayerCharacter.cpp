@@ -30,6 +30,10 @@ APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer) 
 	//bUseControllerRotationYaw = true;
 	//bUseControllerRotationRoll = false;
 
+	SetHealthComponent(CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component")));
+	GetHealthComponent()->OnDamaged.BindUFunction(this, "OnDamaged");
+	GetHealthComponent()->OnDeath.BindUFunction(this, "OnDeath");
+
 	// Setup the camera boom
 	CameraSpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraSpringArmComponent"));
 	CameraSpringArmComponent->SetupAttachment(RootComponent);
@@ -398,6 +402,7 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 			{
 				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr,
 				                            GetController(), this);
+				
 				if (!healthComponent->GetIsDead())
 				{
 					OnEnemyHit.ExecuteIfBound();
@@ -437,6 +442,8 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 				                                         true);
 			}
 		}
+
+		MakeNoise(1, this, Hit.Location);
 	}
 }
 
@@ -638,6 +645,8 @@ void APlayerCharacter::OnFire()
 	CurrentWeapon->DecrementAmmoCount(1);
 
 	CurrentWeapon->PlayFireSoundAtLocation(this->GetTransform().GetLocation());
+
+	MakeNoise(1,this, this->GetTransform().GetLocation());
 
 	PlayOnFireAnimations();
 

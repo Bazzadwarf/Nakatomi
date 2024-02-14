@@ -39,7 +39,7 @@ public:
 	FOnDamageDelegate OnDamaged;
 	FOnDeathDelegate OnDeath;
 
-private:
+protected:
 	UPROPERTY(EditDefaultsOnly)
 	float MaxHealth = 100.f;
 
@@ -55,7 +55,7 @@ public:
 	UHealthComponent();
 
 	UFUNCTION()
-	void TakeDamage(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy,
+	virtual void TakeDamage(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigatedBy,
 	                AActor* damageCauser);
 
 	UFUNCTION()

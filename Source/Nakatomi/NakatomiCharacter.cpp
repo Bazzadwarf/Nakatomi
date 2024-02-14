@@ -14,9 +14,12 @@ ANakatomiCharacter::ANakatomiCharacter(const FObjectInitializer& ObjectInitializ
 
 	NakatomiCMC = Cast<UNakatomiCMC>(GetCharacterMovement());
 
-	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
-	HealthComponent->OnDamaged.BindUFunction(this, "OnDamaged");
-	HealthComponent->OnDeath.BindUFunction(this, "OnDeath");
+	// if (!HealthComponent)
+	// {
+	// 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+	// 	HealthComponent->OnDamaged.BindUFunction(this, "OnDamaged");
+	// 	HealthComponent->OnDeath.BindUFunction(this, "OnDeath");
+	// }
 }
 
 // Called when the game starts or when spawned

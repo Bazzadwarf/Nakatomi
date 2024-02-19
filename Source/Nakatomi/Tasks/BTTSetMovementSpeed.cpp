@@ -21,6 +21,9 @@ EBTNodeResult::Type UBTTSetMovementSpeed::ExecuteTask(UBehaviorTreeComponent& ow
 	case EPatrolMovementEnum::WALK:
 		enemyPawn->GetCharacterMovementComponent()->SetMaxWalkSpeed(walkSpeed);
 		break;
+	case EPatrolMovementEnum::SPRINT:
+		enemyPawn->GetCharacterMovementComponent()->SetMaxWalkSpeed(sprintSpeed);
+		break;
 	default:
 		enemyPawn->GetCharacterMovementComponent()->SetMaxWalkSpeedToDefault();
 		break;

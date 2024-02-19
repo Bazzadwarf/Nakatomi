@@ -25,6 +25,8 @@ private:
 	float slowWalkSpeed = 250.0f;
 	
 	float walkSpeed = 500.0f;
+
+	float sprintSpeed = 750.0f;
 	
 public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner, uint8* memory) override;

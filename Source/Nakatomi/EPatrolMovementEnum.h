@@ -12,4 +12,5 @@ enum class EPatrolMovementEnum : uint8
 {
 	SLOWWALK UMETA(DisplayName = "Slow Walk"),
 	WALK UMETA(DisplayName = "Walk"),
+	SPRINT UMETA(DisplayName = "Sprint"),
 };

@@ -76,6 +76,9 @@ public:
 	UFUNCTION()
 	void SetStateAsAttacking(AActor* target);
 
+	UFUNCTION(BlueprintCallable)
+	AActor* GetTargetActor();
+
 private:
 
 	void SensedSight(AActor* actor, FAIStimulus& stimulus);

@@ -63,6 +63,9 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 	}
 
 	Blackboard->SetValueAsEnum("State",  static_cast<uint8>(EAIState::PASSIVE));
+
+	Blackboard->SetValueAsFloat("AttackRadius", enemy->AttackRadius);
+	Blackboard->SetValueAsFloat("DefendRadius", enemy->DefendRadius);
 	
 	//ensure(enemy->GetMovementComponent()->UseAccelerationForPathFollowing());
 }
@@ -149,9 +152,24 @@ void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& actors)
 				continue;
 			}
 
-			FAISenseID SightID = SightConfig->GetSenseID();
-			FAISenseID HearingID = HearingConfig->GetSenseID();
-			FAISenseID DamageID = DamageConfig->GetSenseID();
+			FAISenseID SightID;
+			FAISenseID HearingID;
+			FAISenseID DamageID;
+
+			if (SightConfig)
+			{
+				SightID = SightConfig->GetSenseID();
+			}
+
+			if (HearingConfig)
+			{
+				HearingID = HearingConfig->GetSenseID();
+			}
+
+			if (DamageConfig)
+			{
+				DamageID = DamageConfig->GetSenseID();
+			}			
 
 			if (stimulus.Type == SightID)
 			{
@@ -227,6 +245,11 @@ void AEnemyAIController::SetStateAsAttacking(AActor* target)
 {
 	Blackboard->SetValueAsObject("TargetActor", target);
 	SetState(EAIState::ATTACKING);
+}
+
+AActor* AEnemyAIController::GetTargetActor()
+{
+	return Cast<AActor>(Blackboard->GetValueAsObject("TargetActor"));
 }
 
 void AEnemyAIController::SensedSight(AActor* actor, FAIStimulus& stimulus)

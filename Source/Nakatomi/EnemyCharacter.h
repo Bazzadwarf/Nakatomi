@@ -21,6 +21,12 @@ class NAKATOMI_API AEnemyCharacter : public ANakatomiCharacter
 public:
 	UPROPERTY(EditAnywhere, Meta = (AllowPrivateAccess = "true"))
 	APatrolRoute* CurrentPatrolRoute;
+
+	UPROPERTY(EditAnywhere)
+	float AttackRadius = 300.0;
+
+	UPROPERTY(EditAnywhere)
+	float DefendRadius = 500.0f;
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))

@@ -4,6 +4,9 @@
 #include "EnemyAIController.h"
 #include "EnemyHealthComponent.h"
 #include "InteractableComponent.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BlackboardData.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
@@ -16,7 +19,7 @@ AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer) : 
 	GetHealthComponent()->OnDamaged.BindUFunction(this, "OnDamaged");
 	GetHealthComponent()->OnDeath.BindUFunction(this, "OnDeath");
 	GetHealthComponent()->SetMaxHealth(100.0f);
-
+	
 	this->Tags.Add(FName("Enemy"));
 }
 
@@ -54,6 +57,10 @@ void AEnemyCharacter::WeaponCooldownHandler()
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	AEnemyAIController* controller = Cast<AEnemyAIController>(GetController());
+	controller->GetBlackboardComponent()->SetValueAsFloat("CurrentHealth", GetHealthComponent()->GetCurrentHealth());
+	GetHealthComponent()->OnDamaged.BindUFunction(this, "OnDamaged");
 }
 
 void AEnemyCharacter::PlayOnFireAnimations()
@@ -130,3 +137,12 @@ void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits)
 		}
 	}
 }
+
+void AEnemyCharacter::OnDamaged()
+{
+	Super::OnDamaged();
+
+	AEnemyAIController* controller = Cast<AEnemyAIController>(GetController());
+	controller->GetBlackboardComponent()->SetValueAsFloat("CurrentHealth", GetHealthComponent()->GetCurrentHealth());
+}
+

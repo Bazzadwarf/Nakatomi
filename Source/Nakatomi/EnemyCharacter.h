@@ -55,4 +55,7 @@ private:
 	virtual void CalculateHits(TArray<FHitResult>* hits) override;
 
 	virtual void ProcessHits(TArray<FHitResult> hits) override;
+
+protected:
+	virtual void OnDamaged() override;
 };

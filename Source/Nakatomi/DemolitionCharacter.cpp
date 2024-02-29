@@ -4,6 +4,13 @@
 #include "DemolitionCharacter.h"
 #include <Kismet/GameplayStatics.h>
 
+void ADemolitionCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	GetHealthComponent()->OnDeath.BindUFunction(this, "Explode");
+}
+
 void ADemolitionCharacter::Explode()
 {
 	GetHealthComponent()->TakeDamage(this, this->GetHealthComponent()->GetMaxHealth(), nullptr, nullptr, nullptr);

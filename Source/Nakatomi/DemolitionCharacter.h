@@ -30,6 +30,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float MaxDamage = 150.f;
 
+	virtual void BeginPlay() override;
+
 public:
 	UFUNCTION()
 	void Explode();

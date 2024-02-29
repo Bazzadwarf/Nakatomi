@@ -24,6 +24,9 @@ private:
 	FBlackboardKeySelector TargetActor;
 
 	UPROPERTY(EditAnywhere, Meta = (AllowPrivateAccess = "true"))
+	FBlackboardKeySelector IsDeadKey;
+
+	UPROPERTY(EditAnywhere, Meta = (AllowPrivateAccess = "true"))
 	float DistanceThreshold = 5.0f;
 
 public:

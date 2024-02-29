@@ -25,9 +25,10 @@ EBTNodeResult::Type UGetDistanceToPlayerTask::ExecuteTask(UBehaviorTreeComponent
 
 	if (distance < DistanceThreshold)
 	{
-		enemyPawn->Explode();
+		blackboardComponent->SetValueAsBool(IsDeadKey.SelectedKeyName, true);
 		enemyPawn->GetHealthComponent()->TakeDamage(enemyPawn, enemyPawn->GetHealthComponent()->GetMaxHealth(), nullptr,
-		                                            nullptr, nullptr);
+		                                            enemyController, enemyPawn);
+		// enemyPawn->Explode();
 		return EBTNodeResult::Succeeded;
 	}
 

@@ -4,11 +4,20 @@
 #include "DemolitionCharacter.h"
 #include <Kismet/GameplayStatics.h>
 
+#include "EnemyAIController.h"
+
+ADemolitionCharacter::ADemolitionCharacter(const FObjectInitializer& ObjectInitializer) : AEnemyCharacter(ObjectInitializer)
+{
+}
+
 void ADemolitionCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	GetHealthComponent()->OnDeath.BindUFunction(this, "Explode");
+	auto controller = Cast<AEnemyAIController>(GetController());
+	GetHealthComponent()->OnDeath.BindUFunction(controller, "OnDeath");
+	GetHealthComponent()->OnDamaged.BindUFunction(controller, "OnDamaged");
 }
 
 void ADemolitionCharacter::Explode()

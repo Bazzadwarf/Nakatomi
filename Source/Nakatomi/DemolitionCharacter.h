@@ -30,6 +30,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float MaxDamage = 150.f;
 
+public:
+	ADemolitionCharacter(const FObjectInitializer& ObjectInitializer);
+
+protected:
+
 	virtual void BeginPlay() override;
 
 public:

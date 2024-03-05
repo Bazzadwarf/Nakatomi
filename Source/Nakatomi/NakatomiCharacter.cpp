@@ -280,7 +280,7 @@ void ANakatomiCharacter::OnDamaged()
 	if (OnDamagedHitAnimMontages[randomAnimMontage] != nullptr)
 	{
 		//TODO: Disable movement while playing animation montage
-		PlayAnimMontage(OnDamagedHitAnimMontages[randomAnimMontage]);
+		// PlayAnimMontage(OnDamagedHitAnimMontages[randomAnimMontage]);
 	}
 }
 

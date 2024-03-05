@@ -249,7 +249,7 @@ void APlayerCharacter::EndJumpCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::BeginFireCallback(const FInputActionInstance& Instance)
 {
-	if (CurrentWeapon == nullptr || CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != Idle || IsSprinting)
+	if (CurrentWeapon == nullptr || CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != Idle || (IsSprinting && GetVelocity().Length() > 500.0f))
 	{
 		return;
 	}

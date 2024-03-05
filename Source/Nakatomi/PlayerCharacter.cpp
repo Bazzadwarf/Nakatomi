@@ -298,22 +298,24 @@ void APlayerCharacter::QuitCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::SetSprintingCallback(const FInputActionInstance& Instance)
 {
-	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+
+	if (!IsADS && cmc)
 	{
 		cmc->EnableSprint();
+		IsSprinting = true;
 	}
-
-	IsSprinting = true;
 }
 
 void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 {
-	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
+	UNakatomiCMC* cmc = GetCharacterMovementComponent();
+	
+	if (!IsADS && cmc)
 	{
 		cmc->DisableSprint();
+		IsSprinting = false;
 	}
-
-	IsSprinting = false;
 }
 
 void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
@@ -518,13 +520,18 @@ void APlayerCharacter::WeaponSwitchingCallback(const FInputActionInstance& Insta
 
 void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& Instance)
 {
-	IsADS = true;
+	if (IsSprinting)
+	{
+		return;
+	}
 
+	IsADS = true;
+	
 	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())
 	{
 		cmc->EnableAds();
 	}
-
+	
 	AimSensitivity = DefaultAimSensitivity * ADSAimSensitivityMultiplier;
 
 	if (CurrentWeapon)
@@ -544,6 +551,11 @@ void APlayerCharacter::BeginAimDownSightsCallback(const FInputActionInstance& In
 
 void APlayerCharacter::EndAimDownSightsCallback(const FInputActionInstance& Instance)
 {
+	if (IsSprinting)
+	{
+		return;
+	}
+
 	IsADS = false;
 
 	if (UNakatomiCMC* cmc = GetCharacterMovementComponent())

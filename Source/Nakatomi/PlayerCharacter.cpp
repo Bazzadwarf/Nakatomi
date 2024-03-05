@@ -460,14 +460,6 @@ void APlayerCharacter::PlayOnFireAnimations()
 void APlayerCharacter::OnDamaged()
 {
 	Super::OnDamaged();
-	
-	int32 randomAnimMontage = FMath::RandRange(0,OnDamagedHitAnimMontages.Num()-1);
-	
-	if (OnDamagedHitAnimMontages[randomAnimMontage] != nullptr)
-	{
-		//TODO: Disable movement while playing animation montage
-		PlayAnimMontage(OnDamagedHitAnimMontages[randomAnimMontage]);
-	}
 }
 
 void APlayerCharacter::OnDeath()

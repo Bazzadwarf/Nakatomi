@@ -88,9 +88,6 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* ThrowExplosiveAnimMontage;
-
-	UPROPERTY(EditDefaultsOnly)
-	TArray<UAnimMontage*> OnDamagedHitAnimMontages;
 	
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* FireWeaponADSAnimMontage;

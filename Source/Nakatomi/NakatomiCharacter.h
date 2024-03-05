@@ -42,6 +42,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* FireWeaponAnimMontage;
 
+	UPROPERTY(EditDefaultsOnly)
+	TArray<UAnimMontage*> OnDamagedHitAnimMontages;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	UNakatomiCMC* NakatomiCMC;

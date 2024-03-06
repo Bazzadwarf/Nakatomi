@@ -142,7 +142,9 @@ void AEnemyCharacter::OnDamaged()
 {
 	Super::OnDamaged();
 
-	AEnemyAIController* controller = Cast<AEnemyAIController>(GetController());
-	controller->GetBlackboardComponent()->SetValueAsFloat("CurrentHealth", GetHealthComponent()->GetCurrentHealth());
+	if (AEnemyAIController* controller = Cast<AEnemyAIController>(GetController()))
+	{
+		controller->GetBlackboardComponent()->SetValueAsFloat("CurrentHealth", GetHealthComponent()->GetCurrentHealth());
+	}
 }
 

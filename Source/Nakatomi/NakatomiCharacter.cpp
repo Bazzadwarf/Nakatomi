@@ -257,6 +257,11 @@ bool ANakatomiCharacter::GetCrouched()
 	return false;
 }
 
+UNiagaraSystem* ANakatomiCharacter::GetOnDamagedHitNiagaraSystem()
+{
+	return OnDamagedHitNiagaraSystem;
+}
+
 void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 {
 }

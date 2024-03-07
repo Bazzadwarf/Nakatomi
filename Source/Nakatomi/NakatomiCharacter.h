@@ -45,6 +45,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TArray<UAnimMontage*> OnDamagedHitAnimMontages;
 
+	UPROPERTY(EditDefaultsOnly)
+	UNiagaraSystem* OnDamagedHitNiagaraSystem;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	UNakatomiCMC* NakatomiCMC;
@@ -114,6 +117,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool GetCrouched();
+
+	UNiagaraSystem* GetOnDamagedHitNiagaraSystem();
 
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits, FVector* dir);

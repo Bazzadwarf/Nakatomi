@@ -8,6 +8,7 @@
 #include "NakatomiFieldSystemActor.h"
 #include "WeaponProperties.h"
 #include "WeaponThrowable.h"
+#include "NiagaraSystem.h"
 #include "Weapon.generated.h"
 
 class ANakatomiCharacter;
@@ -56,7 +57,7 @@ protected:
 	TSubclassOf<class ADecalActor> DecalActor;
 
 	UPROPERTY(EditDefaultsOnly)
-	UParticleSystem* ImpactParticleSystem;
+	UNiagaraSystem* ImpactParticleSystem;
 
 public:
 	// Sets default values for this actor's properties
@@ -105,5 +106,5 @@ public:
 
 	TSubclassOf<class ADecalActor> GetDecalActor();
 
-	UParticleSystem* GetImpactParticleSystem();
+	UNiagaraSystem* GetImpactParticleSystem();
 };

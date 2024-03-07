@@ -125,7 +125,7 @@ TSubclassOf<ADecalActor> AWeapon::GetDecalActor()
 	return DecalActor;
 }
 
-UParticleSystem* AWeapon::GetImpactParticleSystem()
+UNiagaraSystem* AWeapon::GetImpactParticleSystem()
 {
 	return ImpactParticleSystem;
 }

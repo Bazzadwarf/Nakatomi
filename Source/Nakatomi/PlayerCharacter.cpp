@@ -406,6 +406,18 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits, FVector dir)
 			{
 				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr,
 				                            GetController(), this);
+
+				auto character = Cast<ANakatomiCharacter>(Hit.GetActor());
+				
+				if (character && character->GetOnDamagedHitNiagaraSystem())
+				{
+					UNiagaraFunctionLibrary::SpawnSystemAtLocation(this,
+												character->GetOnDamagedHitNiagaraSystem(),
+												Hit.ImpactPoint,
+												dir.MirrorByVector(Hit.ImpactNormal).Rotation(),
+												FVector(1),
+												true);
+				}
 				
 				if (!healthComponent->GetIsDead())
 				{

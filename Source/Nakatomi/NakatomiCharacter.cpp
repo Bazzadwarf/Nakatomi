@@ -257,11 +257,11 @@ bool ANakatomiCharacter::GetCrouched()
 	return false;
 }
 
-void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits)
+void ANakatomiCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 {
 }
 
-void ANakatomiCharacter::ProcessHits(TArray<FHitResult> hits)
+void ANakatomiCharacter::ProcessHits(TArray<FHitResult> hits, FVector dir)
 {
 }
 

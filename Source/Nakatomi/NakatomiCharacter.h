@@ -116,9 +116,9 @@ public:
 	bool GetCrouched();
 
 protected:
-	virtual void CalculateHits(TArray<FHitResult>* hits);
+	virtual void CalculateHits(TArray<FHitResult>* hits, FVector* dir);
 
-	virtual void ProcessHits(TArray<FHitResult> hits);
+	virtual void ProcessHits(TArray<FHitResult> hits, FVector dir);
 
 	virtual void PlayOnFireAnimations(); 
 	

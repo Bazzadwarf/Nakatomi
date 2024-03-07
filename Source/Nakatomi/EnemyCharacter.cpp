@@ -4,6 +4,7 @@
 #include "EnemyAIController.h"
 #include "EnemyHealthComponent.h"
 #include "InteractableComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BlackboardData.h"
@@ -33,8 +34,9 @@ void AEnemyCharacter::OnFire()
 	CurrentWeapon->SetCurrentWeaponStatus(Firing);
 
 	TArray<FHitResult> Hits = TArray<FHitResult>();
-	CalculateHits(&Hits);
-	ProcessHits(Hits);
+	FVector direction = FVector::ZeroVector;
+	CalculateHits(&Hits, &direction);
+	ProcessHits(Hits, direction);
 
 	CurrentWeapon->PlayFireSoundAtLocation(GetActorLocation());
 
@@ -68,7 +70,7 @@ void AEnemyCharacter::PlayOnFireAnimations()
 	Super::PlayOnFireAnimations();
 }
 
-void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits)
+void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 {
 	// Set up randomness
 	const int32 RandomSeed = FMath::Rand();
@@ -108,7 +110,7 @@ void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits)
 	}
 }
 
-void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits)
+void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits, FVector dir)
 {
 	for (FHitResult Hit : hits)
 	{
@@ -117,10 +119,18 @@ void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits)
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 		// Spawn field actor
-		FTransform transform;
-		transform.SetLocation(Hit.ImpactPoint);
-		auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform,
-		                                                       SpawnParameters);
+		if (CurrentWeapon->GetFieldSystemActor())
+		{
+			FTransform transform;
+			transform.SetLocation(Hit.ImpactPoint);
+			auto field = GetWorld()->SpawnActor<AFieldSystemActor>(CurrentWeapon->GetFieldSystemActor(), transform,
+																   SpawnParameters);
+
+			if (field)
+			{
+				field->Destroy();
+			}
+		}
 
 		if (Hit.GetActor())
 		{
@@ -134,6 +144,36 @@ void AEnemyCharacter::ProcessHits(TArray<FHitResult> hits)
 				healthComponent->TakeDamage(Hit.GetActor(), CurrentWeapon->GetWeaponProperties()->WeaponDamage, nullptr,
 				                            GetController(), this);
 			}
+		}
+
+		auto staticMeshComponent = Hit.GetActor()->GetComponentByClass<UStaticMeshComponent>();
+
+		if (staticMeshComponent && !staticMeshComponent->IsSimulatingPhysics() && CurrentWeapon->GetDecalActor())
+		{
+			FTransform transform;
+			transform.SetLocation(Hit.ImpactPoint);
+
+			auto decalActor = GetWorld()->SpawnActor<ADecalActor>(CurrentWeapon->GetDecalActor(), transform,
+																  SpawnParameters);
+			auto rot = Hit.ImpactNormal.Rotation();
+			rot.Roll += 90.0f;
+			rot.Yaw += 180.0f;
+			decalActor->SetActorRotation(rot);
+		}
+			
+		if (staticMeshComponent && !staticMeshComponent->IsSimulatingPhysics() &&
+			CurrentWeapon->GetImpactParticleSystem())
+		{
+			FTransform transform;
+			transform.SetLocation(Hit.ImpactPoint);
+				
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this,
+															CurrentWeapon->GetImpactParticleSystem(),
+															transform.GetLocation(),
+															dir.MirrorByVector(Hit.ImpactNormal).Rotation(),
+															FVector(1),
+															true);
+				
 		}
 	}
 }

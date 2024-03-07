@@ -52,9 +52,9 @@ protected:
 private:
 	virtual void PlayOnFireAnimations() override;
 	
-	virtual void CalculateHits(TArray<FHitResult>* hits) override;
+	virtual void CalculateHits(TArray<FHitResult>* hits, FVector* dir) override;
 
-	virtual void ProcessHits(TArray<FHitResult> hits) override;
+	virtual void ProcessHits(TArray<FHitResult> hits, FVector dir) override;
 
 protected:
 	virtual void OnDamaged() override;

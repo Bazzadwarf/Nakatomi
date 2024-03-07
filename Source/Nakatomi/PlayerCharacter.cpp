@@ -14,6 +14,7 @@
 #include "InteractableComponent.h"
 #include "NakatomiCMC.h"
 #include "WeaponThrowable.h"
+#include "NiagaraFunctionLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
@@ -318,7 +319,7 @@ void APlayerCharacter::SetWalkingCallback(const FInputActionInstance& Instance)
 	}
 }
 
-void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
+void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 {
 	// Set up the collision query params, use the Weapon trace settings, Ignore the actor firing this trace
 	FCollisionQueryParams TraceParams(SCENE_QUERY_STAT(WeaponTrace), true, GetInstigator());
@@ -349,6 +350,7 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	TraceStart = GetRootComponent()->GetComponentLocation();
 	FVector AimDir = CamHit.ImpactPoint - TraceStart;
 	AimDir.Normalize();
+	*dir = AimDir;
 	TraceStart = TraceStart + AimDir * ((GetInstigator()->GetActorLocation() - TraceStart) | AimDir);
 
 	// Calculate the hit results from the trace
@@ -371,7 +373,7 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits)
 	}
 }
 
-void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
+void APlayerCharacter::ProcessHits(TArray<FHitResult> hits, FVector dir)
 {
 	for (FHitResult Hit : hits)
 	{
@@ -436,12 +438,14 @@ void APlayerCharacter::ProcessHits(TArray<FHitResult> hits)
 			{
 				FTransform transform;
 				transform.SetLocation(Hit.ImpactPoint);
-
-				UGameplayStatics::SpawnEmitterAtLocation(this,
-				                                         CurrentWeapon->GetImpactParticleSystem(),
-				                                         transform.GetLocation(),
-				                                         FRotator::ZeroRotator,
-				                                         true);
+				
+				UNiagaraFunctionLibrary::SpawnSystemAtLocation(this,
+																CurrentWeapon->GetImpactParticleSystem(),
+																transform.GetLocation(),
+																dir.MirrorByVector(Hit.ImpactNormal).Rotation(),
+																FVector(1),
+																true);
+				
 			}
 		}
 
@@ -643,8 +647,9 @@ void APlayerCharacter::OnFire()
 	CurrentWeapon->SetCurrentWeaponStatus(Firing);
 
 	TArray<FHitResult> Hits = TArray<FHitResult>();
-	CalculateHits(&Hits);
-	ProcessHits(Hits);
+	FVector direction = FVector::ZeroVector;
+	CalculateHits(&Hits, &direction);
+	ProcessHits(Hits, direction);
 
 	CurrentWeapon->DecrementAmmoCount(1);
 

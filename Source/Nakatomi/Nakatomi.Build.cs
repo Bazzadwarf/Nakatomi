@@ -11,7 +11,7 @@ public class Nakatomi : ModuleRules
 		PublicDependencyModuleNames.AddRange(new[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "FieldSystemEngine",
-			"GeometryCollectionEngine", "UMG", "AIModule", "GameplayTasks", "NavigationSystem"
+			"GeometryCollectionEngine", "UMG", "AIModule", "GameplayTasks", "NavigationSystem", "Niagara"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

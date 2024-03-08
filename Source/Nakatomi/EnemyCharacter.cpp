@@ -8,6 +8,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BlackboardData.h"
+#include "UI/EnemyHealthbarUserWidget.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
@@ -20,6 +21,12 @@ AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer) : 
 	GetHealthComponent()->OnDamaged.BindUFunction(this, "OnDamaged");
 	GetHealthComponent()->OnDeath.BindUFunction(this, "OnDeath");
 	GetHealthComponent()->SetMaxHealth(100.0f);
+
+	HealthbarWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("Healthbar"));
+	HealthbarWidgetComponent->SetupAttachment(RootComponent);
+	HealthbarWidgetComponent->SetRelativeLocation(FVector(0,0,90));
+	HealthbarWidgetComponent->SetTwoSided(true);
+	HealthbarWidgetComponent->SetBackgroundColor(FLinearColor(1,1,1,0));
 	
 	this->Tags.Add(FName("Enemy"));
 }
@@ -63,6 +70,12 @@ void AEnemyCharacter::BeginPlay()
 	AEnemyAIController* controller = Cast<AEnemyAIController>(GetController());
 	controller->GetBlackboardComponent()->SetValueAsFloat("CurrentHealth", GetHealthComponent()->GetCurrentHealth());
 	GetHealthComponent()->OnDamaged.BindUFunction(this, "OnDamaged");
+
+	if (HealthbarWidgetComponent->GetWidget())
+	{
+		UEnemyHealthbarUserWidget* healthbar = Cast<UEnemyHealthbarUserWidget>(HealthbarWidgetComponent->GetWidget());
+		healthbar->BindOwner(this);
+	}
 }
 
 void AEnemyCharacter::PlayOnFireAnimations()

@@ -7,6 +7,7 @@
 #include "PatrolRoute.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "RandomWeaponParameters.h"
+#include "Components/WidgetComponent.h"
 #include "EnemyCharacter.generated.h"
 
 
@@ -27,6 +28,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float DefendRadius = 500.0f;
+
+	UPROPERTY(EditAnywhere)
+	UWidgetComponent* HealthbarWidgetComponent;
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))

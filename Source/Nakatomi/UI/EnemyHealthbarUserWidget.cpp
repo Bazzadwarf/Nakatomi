@@ -12,7 +12,8 @@ void UEnemyHealthbarUserWidget::BindOwner(AEnemyCharacter* NewOwner)
 	if (Owner)
 	{
 		auto healthComponent = Owner->GetHealthComponent(); 
-		healthComponent->OnDamaged.BindUFunction(this, "UpdateHealthbar");		
+		healthComponent->OnDamaged.BindUFunction(this, "UpdateHealthbar");
+		UpdateHealthbar();
 	}
 }
 

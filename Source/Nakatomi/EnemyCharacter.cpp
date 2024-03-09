@@ -8,6 +8,8 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BlackboardData.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "UI/EnemyHealthbarUserWidget.h"
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
@@ -75,6 +77,23 @@ void AEnemyCharacter::BeginPlay()
 	{
 		UEnemyHealthbarUserWidget* healthbar = Cast<UEnemyHealthbarUserWidget>(HealthbarWidgetComponent->GetWidget());
 		healthbar->BindOwner(this);
+	}
+}
+
+void AEnemyCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	if (PlayerCharacter && HealthbarWidgetComponent->GetWidget())
+	{
+		FVector ActorLocation = GetActorLocation();
+
+		UCameraComponent* PlayerCamera = PlayerCharacter->GetCameraComponent();
+		FVector PlayerLocation = PlayerCamera->GetComponentTransform().GetLocation();
+
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(ActorLocation, PlayerLocation);
+		HealthbarWidgetComponent->SetWorldRotation(rotation);
 	}
 }
 

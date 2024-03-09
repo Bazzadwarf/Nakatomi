@@ -826,3 +826,8 @@ void APlayerCharacter::SetIsThrowing(bool bIsThrowing)
 {
 	IsThrowing = bIsThrowing;
 }
+
+UCameraComponent* APlayerCharacter::GetCameraComponent()
+{
+	return CameraComponent;
+}

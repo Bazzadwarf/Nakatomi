@@ -242,6 +242,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetIsThrowing(bool bIsThrowing);
 
+	UCameraComponent* GetCameraComponent();
+
 protected:
 	virtual void CalculateHits(TArray<FHitResult>* hits, FVector* dir) override;
 

@@ -13,7 +13,8 @@ void UEnemyHealthbarUserWidget::BindOwner(AEnemyCharacter* NewOwner)
 	{
 		auto healthComponent = Owner->GetHealthComponent(); 
 		healthComponent->OnDamaged.BindUFunction(this, "UpdateHealthbar");
-		UpdateHealthbar();
+		float percent = Owner->GetHealthComponent()->GetCurrentHealth() / Owner->GetHealthComponent()->GetMaxHealth();
+		Healthbar->SetPercent(percent);
 	}
 }
 
@@ -22,6 +23,7 @@ void UEnemyHealthbarUserWidget::UpdateHealthbar()
 	if (Owner)
 	{
 		float percent = Owner->GetHealthComponent()->GetCurrentHealth() / Owner->GetHealthComponent()->GetMaxHealth();
-		Healthbar->SetPercent(percent); 		
+		Healthbar->SetPercent(percent);
+		PlayAnimation(RevealHealthbar);
 	}
 }

@@ -21,6 +21,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UProgressBar* Healthbar;
 
+	UPROPERTY(Transient, meta = (BindWidgetAnim))
+	UWidgetAnimation* RevealHealthbar;
+
 	AEnemyCharacter* Owner;
 
 public:

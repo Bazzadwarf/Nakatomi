@@ -26,3 +26,13 @@ void UNakatomiLevelManager::LoadNextLevel()
 		UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), NextLevel);	
 	}
 }
+
+void UNakatomiLevelManager::IncrementInitialLevelKeys()
+{
+	LevelKeys++;
+}
+
+void UNakatomiLevelManager::IncrementCollectedLevelKeys()
+{
+	CollectedLevelKeys++;
+}

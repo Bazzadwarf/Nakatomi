@@ -10,14 +10,9 @@ UNakatomiAIAttackTokenManager* UNakatomiGameInstance::GetAIAttackTokenManager()
 
 UNakatomiLevelManager* UNakatomiGameInstance::GetCurrentLevelManager()
 {
-	if (IsValid(currentLevelManager))
-	{
-		return currentLevelManager;
-	}
-
-	UE_LOG(LogTemp, Warning, TEXT("No Level manager set."))
-
-	return nullptr;
+	return IsValid(currentLevelManager)
+		       ? currentLevelManager
+		       : currentLevelManager = NewObject<UNakatomiLevelManager>(this, TEXT("Level Manager"));
 }
 
 void UNakatomiGameInstance::SetCurrentLevelManager(UNakatomiLevelManager* NewLevelManager)

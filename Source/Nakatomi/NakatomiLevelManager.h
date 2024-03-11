@@ -19,7 +19,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
 	TSoftObjectPtr<UWorld> NextLevel;
 
-	int LevelKeys = 0;
+	int InitialLevelKeys = 0;
 
 	int CollectedLevelKeys = 0;
 	
@@ -32,6 +32,12 @@ public:
 
 	UFUNCTION()
 	void IncrementCollectedLevelKeys();
+
+	UFUNCTION()
+	int GetInitialLevelKeysCount();
+
+	UFUNCTION()
+	int GetCollectedLevelKeysCount();
 	
 private:
 

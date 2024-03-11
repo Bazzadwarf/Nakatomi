@@ -24,16 +24,20 @@ void ALevelEndTriggerVolume::OnOverlapBegin(UPrimitiveComponent* OverlappedCompo
 								   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
 								   const FHitResult& SweepResult)
 {
-	// TODO: Add extra functionality!
-	if (Cast<APlayerCharacter>(OtherActor))
+	UNakatomiGameInstance* gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (gameInstance)
 	{
-		GetCollisionComponent()->OnComponentBeginOverlap.Clear();
+		int CollectedLevelKeysCount = gameInstance->GetCurrentLevelManager()->GetCollectedLevelKeysCount();
+		int InitialLevelKeysCount = gameInstance->GetCurrentLevelManager()->GetInitialLevelKeysCount();
 		
-		if (auto gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+		// TODO: Add extra checks!
+		if (Cast<APlayerCharacter>(OtherActor) && CollectedLevelKeysCount == InitialLevelKeysCount)
 		{
+			GetCollisionComponent()->OnComponentBeginOverlap.Clear();
+
 			gameInstance->GetCurrentLevelManager()->LoadNextLevel();
+
+			this->Destroy();
 		}
-		
-		this->Destroy();
 	}
 }

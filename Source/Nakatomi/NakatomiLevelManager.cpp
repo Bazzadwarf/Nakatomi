@@ -29,10 +29,20 @@ void UNakatomiLevelManager::LoadNextLevel()
 
 void UNakatomiLevelManager::IncrementInitialLevelKeys()
 {
-	LevelKeys++;
+	InitialLevelKeys++;
 }
 
 void UNakatomiLevelManager::IncrementCollectedLevelKeys()
 {
 	CollectedLevelKeys++;
+}
+
+int UNakatomiLevelManager::GetInitialLevelKeysCount()
+{
+	return InitialLevelKeys;
+}
+
+int UNakatomiLevelManager::GetCollectedLevelKeysCount()
+{
+	return CollectedLevelKeys;
 }

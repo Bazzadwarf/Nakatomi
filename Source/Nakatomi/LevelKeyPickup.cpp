@@ -26,7 +26,7 @@ void ALevelKeyPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, A
 {
 	if (auto gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
 	{
-		gameInstance->GetCurrentLevelManager()->IncrementInitialLevelKeys();
+		gameInstance->GetCurrentLevelManager()->IncrementCollectedLevelKeys();
 	}
 	
 	Super::OnOverlapBegin(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);

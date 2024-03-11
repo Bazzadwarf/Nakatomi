@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "NakatomiAIAttackTokenManager.h"
+#include "NakatomiLevelManager.h"
 #include "NakatomiGameInstance.generated.h"
 
 /**
@@ -17,6 +18,10 @@ class NAKATOMI_API UNakatomiGameInstance : public UGameInstance
 
 private:
 
+	UNakatomiLevelManager* currentLevelManager;
+
+private:
+
 	UPROPERTY()
 	UNakatomiAIAttackTokenManager* AIAttackTokenManager;
 
@@ -24,5 +29,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UNakatomiAIAttackTokenManager* GetAIAttackTokenManager();
-	
+
+	UFUNCTION(BlueprintCallable)
+	UNakatomiLevelManager* GetCurrentLevelManager();
+
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentLevelManager(UNakatomiLevelManager* NewLevelManager);
 };

@@ -5,6 +5,7 @@
 
 #include <Kismet/GameplayStatics.h>
 
+#include "NakatomiGameInstance.h"
 #include "PlayerCharacter.h"
 
 void ALevelEndTriggerVolume::BeginPlay()
@@ -28,9 +29,9 @@ void ALevelEndTriggerVolume::OnOverlapBegin(UPrimitiveComponent* OverlappedCompo
 	{
 		GetCollisionComponent()->OnComponentBeginOverlap.Clear();
 		
-		if (!NextGameLevel.IsNull())
+		if (auto gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
 		{
-			UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), NextGameLevel);	
+			gameInstance->GetCurrentLevelManager()->LoadNextLevel();
 		}
 		
 		this->Destroy();

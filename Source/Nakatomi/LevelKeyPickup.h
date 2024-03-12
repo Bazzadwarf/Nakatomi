@@ -3,16 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Pickup.h"
+#include "StaticMeshPickup.h"
 #include "LevelKeyPickup.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class NAKATOMI_API ALevelKeyPickup : public APickup
+class NAKATOMI_API ALevelKeyPickup : public AStaticMeshPickup
 {
 	GENERATED_BODY()
+
+public:
+	ALevelKeyPickup() {	}
 
 protected:
 	virtual void BeginPlay() override;

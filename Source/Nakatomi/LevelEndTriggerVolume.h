@@ -14,9 +14,9 @@ class NAKATOMI_API ALevelEndTriggerVolume : public ATriggerBox
 {
 	GENERATED_BODY()
 
-private:
+public:
 
-	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UWorld> NextLevel;
 	
 protected:
@@ -29,7 +29,4 @@ public:
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 								   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
 								   const FHitResult& SweepResult);
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TSoftObjectPtr<UWorld> NextGameLevel;
 };

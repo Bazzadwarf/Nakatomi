@@ -14,6 +14,11 @@ class NAKATOMI_API ALevelEndTriggerVolume : public ATriggerBox
 {
 	GENERATED_BODY()
 
+private:
+
+	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
+	TSoftObjectPtr<UWorld> NextLevel;
+	
 protected:
 	virtual void BeginPlay() override;
 

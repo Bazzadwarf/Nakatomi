@@ -19,7 +19,7 @@ void UNakatomiLevelManager::BeginPlay(UWorld* world)
 	}
 }
 
-void UNakatomiLevelManager::LoadNextLevel()
+void UNakatomiLevelManager::LoadNextLevel(TSoftObjectPtr<UWorld> NextLevel)
 {
 	if (!NextLevel.IsNull())
 	{

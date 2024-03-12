@@ -35,7 +35,7 @@ void ALevelEndTriggerVolume::OnOverlapBegin(UPrimitiveComponent* OverlappedCompo
 		{
 			GetCollisionComponent()->OnComponentBeginOverlap.Clear();
 
-			gameInstance->GetCurrentLevelManager()->LoadNextLevel();
+			gameInstance->GetCurrentLevelManager()->LoadNextLevel(NextLevel);
 
 			this->Destroy();
 		}

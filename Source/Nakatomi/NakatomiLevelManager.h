@@ -16,8 +16,6 @@ class NAKATOMI_API UNakatomiLevelManager : public UObject
 	UNakatomiLevelManager();
 
 private:
-	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
-	TSoftObjectPtr<UWorld> NextLevel;
 
 	int InitialLevelKeys = 0;
 
@@ -25,7 +23,7 @@ private:
 	
 public:
 	UFUNCTION()
-	void LoadNextLevel();
+	void LoadNextLevel(TSoftObjectPtr<UWorld> NextLevel);
 
 	UFUNCTION()
 	void IncrementInitialLevelKeys();

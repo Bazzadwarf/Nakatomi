@@ -14,9 +14,8 @@ AStaticMeshPickup::AStaticMeshPickup()
 void AStaticMeshPickup::BeginPlay()
 {
 	Super::BeginPlay();
-
-	StaticMeshComponent->SetWorldLocation(this->GetActorLocation());
-	StartingLocation = this->GetActorLocation();
+	
+	StartingLocation = StaticMeshComponent->GetRelativeLocation();
 	StaticMeshComponent->SetCollisionProfileName(FName("NoCollision"));
 }
 
@@ -26,10 +25,10 @@ void AStaticMeshPickup::Tick(float DeltaTime)
 
 	if (StaticMeshComponent)
 	{
-		// Rotate Weapon in desired direction
+		// Rotate StaticMesh in desired direction
 		StaticMeshComponent->AddLocalRotation((SpinRotation * RotationSpeed) * DeltaTime);
 
-		// Bob weapon up and down
+		// Bob StaticMesh up and down
 		const float Time = GetWorld()->GetRealTimeSeconds();
 		const float Sine = FMath::Abs(FMath::Sin(Time * MovementSpeed));
 		StaticMeshComponent->SetRelativeLocation(StartingLocation + ((MovementDirection * Sine) * MovementDistance));

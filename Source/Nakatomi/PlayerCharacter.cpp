@@ -333,10 +333,11 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 
 	FVector CamStart = CameraComponent->GetComponentTransform().GetLocation();
 	FVector CamRot = CameraComponent->GetComponentTransform().GetRotation().Vector();
+	CamRot.Normalize();
 	FVector CamEnd = CamStart + CamRot * 99999.f;
 
 	FHitResult CamHit;
-	if (!GetWorld()->LineTraceSingleByChannel(CamHit, CamStart, CamEnd, ECC_Camera))
+	if (!GetWorld()->LineTraceSingleByChannel(CamHit, CamStart, CamEnd, ECC_GameTraceChannel3))
 	{
 		return;
 	}	

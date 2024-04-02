@@ -21,6 +21,7 @@ void UOptionsUIWidget::NativeConstruct()
 		}
 
 		ResolutionButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::OnResolutionSelectorChanged);
+		ResolutionButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
 	}
 
 	if (FullscreenCheckBox)
@@ -41,6 +42,7 @@ void UOptionsUIWidget::NativeConstruct()
 		}
 
 		RefreshRateButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::OnRefreshRateSelectorChanged);
+		RefreshRateButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
 	}
 	
 	if (VsyncCheckBox)
@@ -65,11 +67,13 @@ void UOptionsUIWidget::NativeConstruct()
 	if (BackButton)
 	{
 		BackButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::BackButtonOnClicked);
+		BackButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
 	}
 
 	if (ResetToDefaultsButton)
 	{
 		ResetToDefaultsButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::ResetToDefaultsButtonOnClicked);
+		ResetToDefaultsButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
 	}
 
 	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
@@ -156,6 +160,7 @@ void UOptionsUIWidget::OnFullscreenCheckboxChanged(bool bIsChecked)
 	}
 
 	GEngine->GameUserSettings->ApplySettings(true);
+	this->PlayHoveredSound();
 }
 
 void UOptionsUIWidget::OnRefreshRateSelectorChanged()
@@ -186,10 +191,20 @@ void UOptionsUIWidget::OnVsyncCheckboxChanged(bool bIsChecked)
 {
 	GEngine->GameUserSettings->SetVSyncEnabled(bIsChecked);
 	GEngine->GameUserSettings->ApplySettings(true);
+	this->PlayHoveredSound();
 }
 
 void UOptionsUIWidget::OnDynamicResolutionCheckboxChanged(bool bIsChecked)
 {
 	GEngine->GameUserSettings->SetDynamicResolutionEnabled(bIsChecked);
 	GEngine->GameUserSettings->ApplySettings(true);
+	this->PlayHoveredSound();
+}
+
+void UOptionsUIWidget::PlayHoveredSound()
+{
+	if (ButtonHoveredSound)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), ButtonHoveredSound);
+	}
 }

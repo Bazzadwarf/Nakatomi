@@ -13,21 +13,25 @@ void UMainMenuUIWidget::NativeConstruct()
 	if (NewGameButton)
 	{
 		NewGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameButtonOnClicked);
+		NewGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 	}
 
 	if (LoadGameButton)
 	{
 		LoadGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameButtonOnClicked);
+		LoadGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 	}
 	
 	if (OptionsButton)
 	{
 		OptionsButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsButtonOnClicked);
+		OptionsButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 	}
 
 	if (QuitButton)
 	{
 		QuitButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitButtonOnClicked);
+		QuitButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 	}
 
 	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
@@ -35,8 +39,6 @@ void UMainMenuUIWidget::NativeConstruct()
 		UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(PlayerController, this, EMouseLockMode::LockAlways);
 		PlayerController->bShowMouseCursor = true;
 	}
-
-
 }
 
 void UMainMenuUIWidget::NewGameButtonOnClicked()
@@ -80,4 +82,12 @@ void UMainMenuUIWidget::QuitButtonOnClicked()
 	// This is not a bit deal for the moment as we are only building for windows
 	// For some reason the generic version does not work the same as FWindowsPlatformMisc
 	FWindowsPlatformMisc::RequestExit(false);
+}
+
+void UMainMenuUIWidget::PlayHoveredSound()
+{
+	if (ButtonHoveredSound)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), ButtonHoveredSound);
+	}
 }

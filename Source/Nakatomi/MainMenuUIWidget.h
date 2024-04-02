@@ -41,6 +41,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UWorld> NewGameLevel;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	USoundBase* ButtonHoveredSound;
+
 private:
 	UUserWidget* currentNewGameWidget;
 
@@ -63,4 +66,7 @@ private:
 
 	UFUNCTION()
 	void QuitButtonOnClicked();
+
+	UFUNCTION()
+	void PlayHoveredSound();
 };

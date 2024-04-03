@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	USoundBase* ButtonUnhoveredSound;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	USoundBase* ButtonClickedSound;
+
 protected:
 	UFUNCTION()
 	void PlayHoveredSound();
@@ -41,5 +44,8 @@ protected:
 
 	UFUNCTION()
 	void PlayUnhoveredSound();
+
+	UFUNCTION()
+	void PlayClickedSound();
 	
 };

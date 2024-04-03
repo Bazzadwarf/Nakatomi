@@ -30,3 +30,11 @@ void UNakatomiInteractiveWidget::PlayUnhoveredSound()
 		UGameplayStatics::PlaySound2D(GetWorld(), ButtonUnhoveredSound);
 	}
 }
+
+void UNakatomiInteractiveWidget::PlayClickedSound()
+{
+	if (ButtonClickedSound)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), ButtonUnhoveredSound);
+	}
+}

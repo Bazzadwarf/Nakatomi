@@ -13,6 +13,7 @@ void UMainMenuUIWidget::NativeConstruct()
 	if (NewGameButton)
 	{
 		NewGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameButtonOnClicked);
+		NewGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayClickedSound);
 		
 		NewGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 		NewGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameTextBlockHoveredDelegate);
@@ -24,6 +25,7 @@ void UMainMenuUIWidget::NativeConstruct()
 	if (LoadGameButton)
 	{
 		LoadGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameButtonOnClicked);
+		LoadGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayClickedSound);
 		
 		LoadGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 		LoadGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameTextBlockHoveredDelegate);
@@ -35,6 +37,7 @@ void UMainMenuUIWidget::NativeConstruct()
 	if (OptionsButton)
 	{
 		OptionsButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsButtonOnClicked);
+		OptionsButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayClickedSound);
 		
 		OptionsButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 		OptionsButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsTextBlockHoveredDelegate);
@@ -46,6 +49,7 @@ void UMainMenuUIWidget::NativeConstruct()
 	if (QuitButton)
 	{
 		QuitButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitButtonOnClicked);
+		QuitButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayClickedSound);
 		
 		QuitButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 		QuitButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitTextBlockHoveredDelegate);

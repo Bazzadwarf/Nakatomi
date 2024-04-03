@@ -14,24 +14,36 @@ void UMainMenuUIWidget::NativeConstruct()
 	{
 		NewGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameButtonOnClicked);
 		NewGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
+		NewGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameTextBlockHoveredDelegate);
+
+		NewGameButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameTextBlockUnhoveredDelegate);
 	}
 
 	if (LoadGameButton)
 	{
 		LoadGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameButtonOnClicked);
 		LoadGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
+		LoadGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameTextBlockHoveredDelegate);
+
+		LoadGameButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameTextBlockUnhoveredDelegate);
 	}
 	
 	if (OptionsButton)
 	{
 		OptionsButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsButtonOnClicked);
 		OptionsButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
+		OptionsButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsTextBlockHoveredDelegate);
+
+		OptionsButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsTextBlockUnhoveredDelegate);
 	}
 
 	if (QuitButton)
 	{
 		QuitButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitButtonOnClicked);
 		QuitButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
+		QuitButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitTextBlockHoveredDelegate);
+
+		QuitButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitTextBlockUnhoveredDelegate);
 	}
 
 	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
@@ -90,4 +102,14 @@ void UMainMenuUIWidget::PlayHoveredSound()
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), ButtonHoveredSound);
 	}
+}
+
+void UMainMenuUIWidget::SetTextBlockHovered(UTextBlock* TextBlock)
+{
+	TextBlock->SetColorAndOpacity(FSlateColor(ButtonHoveredTextColor));
+}
+
+void UMainMenuUIWidget::SetTextBlockUnhovered(UTextBlock* TextBlock)
+{
+	TextBlock->SetColorAndOpacity(FSlateColor(ButtonUnhoveredTextColor));	
 }

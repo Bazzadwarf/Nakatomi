@@ -21,13 +21,25 @@ public:
 	UButton* NewGameButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* NewGameTextBlock;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* LoadGameButton;
 
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* LoadGameTextBlock;
+	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* OptionsButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* OptionsTextBlock;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* QuitButton;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* QuitTextBlock;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> NewGameMenuWidget;
@@ -43,6 +55,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	USoundBase* ButtonHoveredSound;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	FLinearColor ButtonHoveredTextColor = {0, 1, 0, 1};
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	FLinearColor ButtonUnhoveredTextColor = {1, 1, 1, 1};
 
 private:
 	UUserWidget* currentNewGameWidget;
@@ -69,4 +87,34 @@ private:
 
 	UFUNCTION()
 	void PlayHoveredSound();
+	
+	UFUNCTION()
+	void SetTextBlockHovered(UTextBlock* TextBlock);
+
+	UFUNCTION()
+	void SetTextBlockUnhovered(UTextBlock* TextBlock);
+
+	UFUNCTION()
+	void NewGameTextBlockHoveredDelegate() { SetTextBlockHovered(NewGameTextBlock); }
+
+	UFUNCTION()
+	void NewGameTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(NewGameTextBlock); }
+	
+	UFUNCTION()
+	void LoadGameTextBlockHoveredDelegate() { SetTextBlockHovered(LoadGameTextBlock); }
+
+	UFUNCTION()
+	void LoadGameTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(LoadGameTextBlock); }
+	
+	UFUNCTION()
+	void OptionsTextBlockHoveredDelegate() { SetTextBlockHovered(OptionsTextBlock); }
+
+	UFUNCTION()
+	void OptionsTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(OptionsTextBlock); }
+	
+	UFUNCTION()
+	void QuitTextBlockHoveredDelegate() { SetTextBlockHovered(QuitTextBlock); }
+
+	UFUNCTION()
+	void QuitTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(QuitTextBlock); }
 };

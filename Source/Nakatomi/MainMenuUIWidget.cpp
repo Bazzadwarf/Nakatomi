@@ -13,37 +13,45 @@ void UMainMenuUIWidget::NativeConstruct()
 	if (NewGameButton)
 	{
 		NewGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameButtonOnClicked);
+		
 		NewGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 		NewGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameTextBlockHoveredDelegate);
 
 		NewGameButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::NewGameTextBlockUnhoveredDelegate);
+		NewGameButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayUnhoveredSound);
 	}
 
 	if (LoadGameButton)
 	{
 		LoadGameButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameButtonOnClicked);
+		
 		LoadGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 		LoadGameButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameTextBlockHoveredDelegate);
 
 		LoadGameButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::LoadGameTextBlockUnhoveredDelegate);
+		LoadGameButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayUnhoveredSound);
 	}
 	
 	if (OptionsButton)
 	{
 		OptionsButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsButtonOnClicked);
+		
 		OptionsButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 		OptionsButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsTextBlockHoveredDelegate);
 
 		OptionsButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::OptionsTextBlockUnhoveredDelegate);
+		OptionsButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayUnhoveredSound);
 	}
 
 	if (QuitButton)
 	{
 		QuitButton->OnClicked.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitButtonOnClicked);
+		
 		QuitButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayHoveredSound);
 		QuitButton->OnHovered.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitTextBlockHoveredDelegate);
 
 		QuitButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::QuitTextBlockUnhoveredDelegate);
+		QuitButton->OnUnhovered.AddUniqueDynamic(this, &UMainMenuUIWidget::PlayUnhoveredSound);
 	}
 
 	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))

@@ -22,3 +22,11 @@ void UNakatomiInteractiveWidget::SetTextBlockUnhovered(UTextBlock* TextBlock)
 {
 	TextBlock->SetColorAndOpacity(FSlateColor(ButtonUnhoveredTextColor));
 }
+
+void UNakatomiInteractiveWidget::PlayUnhoveredSound()
+{
+	if (ButtonUnhoveredSound)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), ButtonUnhoveredSound);
+	}
+}

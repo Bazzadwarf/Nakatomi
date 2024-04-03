@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FLinearColor ButtonUnhoveredTextColor = {1, 1, 1, 1};
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	USoundBase* ButtonUnhoveredSound;
+
 protected:
 	UFUNCTION()
 	void PlayHoveredSound();
@@ -35,5 +38,8 @@ protected:
 
 	UFUNCTION()
 	void SetTextBlockUnhovered(UTextBlock* TextBlock);
+
+	UFUNCTION()
+	void PlayUnhoveredSound();
 	
 };

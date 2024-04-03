@@ -54,15 +54,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UWorld> NewGameLevel;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	USoundBase* ButtonHoveredSound;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FLinearColor ButtonHoveredTextColor = {0, 1, 0, 1};
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FLinearColor ButtonUnhoveredTextColor = {1, 1, 1, 1};
-
 private:
 	UUserWidget* currentNewGameWidget;
 
@@ -85,15 +76,6 @@ private:
 
 	UFUNCTION()
 	void QuitButtonOnClicked();
-
-	UFUNCTION()
-	void PlayHoveredSound();
-	
-	UFUNCTION()
-	void SetTextBlockHovered(UTextBlock* TextBlock);
-
-	UFUNCTION()
-	void SetTextBlockUnhovered(UTextBlock* TextBlock);
 
 	UFUNCTION()
 	void NewGameTextBlockHoveredDelegate() { SetTextBlockHovered(NewGameTextBlock); }

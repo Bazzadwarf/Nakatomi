@@ -36,9 +36,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> OptionsMenuWidget;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	USoundBase* ButtonHoveredSound;
-
 private:
 	UOptionsUIWidget* currentOptionsMenuWidget;
 
@@ -60,7 +57,4 @@ private:
 
 	UFUNCTION()
 	void ExitGameButtonOnClicked();
-
-	UFUNCTION()
-	void PlayHoveredSound();
 };

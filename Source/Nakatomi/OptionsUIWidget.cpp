@@ -200,11 +200,3 @@ void UOptionsUIWidget::OnDynamicResolutionCheckboxChanged(bool bIsChecked)
 	GEngine->GameUserSettings->ApplySettings(true);
 	this->PlayHoveredSound();
 }
-
-void UOptionsUIWidget::PlayHoveredSound()
-{
-	if (ButtonHoveredSound)
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), ButtonHoveredSound);
-	}
-}

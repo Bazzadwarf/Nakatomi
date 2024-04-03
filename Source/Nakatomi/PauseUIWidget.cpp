@@ -92,11 +92,3 @@ void UPauseUIWidget::ExitGameButtonOnClicked()
 	// For some reason the generic version does not work the same as FWindowsPlatformMisc
 	FWindowsPlatformMisc::RequestExit(false);
 }
-
-void UPauseUIWidget::PlayHoveredSound()
-{
-	if (ButtonHoveredSound)
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), ButtonHoveredSound);
-	}
-}

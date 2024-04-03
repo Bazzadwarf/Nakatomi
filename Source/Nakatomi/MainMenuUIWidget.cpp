@@ -95,21 +95,3 @@ void UMainMenuUIWidget::QuitButtonOnClicked()
 	// For some reason the generic version does not work the same as FWindowsPlatformMisc
 	FWindowsPlatformMisc::RequestExit(false);
 }
-
-void UMainMenuUIWidget::PlayHoveredSound()
-{
-	if (ButtonHoveredSound)
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), ButtonHoveredSound);
-	}
-}
-
-void UMainMenuUIWidget::SetTextBlockHovered(UTextBlock* TextBlock)
-{
-	TextBlock->SetColorAndOpacity(FSlateColor(ButtonHoveredTextColor));
-}
-
-void UMainMenuUIWidget::SetTextBlockUnhovered(UTextBlock* TextBlock)
-{
-	TextBlock->SetColorAndOpacity(FSlateColor(ButtonUnhoveredTextColor));	
-}

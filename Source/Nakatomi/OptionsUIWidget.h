@@ -46,9 +46,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* ResetToDefaultsButton;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	USoundBase* ButtonHoveredSound;
-
 private:
 
 	UUserWidget* PreviousScreen;
@@ -83,7 +80,4 @@ private:
 
 	UFUNCTION()
 	void OnDynamicResolutionCheckboxChanged(bool bIsChecked);
-
-	UFUNCTION()
-	void PlayHoveredSound();
 };

@@ -6,13 +6,14 @@
 #include "OptionsUIWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "UI/NakatomiInteractiveWidget.h"
 #include "PauseUIWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class NAKATOMI_API UPauseUIWidget : public UUserWidget
+class NAKATOMI_API UPauseUIWidget : public UNakatomiInteractiveWidget
 {
 	GENERATED_BODY()
 

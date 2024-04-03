@@ -7,13 +7,14 @@
 #include "Components/CheckBox.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "UI/NakatomiInteractiveWidget.h"
 #include "OptionsUIWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class NAKATOMI_API UOptionsUIWidget : public UUserWidget
+class NAKATOMI_API UOptionsUIWidget : public UNakatomiInteractiveWidget
 {
 	GENERATED_BODY()
 

@@ -22,17 +22,32 @@ public:
 	UButton* ResumeButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* ResumeTextBlock;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* OptionsButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* OptionsTextBlock;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* SaveButton;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* SaveTextBlock;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* QuitButton;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* QuitTextBlock;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* ExitGameButton;
-
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* ExitGameTextBlock;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> OptionsMenuWidget;
 
@@ -57,4 +72,34 @@ private:
 
 	UFUNCTION()
 	void ExitGameButtonOnClicked();
+
+	UFUNCTION()
+	void ResumeTextBlockHoveredDelegate() { SetTextBlockHovered(ResumeTextBlock); }
+
+	UFUNCTION()
+	void ResumeTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(ResumeTextBlock); }
+
+	UFUNCTION()
+	void OptionsTextBlockHoveredDelegate() { SetTextBlockHovered(OptionsTextBlock); }
+
+	UFUNCTION()
+	void OptionsTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(OptionsTextBlock); }
+
+	UFUNCTION()
+	void SaveTextBlockHoveredDelegate() { SetTextBlockHovered(SaveTextBlock); }
+
+	UFUNCTION()
+	void SaveTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(SaveTextBlock); }
+
+	UFUNCTION()
+	void QuitTextBlockHoveredDelegate() { SetTextBlockHovered(QuitTextBlock); }
+
+	UFUNCTION()
+	void QuitTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(QuitTextBlock); }
+
+	UFUNCTION()
+	void ExitGameTextBlockHoveredDelegate() { SetTextBlockHovered(ExitGameTextBlock); }
+
+	UFUNCTION()
+	void ExitGameTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(ExitGameTextBlock); }
 };

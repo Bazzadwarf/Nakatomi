@@ -135,7 +135,8 @@ void UOptionsUIWidget::ResetToDefaultsButtonOnClicked()
 void UOptionsUIWidget::OnResolutionSelectorChanged()
 {
 	FIntPoint screenResolution = GEngine->GameUserSettings->GetDesktopResolution();
-	float widthScale = static_cast<float>(screenResolution.X) / static_cast<float>(screenResolution.Y);
+	//float widthScale = static_cast<float>(screenResolution.X) / static_cast<float>(screenResolution.Y);
+	float widthScale = static_cast<float>(1920) / static_cast<float>(1080);
 
 	switch (GEngine->GameUserSettings->GetScreenResolution().Y)
 	{
@@ -146,9 +147,6 @@ void UOptionsUIWidget::OnResolutionSelectorChanged()
 		screenResolution.Y = 1440;
 		break;
 	case 1440:
-		screenResolution.Y = 2160;
-		break;
-	case 2160:
 		screenResolution.Y = 720;
 		break;
 	default:

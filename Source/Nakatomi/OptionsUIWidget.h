@@ -42,9 +42,15 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* BackButton;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* BackTextBlock;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* ResetToDefaultsButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* ResetToDefaultsTextBlock;
 
 private:
 
@@ -80,4 +86,28 @@ private:
 
 	UFUNCTION()
 	void OnDynamicResolutionCheckboxChanged(bool bIsChecked);
+
+	UFUNCTION()
+	void ResolutionTextBlockHoveredDelegate() { SetTextBlockHovered(ResolutionTextBlock); }
+
+	UFUNCTION()
+	void ResolutionTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(ResolutionTextBlock); }
+
+	UFUNCTION()
+	void RefreshRateTextBlockHoveredDelegate() { SetTextBlockHovered(RefreshRateTextBlock); }
+
+	UFUNCTION()
+	void RefreshRateTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(RefreshRateTextBlock); }
+
+	UFUNCTION()
+	void BackTextBlockHoveredDelegate() { SetTextBlockHovered(BackTextBlock); }
+
+	UFUNCTION()
+	void BackTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(BackTextBlock); }
+
+	UFUNCTION()
+	void ResetToDefaultsTextBlockHoveredDelegate() { SetTextBlockHovered(ResetToDefaultsTextBlock); }
+
+	UFUNCTION()
+	void ResetToDefaultsTextBlockUnhoveredDelegate() { SetTextBlockUnhovered(ResetToDefaultsTextBlock); }
 };

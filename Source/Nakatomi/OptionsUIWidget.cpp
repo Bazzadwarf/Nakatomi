@@ -21,7 +21,13 @@ void UOptionsUIWidget::NativeConstruct()
 		}
 
 		ResolutionButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::OnResolutionSelectorChanged);
+		ResolutionButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::PlayClickedSound);
+
 		ResolutionButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
+		ResolutionButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::ResolutionTextBlockHoveredDelegate);
+		
+		ResolutionButton->OnUnhovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayUnhoveredSound);
+		ResolutionButton->OnUnhovered.AddUniqueDynamic(this, &UOptionsUIWidget::ResolutionTextBlockUnhoveredDelegate);
 	}
 
 	if (FullscreenCheckBox)
@@ -42,7 +48,13 @@ void UOptionsUIWidget::NativeConstruct()
 		}
 
 		RefreshRateButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::OnRefreshRateSelectorChanged);
+		RefreshRateButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::PlayClickedSound);
+		
 		RefreshRateButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
+		RefreshRateButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::RefreshRateTextBlockHoveredDelegate);
+
+		RefreshRateButton->OnUnhovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayUnhoveredSound);
+		RefreshRateButton->OnUnhovered.AddUniqueDynamic(this, &UOptionsUIWidget::RefreshRateTextBlockUnhoveredDelegate);
 	}
 	
 	if (VsyncCheckBox)
@@ -67,13 +79,25 @@ void UOptionsUIWidget::NativeConstruct()
 	if (BackButton)
 	{
 		BackButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::BackButtonOnClicked);
+		BackButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::PlayClickedSound);
+		
 		BackButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
+		BackButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::BackTextBlockHoveredDelegate);
+
+		BackButton->OnUnhovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayUnhoveredSound);
+		BackButton->OnUnhovered.AddUniqueDynamic(this, &UOptionsUIWidget::BackTextBlockUnhoveredDelegate);
 	}
 
 	if (ResetToDefaultsButton)
 	{
 		ResetToDefaultsButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::ResetToDefaultsButtonOnClicked);
+		BackButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::PlayClickedSound);
+		
 		ResetToDefaultsButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
+		ResetToDefaultsButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::ResetToDefaultsTextBlockHoveredDelegate);
+
+		ResetToDefaultsButton->OnUnhovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayUnhoveredSound);
+		ResetToDefaultsButton->OnUnhovered.AddUniqueDynamic(this, &UOptionsUIWidget::ResetToDefaultsTextBlockUnhoveredDelegate);
 	}
 
 	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))

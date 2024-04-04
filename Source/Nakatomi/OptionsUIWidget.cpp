@@ -120,7 +120,7 @@ void UOptionsUIWidget::SetReturnScreen(UUserWidget* userWidget)
 void UOptionsUIWidget::BackButtonOnClicked()
 {
 	// TODO: Implement Functionality
-	GEngine->GameUserSettings->ApplySettings(true);
+	GEngine->GameUserSettings->ApplySettings(false);
 
 	this->RemoveFromParent();
 	PreviousScreen->AddToViewport();
@@ -129,7 +129,7 @@ void UOptionsUIWidget::BackButtonOnClicked()
 void UOptionsUIWidget::ResetToDefaultsButtonOnClicked()
 {
 	GEngine->GameUserSettings->SetToDefaults(); // :)
-	GEngine->GameUserSettings->ApplySettings(true);
+	GEngine->GameUserSettings->ApplySettings(false);
 }
 
 void UOptionsUIWidget::OnResolutionSelectorChanged()
@@ -164,7 +164,7 @@ void UOptionsUIWidget::OnResolutionSelectorChanged()
 		ResolutionTextBlock->SetText(FText::AsNumber(screenResolution.Y));
 	}
 
-	GEngine->GameUserSettings->ApplySettings(true);
+	GEngine->GameUserSettings->ApplySettings(false);
 }
 
 void UOptionsUIWidget::SetRefreshRateTextBlock(float RefreshRateText)
@@ -185,7 +185,7 @@ void UOptionsUIWidget::OnFullscreenCheckboxChanged(bool bIsChecked)
 		ResolutionButton->SetIsEnabled(true);
 	}
 
-	GEngine->GameUserSettings->ApplySettings(true);
+	GEngine->GameUserSettings->ApplySettings(false);
 	this->PlayHoveredSound();
 }
 
@@ -210,19 +210,19 @@ void UOptionsUIWidget::OnRefreshRateSelectorChanged()
 	}
 	
 	SetRefreshRateTextBlock(GEngine->GameUserSettings->GetFrameRateLimit());
-	GEngine->GameUserSettings->ApplySettings(true);
+	GEngine->GameUserSettings->ApplySettings(false);
 }
 
 void UOptionsUIWidget::OnVsyncCheckboxChanged(bool bIsChecked)
 {
 	GEngine->GameUserSettings->SetVSyncEnabled(bIsChecked);
-	GEngine->GameUserSettings->ApplySettings(true);
+	GEngine->GameUserSettings->ApplySettings(false);
 	this->PlayHoveredSound();
 }
 
 void UOptionsUIWidget::OnDynamicResolutionCheckboxChanged(bool bIsChecked)
 {
 	GEngine->GameUserSettings->SetDynamicResolutionEnabled(bIsChecked);
-	GEngine->GameUserSettings->ApplySettings(true);
+	GEngine->GameUserSettings->ApplySettings(false);
 	this->PlayHoveredSound();
 }

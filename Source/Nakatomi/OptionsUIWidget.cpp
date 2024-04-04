@@ -91,7 +91,7 @@ void UOptionsUIWidget::NativeConstruct()
 	if (ResetToDefaultsButton)
 	{
 		ResetToDefaultsButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::ResetToDefaultsButtonOnClicked);
-		BackButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::PlayClickedSound);
+		ResetToDefaultsButton->OnClicked.AddUniqueDynamic(this, &UOptionsUIWidget::PlayClickedSound);
 		
 		ResetToDefaultsButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::PlayHoveredSound);
 		ResetToDefaultsButton->OnHovered.AddUniqueDynamic(this, &UOptionsUIWidget::ResetToDefaultsTextBlockHoveredDelegate);
@@ -177,10 +177,12 @@ void UOptionsUIWidget::OnFullscreenCheckboxChanged(bool bIsChecked)
 	if (bIsChecked)
 	{
 		GEngine->GameUserSettings->SetFullscreenMode(EWindowMode::Fullscreen);
+		ResolutionButton->SetIsEnabled(false);	
 	}
 	else
 	{
 		GEngine->GameUserSettings->SetFullscreenMode(EWindowMode::Windowed);
+		ResolutionButton->SetIsEnabled(true);
 	}
 
 	GEngine->GameUserSettings->ApplySettings(true);

@@ -31,6 +31,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	UWidgetComponent* HealthbarWidgetComponent;
+
+	UPROPERTY(EditAnywhere)
+	float WeaponSpreadModifier = 1.0f;
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))

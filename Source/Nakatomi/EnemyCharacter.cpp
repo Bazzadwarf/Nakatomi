@@ -108,6 +108,7 @@ void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 	const int32 RandomSeed = FMath::Rand();
 	FRandomStream WeaponRandomStream(RandomSeed);
 	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread;
+	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread * WeaponSpreadModifier;
 	const float Range = CurrentWeapon->GetWeaponProperties()->ProjectileRange;
 
 	// Calculate starting position and direction

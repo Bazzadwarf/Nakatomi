@@ -3,6 +3,7 @@
 
 #include "LevelKeyPickup.h"
 #include "NakatomiGameInstance.h"
+#include "PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 void ALevelKeyPickup::BeginPlay()
@@ -18,15 +19,18 @@ void ALevelKeyPickup::BeginPlay()
 void ALevelKeyPickup::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-}
+} 
 
 void ALevelKeyPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (auto gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+	if (Cast<APlayerCharacter>(OtherActor))
 	{
-		gameInstance->GetCurrentLevelManager()->IncrementCollectedLevelKeys();
+		if (auto gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+		{
+			gameInstance->GetCurrentLevelManager()->IncrementCollectedLevelKeys();
+		}
+
+		Super::OnOverlapBegin(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 	}
-	
-	Super::OnOverlapBegin(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 }

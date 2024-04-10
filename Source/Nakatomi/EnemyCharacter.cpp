@@ -107,7 +107,6 @@ void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 	// Set up randomness
 	const int32 RandomSeed = FMath::Rand();
 	FRandomStream WeaponRandomStream(RandomSeed);
-	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread;
 	const float Spread = CurrentWeapon->GetWeaponProperties()->WeaponSpread * WeaponSpreadModifier;
 	const float Range = CurrentWeapon->GetWeaponProperties()->ProjectileRange;
 
@@ -138,7 +137,7 @@ void AEnemyCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 		for (FHitResult Result : HitResults)
 		{
 			hits->Add(Result);
-			DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Red, true, 500, 0U, 0);
+			// DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Red, true, 500, 0U, 0);
 		}
 	}
 }

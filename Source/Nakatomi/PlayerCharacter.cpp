@@ -15,7 +15,7 @@
 #include "NakatomiCMC.h"
 #include "WeaponThrowable.h"
 #include "NiagaraFunctionLibrary.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"	
 
 #define COLLISION_WEAPON	ECC_GameTraceChannel1
 
@@ -369,7 +369,7 @@ void APlayerCharacter::CalculateHits(TArray<FHitResult>* hits, FVector* dir)
 		for (FHitResult Result : HitResults)
 		{
 			hits->Add(Result);
-			DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Blue, true, 500, 0U, 0);
+			// DrawDebugLine(GetWorld(), TraceStart, Result.ImpactPoint, FColor::Blue, true, 500, 0U, 0);
 		}
 	}
 }

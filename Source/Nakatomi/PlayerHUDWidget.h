@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include <Components/TextBlock.h>
 #include <Components/Image.h>
+
+#include "PlayerCharacter.h"
 #include "PlayerHUDWidget.generated.h"
 
 
@@ -29,6 +31,9 @@ public:
 	UFUNCTION()
 	void ShowHitMarker();
 
+	UFUNCTION(BlueprintCallable)
+	FString GetHealthbarText(APlayerCharacter* PlayerCharacter);
+	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* HealthText;
 

@@ -22,19 +22,19 @@ private:
 	int CollectedLevelKeys = 0;
 	
 public:
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void LoadNextLevel(TSoftObjectPtr<UWorld> NextLevel);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void IncrementInitialLevelKeys();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void IncrementCollectedLevelKeys();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	int GetInitialLevelKeysCount();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	int GetCollectedLevelKeysCount();
 	
 private:

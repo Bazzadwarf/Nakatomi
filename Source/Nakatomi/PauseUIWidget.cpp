@@ -110,7 +110,19 @@ void UPauseUIWidget::SaveButtonOnClicked()
 
 void UPauseUIWidget::QuitButtonOnClicked()
 {
-	// TODO: Implement Functionality
+	// TODO: Replace this is a menu to confirm the user wants to start a new game
+	if (!MainMenuLevel.IsNull())
+	{
+		UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), MainMenuLevel);	
+	}
+
+	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(PlayerController, this, EMouseLockMode::LockAlways);
+		PlayerController->bShowMouseCursor = true;
+	}
+
+	SetIsFocusable(true);
 }
 
 void UPauseUIWidget::ExitGameButtonOnClicked()

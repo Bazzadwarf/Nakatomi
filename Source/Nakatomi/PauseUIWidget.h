@@ -51,6 +51,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> OptionsMenuWidget;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSoftObjectPtr<UWorld> MainMenuLevel;
+
 private:
 	UOptionsUIWidget* currentOptionsMenuWidget;
 

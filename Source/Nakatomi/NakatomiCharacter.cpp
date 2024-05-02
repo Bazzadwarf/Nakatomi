@@ -124,17 +124,22 @@ void ANakatomiCharacter::RemoveWeaponFromInventory(int i)
 	WeaponInventory[i]->Destroy();
 	WeaponInventory.RemoveAt(i);
 
-	if (WeaponInventory.Num() == 0)
+	
+	if (WeaponInventory.Num() == 1)
+	{
+		SelectInventorySlot(0);
+	}
+	else if (WeaponInventory.Num() == 0)
 	{
 		CurrentInventorySlot = -1;
 	}
-	else if (int index = WeaponInventory.Find(CurrentWeapon) == INDEX_NONE)
+	else if (CurrentInventorySlot == 0)
 	{
-		SetCurrentWeapon(WeaponInventory[CurrentInventorySlot % WeaponInventory.Num()]);
+		SelectInventorySlot(0);
 	}
 	else
 	{
-		CurrentInventorySlot = index;
+		SelectInventorySlot(i-1);
 	}
 }
 
@@ -142,13 +147,13 @@ void ANakatomiCharacter::RemoveWeaponFromInventory(AWeapon* weapon)
 {
 	if (int index = WeaponInventory.Find(weapon) != INDEX_NONE)
 	{
-		RemoveWeaponFromInventory(index - 1);
+		RemoveWeaponFromInventory(index);
 	}
 }
 
 void ANakatomiCharacter::RemoveCurrentWeaponFromInventory()
 {
-	RemoveWeaponFromInventory(CurrentWeapon);
+	RemoveWeaponFromInventory(CurrentInventorySlot);
 }
 
 void ANakatomiCharacter::AddWeaponToInventory(TSubclassOf<class AWeapon> weapon)

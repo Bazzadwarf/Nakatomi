@@ -250,7 +250,8 @@ void APlayerCharacter::EndJumpCallback(const FInputActionInstance& Instance)
 
 void APlayerCharacter::BeginFireCallback(const FInputActionInstance& Instance)
 {
-	if (CurrentWeapon == nullptr || CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != Idle || (IsSprinting && GetVelocity().Length() > 500.0f))
+	if (CurrentWeapon == nullptr || CurrentWeapon->GetCurrentWeaponStatus()->GetValue() != Idle ||
+		(IsSprinting && GetVelocity().Length() > 500.0f))
 	{
 		return;
 	}
@@ -768,10 +769,13 @@ void APlayerCharacter::ThrowWeapon()
 
 	TSubclassOf<AWeaponThrowable> WeaponThrowableTemplate = CurrentWeapon->GetWeaponThrowableTemplate();
 
-	AWeaponThrowable* Throwable = GetWorld()->SpawnActor<AWeaponThrowable>(
-		WeaponThrowableTemplate, SpawnLocation, FRotator::ZeroRotator);
+	if (WeaponThrowableTemplate)
+	{
+		AWeaponThrowable* Throwable = GetWorld()->SpawnActor<AWeaponThrowable>(
+			WeaponThrowableTemplate, SpawnLocation, FRotator::ZeroRotator);
 
-	Throwable->SetWeaponSkeletalMesh(GetCurrentWeapon()->GetSkeletalMesh());
+		Throwable->SetWeaponSkeletalMesh(GetCurrentWeapon()->GetSkeletalMesh());
+	}
 }
 
 void APlayerCharacter::ThrowExplosiveCallback()
@@ -793,8 +797,8 @@ void APlayerCharacter::ThrowExplosive()
 	SpawnLocation += Location;
 	SpawnLocation += (25.0f * GetActorForwardVector());
 	SpawnLocation.Z += BoxExtent.Z;
-
-	GetWorld()->SpawnActor<AThrowable>(ThrowableInventory.Pop(), SpawnLocation, FRotator::ZeroRotator);
+	
+	GetWorld()->SpawnActor<AThrowable>(ThrowableInventory[GetCurrentInventorySlot()], SpawnLocation, FRotator::ZeroRotator);
 }
 
 AThrowable* APlayerCharacter::ThrowThrowable()

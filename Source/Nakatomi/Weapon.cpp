@@ -6,7 +6,14 @@
 
 // Sets default values
 AWeapon::AWeapon()
-{
+{	
+	WeaponSkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Skeletal Mesh Component"));
+	WeaponSkeletalMeshComponent->SetCollisionProfileName(FName("NoCollision"));
+	WeaponSkeletalMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	WeaponSkeletalMeshComponent->SetSimulatePhysics(false);
+	WeaponSkeletalMeshComponent->SetGenerateOverlapEvents(false);
+	WeaponSkeletalMeshComponent->SetNotifyRigidBodyCollision(false);
+	SetRootComponent(WeaponSkeletalMeshComponent);
 }
 
 // Called when the game starts or when spawned
@@ -19,12 +26,12 @@ void AWeapon::BeginPlay()
 
 USkeletalMesh* AWeapon::GetSkeletalMesh()
 {
-	return WeaponSkeletalMesh;
+	return WeaponSkeletalMeshComponent->GetSkeletalMeshAsset();
 }
 
 void AWeapon::SetSkeletalMesh(USkeletalMesh* USkeletalMesh)
 {
-	WeaponSkeletalMesh = USkeletalMesh;
+	WeaponSkeletalMeshComponent->SetSkeletalMeshAsset(USkeletalMesh);
 }
 
 TEnumAsByte<WeaponState>* AWeapon::GetCurrentWeaponStatus()

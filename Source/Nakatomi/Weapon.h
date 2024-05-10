@@ -29,8 +29,8 @@ class NAKATOMI_API AWeapon : public AActor
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly)
-	USkeletalMesh* WeaponSkeletalMesh = nullptr;
+	UPROPERTY(BlueprintReadWrite)
+	USkeletalMeshComponent* WeaponSkeletalMeshComponent;
 
 	UPROPERTY(EditDefaultsOnly)
 	TEnumAsByte<WeaponState> CurrentWeaponStatus;
@@ -65,6 +65,7 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
+	UFUNCTION(Blueprintable, BlueprintCallable)
 	virtual void BeginPlay() override;
 
 public:

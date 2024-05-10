@@ -188,6 +188,7 @@ AWeapon* ANakatomiCharacter::InitializeWeapon(TSubclassOf<class AWeapon> weapon)
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	AWeapon* Weapon = GetWorld()->SpawnActor<AWeapon>(weapon, SpawnParameters);
+	Weapon->SetOwner(this);
 	Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponHand");
 	Weapon->SetActorEnableCollision(false);
 	Weapon->SetActorHiddenInGame(true);

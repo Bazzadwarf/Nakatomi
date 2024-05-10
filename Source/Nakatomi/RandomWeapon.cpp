@@ -11,7 +11,7 @@ ARandomWeapon::ARandomWeapon()
 void ARandomWeapon::BeginPlay()
 {
 	WeaponProperties = RandomWeaponParameters->GenerateRandomWeaponProperties();
-	WeaponSkeletalMesh = RandomWeaponParameters->PickRandomMesh();
+	WeaponSkeletalMeshComponent->SetSkeletalMeshAsset(RandomWeaponParameters->PickRandomMesh());
 	FireSound = RandomWeaponParameters->PickRandomSoundBase();
 	FieldSystemActor = RandomWeaponParameters->PickRandomFieldSystem();
 

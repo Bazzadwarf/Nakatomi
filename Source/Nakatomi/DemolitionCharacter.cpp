@@ -5,6 +5,7 @@
 #include <Kismet/GameplayStatics.h>
 
 #include "EnemyAIController.h"
+#include "Engine/OverlapResult.h"
 
 ADemolitionCharacter::ADemolitionCharacter(const FObjectInitializer& ObjectInitializer) : AEnemyCharacter(ObjectInitializer)
 {

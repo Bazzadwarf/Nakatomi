@@ -4,6 +4,7 @@
 #include "ExplosiveActor.h"
 #include <Kismet/GameplayStatics.h>
 #include "NakatomiCharacter.h"
+#include "Engine/OverlapResult.h"
 
 // Sets default values
 AExplosiveActor::AExplosiveActor()

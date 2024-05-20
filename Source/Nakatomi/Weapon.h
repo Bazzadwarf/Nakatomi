@@ -59,6 +59,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UNiagaraSystem* ImpactParticleSystem;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class AWeaponPickup> PickupTemplate;
+
 public:
 	// Sets default values for this actor's properties
 	AWeapon();
@@ -108,4 +111,6 @@ public:
 	TSubclassOf<class ADecalActor> GetDecalActor();
 
 	UNiagaraSystem* GetImpactParticleSystem();
+	
+	TSubclassOf<class AWeaponPickup> GetPickupTemplate();
 };

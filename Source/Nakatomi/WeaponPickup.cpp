@@ -2,10 +2,18 @@
 
 #include "WeaponPickup.h"
 #include "PlayerCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "UI/WeaponPickupUserWidget.h"
 
 // Sets default values
 AWeaponPickup::AWeaponPickup()
 {
+	WeaponPropertiesWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("Healthbar"));
+	WeaponPropertiesWidgetComponent->SetupAttachment(RootComponent);
+	WeaponPropertiesWidgetComponent->SetRelativeLocation(FVector(0,0,90));
+	WeaponPropertiesWidgetComponent->SetTwoSided(true);
+	WeaponPropertiesWidgetComponent->SetBackgroundColor(FLinearColor(1,1,1,0));
 }
 
 // Called when the game starts or when spawned
@@ -33,6 +41,18 @@ void AWeaponPickup::Tick(const float DeltaTime)
 		const float Time = GetWorld()->GetRealTimeSeconds();
 		const float Sine = FMath::Abs(FMath::Sin(Time * MovementSpeed));
 		WeaponComponent->SetActorLocation(WeaponStartingLocation + ((MovementDirection * Sine) * MovementDistance));
+	}
+
+	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	if (PlayerCharacter && WeaponPropertiesWidgetComponent->GetWidget())
+	{
+		FVector ActorLocation = GetActorLocation();
+
+		UCameraComponent* PlayerCamera = PlayerCharacter->GetCameraComponent();
+		FVector PlayerLocation = PlayerCamera->GetComponentTransform().GetLocation();
+
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(ActorLocation, PlayerLocation);
+		WeaponPropertiesWidgetComponent->SetWorldRotation(rotation);
 	}
 }
 
@@ -74,6 +94,23 @@ FWeaponProperties* AWeaponPickup::GetWeaponProperties()
 void AWeaponPickup::SetWeaponProperties(const FWeaponProperties& FWeaponProperties) const
 {
 	WeaponComponent->SetWeaponProperties(FWeaponProperties);
+
+	UWeaponPickupUserWidget* userWidget = Cast<UWeaponPickupUserWidget>(WeaponPropertiesWidgetComponent->GetWidget());
+
+	userWidget->AmmoText->SetText(FText::AsNumber(FWeaponProperties.DefaultAmmo));
+	
+	FString ProjectilesString = FString::FromInt(FWeaponProperties.ProjectilesPerShot);
+	ProjectilesString += "x";
+	userWidget->ProjectilesText->SetText(FText::FromString(ProjectilesString));
+
+	FString CooldownString = FString::SanitizeFloat(FWeaponProperties.WeaponCooldown);
+	CooldownString.LeftInline(3);
+	CooldownString += "s";
+	userWidget->CooldownText->SetText(FText::FromString(CooldownString));
+
+	FString SpreadString = FString::SanitizeFloat(FWeaponProperties.WeaponSpread);
+	SpreadString.LeftInline(4);
+	userWidget->SpreadText->SetText(FText::FromString(SpreadString));
 }
 
 void AWeaponPickup::SpawnWeapon()

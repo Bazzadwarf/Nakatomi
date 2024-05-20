@@ -4,6 +4,7 @@
 
 #include "Pickup.h"
 #include "Weapon.h"
+#include "Components/WidgetComponent.h"
 #include "WeaponPickup.generated.h"
 
 UCLASS()
@@ -30,6 +31,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float RotationSpeed = 50.0f;
 
+	UPROPERTY(EditAnywhere)
+	UWidgetComponent* WeaponPropertiesWidgetComponent;
+	
 private:
 	UPROPERTY()
 	AWeapon* WeaponComponent;

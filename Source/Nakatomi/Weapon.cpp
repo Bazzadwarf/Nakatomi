@@ -137,6 +137,11 @@ UNiagaraSystem* AWeapon::GetImpactParticleSystem()
 	return ImpactParticleSystem;
 }
 
+TSubclassOf<AWeaponPickup> AWeapon::GetPickupTemplate()
+{
+	return PickupTemplate;
+}
+
 TSubclassOf<class ANakatomiFieldSystemActor> AWeapon::GetFieldSystemActor()
 {
 	return FieldSystemActor;

@@ -3,13 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NakatomiSaveFileInfo.generated.h"
 
 /**
  * 
  */
-class NAKATOMI_API NakatomiSaveFileInfo
+USTRUCT(BlueprintType)
+struct FNakatomiSaveFileInfo
 {
-public:
-	NakatomiSaveFileInfo();
-	~NakatomiSaveFileInfo();
+    GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Info")
+	FString SaveSlotName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Info")
+	FString PlayerName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Info")
+	FString CurrentLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Info")
+	FString DateTimeSaved;
 };

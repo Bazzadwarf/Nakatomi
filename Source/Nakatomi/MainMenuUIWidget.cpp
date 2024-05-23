@@ -5,6 +5,7 @@
 
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "UI/LoadGameUserWidget.h"
 
 void UMainMenuUIWidget::NativeConstruct()
 {
@@ -84,7 +85,13 @@ void UMainMenuUIWidget::NewGameButtonOnClicked()
 
 void UMainMenuUIWidget::LoadGameButtonOnClicked()
 {
-	// TODO: Implement Functionality
+	if (LoadGameMenuWidget)
+	{
+		currentLoadGameWidget = CreateWidget<ULoadGameUserWidget>(GetWorld(), LoadGameMenuWidget);
+		currentLoadGameWidget->AddToViewport();
+		currentLoadGameWidget->SetReturnScreen(this);
+		this->RemoveFromParent();
+	}
 }
 
 void UMainMenuUIWidget::OptionsButtonOnClicked()

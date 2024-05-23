@@ -6,6 +6,7 @@
 #include "OptionsUIWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "UI/LoadGameUserWidget.h"
 #include "UI/NakatomiInteractiveWidget.h"
 #include "MainMenuUIWidget.generated.h"
 
@@ -57,7 +58,7 @@ public:
 private:
 	UUserWidget* currentNewGameWidget;
 
-	UUserWidget* currentLoadGameWidget;
+	ULoadGameUserWidget* currentLoadGameWidget;
 
 	UOptionsUIWidget* currentOptionsMenuWidget;
 

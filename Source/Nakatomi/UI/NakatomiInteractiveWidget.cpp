@@ -3,6 +3,7 @@
 
 #include "../UI/NakatomiInteractiveWidget.h"
 
+#include "GameFramework/GameUserSettings.h"
 #include "Kismet/GameplayStatics.h"
 
 void UNakatomiInteractiveWidget::PlayHoveredSound()
@@ -36,5 +37,22 @@ void UNakatomiInteractiveWidget::PlayClickedSound()
 	if (ButtonClickedSound)
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), ButtonUnhoveredSound);
+	}
+}
+
+void UNakatomiInteractiveWidget::ReturnToPreviousScreen()
+{
+	// TODO: Implement Functionality
+	GEngine->GameUserSettings->ApplySettings(false);
+
+	this->RemoveFromParent();
+	PreviousScreen->AddToViewport();
+}
+
+void UNakatomiInteractiveWidget::SetReturnScreen(UUserWidget* userWidget)
+{
+	if (userWidget)
+	{
+		PreviousScreen = userWidget;
 	}
 }

@@ -109,21 +109,9 @@ void UOptionsUIWidget::NativeConstruct()
 	SetIsFocusable(true);
 }
 
-void UOptionsUIWidget::SetReturnScreen(UUserWidget* userWidget)
-{
-	if (userWidget)
-	{
-		PreviousScreen = userWidget;
-	}
-}
-
 void UOptionsUIWidget::BackButtonOnClicked()
 {
-	// TODO: Implement Functionality
-	GEngine->GameUserSettings->ApplySettings(false);
-
-	this->RemoveFromParent();
-	PreviousScreen->AddToViewport();
+	ReturnToPreviousScreen();
 }
 
 void UOptionsUIWidget::ResetToDefaultsButtonOnClicked()

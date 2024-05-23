@@ -33,6 +33,14 @@ public:
 	USoundBase* ButtonClickedSound;
 
 protected:
+	UUserWidget* PreviousScreen;
+
+public:
+
+	UFUNCTION()
+	void SetReturnScreen(UUserWidget* userWidget);
+
+protected:
 	UFUNCTION()
 	void PlayHoveredSound();
 
@@ -47,5 +55,7 @@ protected:
 
 	UFUNCTION()
 	void PlayClickedSound();
-	
+
+	UFUNCTION()
+	void ReturnToPreviousScreen();
 };

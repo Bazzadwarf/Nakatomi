@@ -51,15 +51,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* ResetToDefaultsTextBlock;
-
-private:
-
-	UUserWidget* PreviousScreen;
 	
 public:
 	virtual void NativeConstruct() override;
-
-	void SetReturnScreen(UUserWidget* userWidget);
 	
 private:
 

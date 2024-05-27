@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "NakatomiInteractiveWidget.h"
 #include "Components/Button.h"
+#include "Nakatomi/NakatomiSaveFileInfo.h"
 #include "SaveGameEntryUserWidget.generated.h"
 
 /**
@@ -29,11 +30,14 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* DateTimeSavedTextBlock;
 
+private:
+	FNakatomiSaveFileInfo SaveFileInfo;
+	
 public:
 	virtual void NativeConstruct() override;
 
 	UFUNCTION()
-	void SetSaveInfo();
+	void SetSaveInfo(FNakatomiSaveFileInfo SaveFile);
 
 private:
 	UFUNCTION()

@@ -20,12 +20,17 @@ void USaveGameEntryUserWidget::NativeConstruct()
 	}
 }
 
-void USaveGameEntryUserWidget::SetSaveInfo()
+void USaveGameEntryUserWidget::SetSaveInfo(FNakatomiSaveFileInfo SaveFile)
 {
+	SaveFileInfo = SaveFile;
+	PlayerNameTextBlock->SetText(FText::FromString(SaveFileInfo.PlayerName));
+	CurrentLevelTextBlock->SetText(FText::FromString(SaveFileInfo.CurrentLevel));
+	DateTimeSavedTextBlock->SetText(FText::FromString(SaveFileInfo.DateTimeSaved));
 }
 
 void USaveGameEntryUserWidget::LoadSaveButtonOnClicked()
 {
+	// TODO: implement loading of stuff
 }
 
 void USaveGameEntryUserWidget::LoadSaveButtonHoveredDelegate()

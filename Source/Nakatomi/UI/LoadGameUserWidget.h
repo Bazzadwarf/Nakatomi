@@ -26,6 +26,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UScrollBox* SavedGamesScrollBox;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSubclassOf<class USaveGameEntryUserWidget> SaveGameEntryWidgetTemplate;
+
 public:
 	virtual void NativeConstruct() override;
 

@@ -3,6 +3,7 @@
 
 #include "MainMenuUIWidget.h"
 
+#include "NakatomiGameInstance.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/LoadGameUserWidget.h"
@@ -68,9 +69,11 @@ void UMainMenuUIWidget::NativeConstruct()
 
 void UMainMenuUIWidget::NewGameButtonOnClicked()
 {
-	// TODO: Replace this is a menu to confirm the user wants to start a new game
 	if (!NewGameLevel.IsNull())
 	{
+		UNakatomiGameInstance* gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		gameInstance->CreateNewSaveGame("test1");
+		
 		UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), NewGameLevel);	
 	}
 

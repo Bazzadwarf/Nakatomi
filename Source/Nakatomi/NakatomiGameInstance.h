@@ -45,7 +45,7 @@ public:
 	UNakatomiSaveGame* LoadGameFromSlot(FString SaveSlotName);
 
 	UFUNCTION(BlueprintCallable)
-	bool SaveGame(bool ResetDefaults);
+	bool SaveGame(bool ResetDefaults = false);
 
 	UFUNCTION(BlueprintCallable)
 	UNakatomiSaveGame* GetSaveGameObject();

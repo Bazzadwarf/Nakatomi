@@ -71,7 +71,7 @@ UNakatomiSaveGame* UNakatomiGameInstance::CreateNewSaveGame(FString PlayerName)
 	if (UNakatomiSaveGame* Save = Cast<UNakatomiSaveGame>(
 		UGameplayStatics::CreateSaveGameObject(UNakatomiSaveGame::StaticClass())))
 	{
-		SaveGameObject->PlayerName = PlayerName;
+		Save->PlayerName = PlayerName;
 
 		if (UGameplayStatics::SaveGameToSlot(Save, PlayerName, 0))
 		{

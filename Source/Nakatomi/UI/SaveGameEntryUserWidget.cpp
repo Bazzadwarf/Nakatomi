@@ -3,6 +3,10 @@
 
 #include "../UI/SaveGameEntryUserWidget.h"
 
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "Nakatomi/NakatomiGameInstance.h"
+
 void USaveGameEntryUserWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -30,7 +34,17 @@ void USaveGameEntryUserWidget::SetSaveInfo(FNakatomiSaveFileInfo SaveFile)
 
 void USaveGameEntryUserWidget::LoadSaveButtonOnClicked()
 {
-	// TODO: implement loading of stuff
+	UNakatomiGameInstance* gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UNakatomiSaveGame* Save = gameInstance->LoadGameFromSlot(SaveFileInfo.PlayerName);
+	UGameplayStatics::OpenLevel(GetWorld(), FName(Save->LevelName));
+
+	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		PlayerController->bShowMouseCursor = false;
+		UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
+	}
+
+	SetIsFocusable(false);
 }
 
 void USaveGameEntryUserWidget::LoadSaveButtonHoveredDelegate()

@@ -24,7 +24,7 @@ void ULoadGameUserWidget::NativeConstruct()
 		CancelButton->OnUnhovered.AddUniqueDynamic(this, &ULoadGameUserWidget::PlayUnhoveredSound);
 	}
 
-	UNakatomiGameInstance* gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))
+	UNakatomiGameInstance* gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	if (gameInstance && IsValid(SaveGameEntryWidgetTemplate))
 	{

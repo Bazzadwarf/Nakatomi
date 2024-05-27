@@ -37,6 +37,12 @@ public:
 	UTextBlock* SaveTextBlock;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* SaveConfirmedTextBlock;
+
+	UPROPERTY(Transient, meta = (BindWidgetAnim))
+	UWidgetAnimation* SaveConfirmedAnimation;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* QuitButton;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))

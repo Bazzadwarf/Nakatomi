@@ -3,6 +3,7 @@
 
 #include "PauseUIWidget.h"
 
+#include "NakatomiGameInstance.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -105,7 +106,12 @@ void UPauseUIWidget::OptionsButtonOnClicked()
 
 void UPauseUIWidget::SaveButtonOnClicked()
 {
-	// TODO: Implement Functionality
+	UNakatomiGameInstance* gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (gameInstance->SaveGame())
+	{
+		PlayAnimation(SaveConfirmedAnimation, 0.0f, 1, EUMGSequencePlayMode::Forward, 1.0f);
+	}
 }
 
 void UPauseUIWidget::QuitButtonOnClicked()

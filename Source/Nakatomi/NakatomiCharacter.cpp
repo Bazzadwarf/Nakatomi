@@ -5,7 +5,6 @@
 
 #include "NakatomiCMC.h"
 #include "NakatomiGameInstance.h"
-#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ANakatomiCharacter::ANakatomiCharacter(const FObjectInitializer& ObjectInitializer) : Super(
@@ -32,15 +31,6 @@ void ANakatomiCharacter::BeginPlay()
 	SetInventoryToDefault();
 
 	NakatomiCMC = Cast<UNakatomiCMC>(GetCharacterMovement());
-
-	if (UNakatomiGameInstance* gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
-	{
-		if (UNakatomiSaveGame* Save = gameInstance->GetSaveGameObject())
-		{
-			//TODO: More loading here
-			GetHealthComponent()->SetCurrentHealth(Save->PlayerHealth);
-		}
-	}
 }
 
 // Called every frame

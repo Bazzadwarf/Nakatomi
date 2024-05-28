@@ -13,6 +13,7 @@
 #include "InputTriggers.h"
 #include "InteractableComponent.h"
 #include "NakatomiCMC.h"
+#include "NakatomiGameInstance.h"
 #include "WeaponThrowable.h"
 #include "NiagaraFunctionLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"	
@@ -79,6 +80,15 @@ void APlayerCharacter::BeginPlay()
 	DefaultMovementSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
 	AimSensitivity = DefaultAimSensitivity;
+
+	if (UNakatomiGameInstance* gameInstance = Cast<UNakatomiGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+	{
+		if (UNakatomiSaveGame* Save = gameInstance->GetSaveGameObject())
+		{
+			//TODO: More loading here
+			GetHealthComponent()->SetCurrentHealth(Save->PlayerHealth);
+		}
+	}
 
 	if (!this->ActorHasTag(FName("Player")))
 	{

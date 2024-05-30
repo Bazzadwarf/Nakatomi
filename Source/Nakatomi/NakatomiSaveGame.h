@@ -29,6 +29,9 @@ public:
 	TArray<AWeapon*> WeaponInventory;
 
 	UPROPERTY(VisibleAnywhere, Category = Player)
+	TArray<TSubclassOf<AThrowable>> ThrowableInventory;
+
+	UPROPERTY(VisibleAnywhere, Category = Player)
 	int CurrentInventorySlot = 0;
 	
 	UFUNCTION(BlueprintCallable)

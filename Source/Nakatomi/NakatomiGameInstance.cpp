@@ -50,8 +50,8 @@ bool UNakatomiGameInstance::SaveGame(bool ResetDefaults)
 	{
 		APlayerCharacter* Player = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 		SaveGameObject->PlayerHealth = Player->GetCurrentHealthCount();
-		SaveGameObject->WeaponInventory = Player->WeaponInventory;
-		SaveGameObject->CurrentInventorySlot = Player->GetCurrentInventorySlot();
+		// SaveGameObject->CurrentInventorySlot = Player->GetCurrentInventorySlot();
+		SaveGameObject->ThrowableInventory = Player->ThrowableInventory;
 	}
 
 	SaveGameObject->LevelName = GetWorld()->GetMapName();

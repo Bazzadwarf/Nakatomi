@@ -87,6 +87,12 @@ void APlayerCharacter::BeginPlay()
 		{
 			//TODO: More loading here
 			GetHealthComponent()->SetCurrentHealth(Save->PlayerHealth);
+
+			if (Save->ThrowableInventory.Num() > 0)
+			{
+				ThrowableInventory.Empty();
+				ThrowableInventory = Save->ThrowableInventory;
+			}
 		}
 	}
 

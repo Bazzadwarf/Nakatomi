@@ -17,9 +17,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "1.0"))
 	float ImpulseAngle = 0.5f;
-
-protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USphereComponent* SphereComponent;
 
 public:

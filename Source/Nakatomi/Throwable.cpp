@@ -19,6 +19,15 @@ AThrowable::AThrowable()
 	StaticMeshComponent->SetGenerateOverlapEvents(true);
 	StaticMeshComponent->SetNotifyRigidBodyCollision(true);
 	SetRootComponent(StaticMeshComponent);
+	
+	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	SphereComponent->SetSphereRadius(25.0f, true);
+	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndProbe);
+	SphereComponent->SetCollisionObjectType(ECC_WorldDynamic);
+	SphereComponent->SetSimulatePhysics(true);
+	SphereComponent->SetGenerateOverlapEvents(true);
+	SphereComponent->SetNotifyRigidBodyCollision(true);
+	SphereComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned

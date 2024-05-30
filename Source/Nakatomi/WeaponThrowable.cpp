@@ -9,7 +9,7 @@
 AWeaponThrowable::AWeaponThrowable()
 {
 	WeaponSkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Skeletal Mesh Component"));
-	WeaponSkeletalMeshComponent->SetCollisionProfileName(FName("BlockAll"));
+	WeaponSkeletalMeshComponent->SetCollisionProfileName(FName("OverlapAll"));
 	WeaponSkeletalMeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	WeaponSkeletalMeshComponent->SetCollisionObjectType(ECC_WorldDynamic);
 	WeaponSkeletalMeshComponent->SetSimulatePhysics(true);
@@ -22,7 +22,7 @@ void AWeaponThrowable::BeginPlay()
 {
 	Super::BeginPlay();
 
-	WeaponSkeletalMeshComponent->OnComponentHit.AddDynamic(this, &AWeaponThrowable::OnOverlapBegin);
+	WeaponSkeletalMeshComponent->OnComponentBeginOverlap.AddDynamic(this, &AWeaponThrowable::OnSphereBeginOverlap);
 
 	auto playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	auto playerForwardVector = playerCharacter->GetActorForwardVector();
@@ -41,5 +41,22 @@ void AWeaponThrowable::SetWeaponSkeletalMesh(USkeletalMesh* SkeletalMesh)
 		playerForwardVector.Z = ImpulseAngle;
 
 		WeaponSkeletalMeshComponent->AddImpulse(playerForwardVector * ImpulseForce);
+	}
+}
+
+void AWeaponThrowable::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
+								AActor* OtherActor, 
+								UPrimitiveComponent* OtherComp, 
+								int32 OtherBodyIndex, 
+								bool bFromSweep, 
+								const FHitResult &SweepResult)
+{
+	if (!OtherActor->ActorHasTag(FName("Player")) && OtherActor != this)
+	{
+		if (HealthComponent)
+		{
+			HealthComponent->TakeDamage(this, HealthComponent->GetMaxHealth(), nullptr,
+										nullptr, this);
+		}
 	}
 }

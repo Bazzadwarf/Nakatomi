@@ -28,8 +28,8 @@ class NAKATOMI_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 
-protected:
-	UPROPERTY(BlueprintReadWrite)
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USkeletalMeshComponent* WeaponSkeletalMeshComponent;
 
 	UPROPERTY(EditDefaultsOnly)
